@@ -7,6 +7,34 @@ import os
 import zipfile
 import tempfile
 import shutil
+import subprocess
+import sys
+
+
+def prompt_to_open_folder(folder_path):
+    """Prompt user to open the extracted folder"""
+    try:
+        response = input(
+            f"\n📂 Would you like to open the extracted folder?\n   {folder_path}\n   (y/n): ").strip().lower()
+
+        if response in ['y', 'yes']:
+            print("🚀 Opening folder...")
+
+            # Platform-specific folder opening
+            if sys.platform == "win32":
+                os.startfile(folder_path)
+            elif sys.platform == "darwin":  # macOS
+                subprocess.run(["open", folder_path])
+            else:  # Linux and other Unix-like systems
+                subprocess.run(["xdg-open", folder_path])
+
+            print("✅ Folder opened successfully!")
+        else:
+            print("📁 Folder location noted. You can open it manually if needed.")
+
+    except Exception as e:
+        print(f"⚠️ Could not open folder automatically: {e}")
+        print(f"📁 You can manually open: {folder_path}")
 
 
 def extract_zip_if_needed(input_path):

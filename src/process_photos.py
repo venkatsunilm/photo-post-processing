@@ -145,6 +145,91 @@ def analyze_and_adjust_lighting(img):
     return enhanced_img
 
 
+def show_processing_menu():
+    """Display processing options menu and get user choice"""
+    print("\n" + "="*50)
+    print("🎨 PHOTO PROCESSING OPTIONS")
+    print("="*50)
+    print("1️⃣  Full Processing (Resize + Lighting + Watermark)")
+    print("2️⃣  Watermark Only (Just add logo to existing photos)")
+    print("="*50)
+
+    while True:
+        try:
+            choice = input("Choose processing mode (1 or 2): ").strip()
+            if choice in ['1', '2']:
+                return int(choice)
+            else:
+                print("❌ Please enter 1 or 2")
+        except KeyboardInterrupt:
+            print("\n👋 Cancelled by user")
+            sys.exit(0)
+
+
+def process_watermark_only(input_path):
+    """Process images by adding watermark only (no resizing or lighting adjustments)"""
+    print(f"🎯 Starting watermark-only processing from: {input_path}")
+
+    # Handle ZIP files or folders automatically
+    working_folder, is_temp = extract_zip_if_needed(input_path)
+    if working_folder is None:
+        print("❌ Failed to process input path")
+        return
+
+    try:
+        # Create output structure
+        project_folder = create_output_structure(
+            input_path, DEFAULT_OUTPUT_DIR, is_temp)
+
+        # Create watermark-only output folder
+        output_folder = os.path.join(project_folder, 'watermarked_photos')
+        os.makedirs(output_folder, exist_ok=True)
+
+        # Get all image files recursively
+        image_files = get_image_files_from_directory(working_folder)
+
+        if not image_files:
+            print("⚠️ No image files found in the input directory")
+            return
+
+        print(f"📸 Found {len(image_files)} images to watermark")
+        print(f"\n🔄 Adding watermarks...")
+
+        processed_count = 0
+
+        for full_path, rel_path in image_files:
+            try:
+                img = Image.open(full_path).convert('RGB')
+
+                # Add watermark only - no other processing
+                final_img = add_watermark(
+                    img, watermark_opacity=0.9, scale_factor=0.15)
+
+                # Save with sequential naming
+                processed_count += 1
+                new_filename = f'watermarked_{processed_count:03d}.jpg'
+                output_path = os.path.join(output_folder, new_filename)
+                final_img.save(output_path, 'JPEG',
+                               quality=DEFAULT_JPEG_QUALITY, optimize=True)
+
+            except Exception as e:
+                print(f"❌ Failed to process {rel_path}: {e}")
+
+        # Create ZIP archive
+        if processed_count > 0:
+            zip_path = create_zip_archive(
+                output_folder, project_folder, 'watermarked')
+            print(f"✅ Added watermarks to {processed_count} images")
+            print(f"📦 Created archive: {zip_path}")
+        else:
+            print(f"⚠️ No images processed")
+
+    finally:
+        # Clean up temporary directory if it was created
+        if is_temp:
+            cleanup_temp_directory(working_folder)
+
+
 def process_images(input_path):
     """Process images from a folder or ZIP file"""
     print(f"🎯 Starting photo processing from: {input_path}")
@@ -186,7 +271,7 @@ def process_images(input_path):
                     img = Image.open(full_path).convert('RGB')
 
                     # Apply EXIF rotation
-                    img = fix_image_orientation(img)
+                    # img = fix_image_orientation(img)
 
                     # Intelligent lighting analysis and adjustment
                     img = analyze_and_adjust_lighting(img)
@@ -246,4 +331,13 @@ if __name__ == "__main__":
         input_path = DEFAULT_INPUT_PATH
 
     print(f"Processing photos from: {input_path}")
-    process_images(input_path)
+
+    # Show processing menu and get user choice
+    processing_mode = show_processing_menu()
+
+    if processing_mode == 1:
+        # Full processing mode
+        process_images(input_path)
+    elif processing_mode == 2:
+        # Watermark only mode
+        process_watermark_only(input_path)
