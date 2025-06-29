@@ -1,15 +1,10 @@
-from utils.config import RESOLUTIONS, DEFAULT_INPUT_PATH, DEFAULT_JPEG_QUALITY, DEFAULT_OUTPUT_DIR
-from utils.file_operations import extract_zip_if_needed, cleanup_temp_directory, get_image_files_from_directory, create_output_structure, create_zip_archive
-from utils.image_processing import add_watermark
-import os
-import sys
-from PIL import Image, ImageEnhance, ExifTags, ImageStat
-import zipfile
-import numpy as np
+"""
+Image processing utilities for photo post-processing.
+Handles image transformations, lighting adjustments, and watermarking.
+"""
 
-# Add the utils directory to the path so we can import config
-utils_path = os.path.join(os.path.dirname(__file__), 'utils')
-sys.path.insert(0, utils_path)
+from PIL import Image, ImageEnhance, ExifTags, ImageStat, ImageDraw, ImageFont
+import numpy as np
 
 
 def fix_image_orientation(img):
@@ -44,6 +39,7 @@ def fix_image_orientation(img):
 
 
 def resize_and_crop(img, target_size):
+    """Resize image to target size while maintaining aspect ratio, then crop"""
     img_ratio = img.width / img.height
     target_ratio = target_size[0] / target_size[1]
 
@@ -65,6 +61,101 @@ def resize_and_crop(img, target_size):
     bottom = top + target_size[1]
 
     return img.crop((left, top, right, bottom))
+
+
+def add_watermark(img, watermark_opacity=0.9, scale_factor=0.15):
+    """Add image watermark to the bottom left corner of the image with enhanced visibility
+
+    Args:
+        img: PIL Image object
+        watermark_opacity: Opacity of the watermark (0.0 to 1.0)
+        scale_factor: Size of watermark relative to image width (0.1 to 0.3)
+    """
+    import os
+    from .config import DEFAULT_LOGO_PATH
+
+    # Create a copy to avoid modifying the original
+    watermarked_img = img.copy()
+
+    # Load watermark image using config path
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    watermark_path = os.path.join(project_root, DEFAULT_LOGO_PATH)
+
+    try:
+        watermark = Image.open(watermark_path).convert('RGBA')
+    except (FileNotFoundError, IOError) as e:
+        print(
+            f"Warning: Could not load watermark image from {watermark_path}: {e}")
+        return watermarked_img
+
+    # Calculate watermark size based on image dimensions
+    img_width, img_height = watermarked_img.size
+    watermark_width = int(img_width * scale_factor)
+
+    # Maintain aspect ratio
+    aspect_ratio = watermark.height / watermark.width
+    watermark_height = int(watermark_width * aspect_ratio)
+
+    # Resize watermark
+    watermark = watermark.resize(
+        (watermark_width, watermark_height), Image.Resampling.LANCZOS)
+
+    # Position watermark in bottom LEFT corner with padding
+    padding = 20
+    x = padding  # Left side
+    y = img_height - watermark_height - padding
+
+    # Convert main image to RGBA if needed
+    if watermarked_img.mode != 'RGBA':
+        watermarked_img = watermarked_img.convert('RGBA')
+
+    # Create a semi-transparent background for better visibility
+    bg_padding = 10
+    bg_width = watermark_width + (bg_padding * 2)
+    bg_height = watermark_height + (bg_padding * 2)
+
+    # Create a subtle background (white with low opacity)
+    background = Image.new('RGBA', (bg_width, bg_height), (255, 255, 255, 2))
+
+    # Position background
+    bg_x = x - bg_padding
+    bg_y = y - bg_padding
+
+    # Ensure background doesn't go outside image bounds
+    bg_x = max(0, bg_x)
+    bg_y = max(0, bg_y)
+
+    # Paste background first
+    watermarked_img.paste(background, (bg_x, bg_y), background)
+
+    # Enhance watermark contrast and opacity
+    if watermark_opacity < 1.0:
+        # Create a new image with adjusted opacity but higher visibility
+        watermark_data = []
+        for pixel in watermark.getdata():
+            if len(pixel) == 4:  # RGBA
+                r, g, b, a = pixel
+                if a > 0:  # Only modify non-transparent pixels
+                    # Enhance contrast and apply opacity
+                    new_alpha = min(255, int(a * watermark_opacity * 1.2))
+                    watermark_data.append((r, g, b, new_alpha))
+                else:
+                    watermark_data.append((r, g, b, a))
+            else:  # RGB, add alpha
+                r, g, b = pixel
+                new_alpha = int(255 * watermark_opacity)
+                watermark_data.append((r, g, b, new_alpha))
+
+        watermark.putdata(watermark_data)
+
+    # Paste watermark onto image
+    watermarked_img.paste(watermark, (x, y), watermark)
+
+    # Convert back to RGB
+    rgb_img = Image.new('RGB', watermarked_img.size, (255, 255, 255))
+    rgb_img.paste(watermarked_img, mask=watermarked_img.split()[-1])
+
+    return rgb_img
 
 
 def analyze_and_adjust_lighting(img):
@@ -145,105 +236,8 @@ def analyze_and_adjust_lighting(img):
     return enhanced_img
 
 
-def process_images(input_path):
-    """Process images from a folder or ZIP file"""
-    print(f"🎯 Starting photo processing from: {input_path}")
-
-    # Handle ZIP files or folders automatically
-    working_folder, is_temp = extract_zip_if_needed(input_path)
-    if working_folder is None:
-        print("❌ Failed to process input path")
-        return
-
-    try:
-        # Create output structure
-        project_folder = create_output_structure(
-            input_path, DEFAULT_OUTPUT_DIR, is_temp)
-
-        # Get all image files recursively
-        image_files = get_image_files_from_directory(working_folder)
-
-        if not image_files:
-            print("⚠️ No image files found in the input directory")
-            return
-
-        print(f"📸 Found {len(image_files)} images to process")
-
-        # Process each resolution
-        for label, total_pixels in RESOLUTIONS.items():
-            print(
-                f"\n🔄 Processing {label.upper()} resolution ({total_pixels:,} pixels)...")
-
-            # Create output folder for this resolution
-            output_folder = os.path.join(
-                project_folder, f'processed_photos_{label}')
-            os.makedirs(output_folder, exist_ok=True)
-
-            processed_count = 0
-
-            for full_path, rel_path in image_files:
-                try:
-                    img = Image.open(full_path).convert('RGB')
-
-                    # Apply EXIF rotation
-                    img = fix_image_orientation(img)
-
-                    # Intelligent lighting analysis and adjustment
-                    img = analyze_and_adjust_lighting(img)
-
-                    # Calculate target size maintaining original aspect ratio
-                    original_ratio = img.width / img.height
-
-                    # Calculate dimensions to match target pixel count while preserving ratio
-                    target_width = int((total_pixels * original_ratio) ** 0.5)
-                    target_height = int(total_pixels / target_width)
-
-                    target_size = (target_width, target_height)
-
-                    # Resize to exact target size
-                    final_img = img.resize(
-                        target_size, Image.Resampling.LANCZOS)
-
-                    # Add watermark to bottom left corner with better visibility
-                    final_img = add_watermark(
-                        final_img, watermark_opacity=0.9, scale_factor=0.15)
-
-                    # Save with sequential naming
-                    processed_count += 1
-                    new_filename = f'process_{processed_count:03d}.jpg'
-                    output_path = os.path.join(output_folder, new_filename)
-                    final_img.save(output_path, 'JPEG',
-                                   quality=DEFAULT_JPEG_QUALITY, optimize=True)
-
-                except Exception as e:
-                    print(f"❌ Failed to process {rel_path}: {e}")
-
-            # Create ZIP archive for this resolution
-            if processed_count > 0:
-                zip_path = create_zip_archive(
-                    output_folder, project_folder, label)
-                print(
-                    f"✅ Processed {processed_count} images for {label.upper()}")
-                print(f"📦 Created archive: {zip_path}")
-            else:
-                print(f"⚠️ No images processed for {label.upper()}")
-
-    finally:
-        # Clean up temporary directory if it was created
-        if is_temp:
-            cleanup_temp_directory(working_folder)
-
-
-# Example usage:
-# process_images(r"C:\Users\harit\Documents\temp\26 June photoshoot")
-
-if __name__ == "__main__":
-    # Use default input path from config, or allow command line override
-    import sys
-    if len(sys.argv) > 1:
-        input_path = sys.argv[1]
-    else:
-        input_path = DEFAULT_INPUT_PATH
-
-    print(f"Processing photos from: {input_path}")
-    process_images(input_path)
+def calculate_target_size(total_pixels, original_ratio):
+    """Calculate target dimensions based on total pixels and aspect ratio"""
+    target_width = int((total_pixels * original_ratio) ** 0.5)
+    target_height = int(total_pixels / target_width)
+    return (target_width, target_height)
