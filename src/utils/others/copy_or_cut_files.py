@@ -36,8 +36,8 @@ def list_files_exclude_nef(source_dir):
         return []
 
 
-def copy_single_file(file_info, dest_dir, progress_lock, copied_count, total_files):
-    """Copy a single file with progress tracking"""
+def copy_single_file(file_info, dest_dir, progress_lock, copied_count, skipped_count, total_files):
+    """Copy a single file with progress tracking and resume capability"""
     full_path, relative_path, file_size = file_info
 
     try:
@@ -45,20 +45,39 @@ def copy_single_file(file_info, dest_dir, progress_lock, copied_count, total_fil
         dest_folder = os.path.dirname(dest_path)
         os.makedirs(dest_folder, exist_ok=True)
 
+        # Check if file already exists and has the same size (resume functionality)
+        if os.path.exists(dest_path):
+            existing_size = os.path.getsize(dest_path)
+            if existing_size == file_size:
+                with progress_lock:
+                    skipped_count[0] += 1
+                    size_mb = file_size / (1024 * 1024)
+                    print(
+                        f"⏭️  [{copied_count[0] + skipped_count[0]}/{total_files}] Skipped (exists): {relative_path} ({size_mb:.1f} MB)")
+                return True, relative_path, "skipped"
+            else:
+                with progress_lock:
+                    print(
+                        f"🔄 Size mismatch for {relative_path}, re-copying...")
+
         # Use high-performance copy with buffering
         shutil.copy2(full_path, dest_path)
 
-        with progress_lock:
-            copied_count[0] += 1
-            size_mb = file_size / (1024 * 1024)
-            print(
-                f"✅ [{copied_count[0]}/{total_files}] Copied: {relative_path} ({size_mb:.1f} MB)")
+        # Verify the copy was successful
+        if os.path.exists(dest_path) and os.path.getsize(dest_path) == file_size:
+            with progress_lock:
+                copied_count[0] += 1
+                size_mb = file_size / (1024 * 1024)
+                print(
+                    f"✅ [{copied_count[0] + skipped_count[0]}/{total_files}] Copied: {relative_path} ({size_mb:.1f} MB)")
+            return True, relative_path, "copied"
+        else:
+            raise Exception("File copy verification failed")
 
-        return True, relative_path
     except Exception as e:
         with progress_lock:
             print(f"❌ Failed to copy {relative_path}: {e}")
-        return False, relative_path
+        return False, relative_path, "failed"
 
 
 def delete_all_files(source_dir):
@@ -116,7 +135,7 @@ def cleanup_empty_dirs(directory):
 
 
 def copy_files(source_dir, dest_dir):
-    """Copy non-NEF files from source to destination with multi-threading"""
+    """Copy non-NEF files from source to destination with multi-threading and resume capability"""
     files = list_files_exclude_nef(source_dir)
 
     if not files:
@@ -132,11 +151,13 @@ def copy_files(source_dir, dest_dir):
 
     print(
         f"\n📋 Found {len(files)} non-NEF files to copy ({total_size_gb:.2f} GB)")
+    print("🔍 Checking for existing files (resume capability)...")
     print("🚀 Starting multi-threaded copy operation...")
 
     # Progress tracking
     progress_lock = threading.Lock()
     copied_count = [0]  # Use list for mutable reference
+    skipped_count = [0]  # Track skipped files
     start_time = time.time()
 
     # Use ThreadPoolExecutor for concurrent copying
@@ -146,14 +167,14 @@ def copy_files(source_dir, dest_dir):
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all copy tasks
         future_to_file = {
-            executor.submit(copy_single_file, file_info, dest_dir, progress_lock, copied_count, len(files)): file_info
+            executor.submit(copy_single_file, file_info, dest_dir, progress_lock, copied_count, skipped_count, len(files)): file_info
             for file_info in files
         }
 
         # Process completed tasks
         successful_copies = 0
         for future in as_completed(future_to_file):
-            success, relative_path = future.result()
+            success, relative_path, status = future.result()
             if success:
                 successful_copies += 1
 
@@ -162,10 +183,16 @@ def copy_files(source_dir, dest_dir):
     duration = end_time - start_time
 
     print(f"\n🎉 Copy operation completed!")
-    print(f"✅ Successfully copied: {successful_copies}/{len(files)} files")
+    print(f"✅ Successfully copied: {copied_count[0]} files")
+    print(f"⏭️  Skipped (already exist): {skipped_count[0]} files")
+    print(f"📊 Total processed: {successful_copies}/{len(files)} files")
     print(f"⏱️ Total time: {duration:.1f} seconds")
-    if successful_copies > 0:
-        avg_speed = total_size / duration / (1024 * 1024)
+
+    if copied_count[0] > 0:
+        copied_size = sum(file_info[2] for file_info in files if file_info not in [
+                          f for f in files if os.path.exists(os.path.join(dest_dir, f[1]))])
+        avg_speed = copied_size / duration / \
+            (1024 * 1024) if duration > 0 else 0
         print(f"📈 Average speed: {avg_speed:.1f} MB/s")
 
     # Return success status for deletion prompt
@@ -182,6 +209,11 @@ def main():
     print(f"Source: {source_dir} (External Drive)")
     print(f"Destination: {dest_dir}")
     print("=" * 60)
+    print("🔄 RESUME CAPABILITY:")
+    print("  • Automatically skips files that already exist with correct size")
+    print("  • Safe to restart after interruption")
+    print("  • Only copies missing or corrupted files")
+    print("=" * 60)
 
     # Check if source directory exists
     if not os.path.exists(source_dir):
@@ -195,12 +227,12 @@ def main():
     print("1. Keep all files on external drive (safe)")
     print("2. Delete ALL files from external drive (including .NEF files)")
     print("=" * 60)
-    
+
     delete_after_copy = False
     while True:
         try:
             choice = input("\nEnter your choice (1 or 2): ").strip()
-            
+
             if choice == "1":
                 print("✅ Will keep all files on external drive after copying")
                 delete_after_copy = False
@@ -208,7 +240,8 @@ def main():
             elif choice == "2":
                 print("⚠️ Will DELETE ALL files from external drive after copying")
                 print("⚠️ This includes .NEF files and CANNOT be undone!")
-                confirm = input("Are you sure? Type 'YES' to confirm: ").strip()
+                confirm = input(
+                    "Are you sure? Type 'YES' to confirm: ").strip()
                 if confirm.upper() == "YES":
                     print("✅ Confirmed: Will delete all files after successful copy")
                     delete_after_copy = True
@@ -229,6 +262,8 @@ def main():
     print("  • Progress tracking with file sizes")
     print("  • Speed monitoring")
     print("  • Non-NEF files only")
+    print("  • Resume capability (skips existing files)")
+    print("  • File integrity verification")
     print("")
 
     # Copy files first
@@ -242,7 +277,7 @@ def main():
         print("✅ Copy operation was successful!")
         print("🚀 Proceeding to delete ALL files from external drive as requested...")
         print("=" * 60)
-        
+
         delete_all_files(source_dir)
     elif copy_successful and not delete_after_copy:
         print("\n✅ Copy completed! Files kept on external drive as requested.")
