@@ -6,8 +6,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 
 
-def list_files_exclude_nef(source_dir):
-    """List all media files except .NEF in the source directory with progress"""
+def list_media_files(source_dir):
+    """List all media files including .NEF in the source directory with progress"""
     print("🔍 Scanning external drive for files... (this may take a moment)")
     start_time = time.time()
 
@@ -21,7 +21,7 @@ def list_files_exclude_nef(source_dir):
                 if file_count % 100 == 0:  # Progress indicator
                     print(f"   📂 Scanned {file_count} files...")
 
-                if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.mp4', '.mov', '.avi', '.raw', '.cr2')) and not filename.lower().endswith('.nef'):
+                if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.mp4', '.mov', '.avi', '.raw', '.cr2', '.nef')):
                     full_path = os.path.join(root, filename)
                     relative_path = os.path.relpath(full_path, source_dir)
                     file_size = os.path.getsize(full_path)
@@ -29,7 +29,7 @@ def list_files_exclude_nef(source_dir):
 
         scan_time = time.time() - start_time
         print(
-            f"✅ Scan complete! Found {len(files)} copyable files in {scan_time:.1f} seconds")
+            f"✅ Scan complete! Found {len(files)} media files in {scan_time:.1f} seconds")
         return files
     except Exception as e:
         print(f"❌ Error listing files: {e}")
@@ -135,11 +135,11 @@ def cleanup_empty_dirs(directory):
 
 
 def copy_files(source_dir, dest_dir):
-    """Copy non-NEF files from source to destination with multi-threading and resume capability"""
-    files = list_files_exclude_nef(source_dir)
+    """Copy all media files from source to destination with multi-threading and resume capability"""
+    files = list_media_files(source_dir)
 
     if not files:
-        print("❌ No non-NEF media files found in source directory")
+        print("❌ No media files found in source directory")
         return
 
     # Create destination directory if it doesn't exist
@@ -150,7 +150,7 @@ def copy_files(source_dir, dest_dir):
     total_size_gb = total_size / (1024 * 1024 * 1024)
 
     print(
-        f"\n📋 Found {len(files)} non-NEF files to copy ({total_size_gb:.2f} GB)")
+        f"\n📋 Found {len(files)} media files to copy ({total_size_gb:.2f} GB)")
     print("🔍 Checking for existing files (resume capability)...")
     print("🚀 Starting multi-threaded copy operation...")
 
@@ -223,9 +223,9 @@ def main():
     # Ask about deletion preference BEFORE starting copy
     print("🤔 WORKFLOW CONFIGURATION")
     print("=" * 60)
-    print("After copying non-NEF files, do you want to:")
+    print("After copying all media files, do you want to:")
     print("1. Keep all files on external drive (safe)")
-    print("2. Delete ALL files from external drive (including .NEF files)")
+    print("2. Delete ALL files from external drive")
     print("=" * 60)
 
     delete_after_copy = False
@@ -239,7 +239,7 @@ def main():
                 break
             elif choice == "2":
                 print("⚠️ Will DELETE ALL files from external drive after copying")
-                print("⚠️ This includes .NEF files and CANNOT be undone!")
+                print("⚠️ This CANNOT be undone!")
                 confirm = input(
                     "Are you sure? Type 'YES' to confirm: ").strip()
                 if confirm.upper() == "YES":
@@ -261,7 +261,7 @@ def main():
     print("  • Multi-threaded copying (4 concurrent threads)")
     print("  • Progress tracking with file sizes")
     print("  • Speed monitoring")
-    print("  • Non-NEF files only")
+    print("  • Includes all media files (JPG, PNG, MP4, RAW, NEF)")
     print("  • Resume capability (skips existing files)")
     print("  • File integrity verification")
     print("")

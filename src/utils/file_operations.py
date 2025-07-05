@@ -9,6 +9,7 @@ import tempfile
 import shutil
 import subprocess
 import sys
+from utils.config import IMAGE_EXTENSIONS_CASE
 
 
 def prompt_to_open_folder(folder_path):
@@ -48,13 +49,11 @@ def extract_zip_if_needed(input_path):
 
         try:
             with zipfile.ZipFile(input_path, 'r') as zip_ref:
-                # Extract only image files
-                image_extensions = ('.jpg', '.jpeg', '.png',
-                                    '.JPG', '.JPEG', '.PNG')
+                # Extract image files including NEF
                 extracted_count = 0
 
                 for file_info in zip_ref.filelist:
-                    if file_info.filename.lower().endswith(image_extensions):
+                    if file_info.filename.endswith(IMAGE_EXTENSIONS_CASE):
                         zip_ref.extract(file_info, temp_dir)
                         extracted_count += 1
 
@@ -82,11 +81,10 @@ def cleanup_temp_directory(temp_dir):
 def get_image_files_from_directory(directory):
     """Get all image files from a directory, including subdirectories"""
     image_files = []
-    image_extensions = ('.jpg', '.jpeg', '.png')
 
     for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.lower().endswith(image_extensions):
+            if file.endswith(IMAGE_EXTENSIONS_CASE):
                 full_path = os.path.join(root, file)
                 # Get relative path for better organization
                 rel_path = os.path.relpath(full_path, directory)
