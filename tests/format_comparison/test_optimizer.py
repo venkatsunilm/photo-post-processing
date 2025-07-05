@@ -1,6 +1,8 @@
-from utils.format_optimizer import FormatOptimizer
-import sys
 import os
+import sys
+
+from utils.format_optimizer import FormatOptimizer
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 

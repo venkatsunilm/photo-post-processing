@@ -3,12 +3,15 @@ Comprehensive JPEG vs NEF processing analysis tool.
 Analyzes differences in processing results and provides optimization recommendations.
 """
 
-import time
-import numpy as np
-from utils.photoshop_tools import PHOTOSHOP_PRESETS, apply_photoshop_preset
-from PIL import Image, ImageStat
-import sys
 import os
+import sys
+import time
+
+import numpy as np
+from PIL import Image, ImageStat
+
+from utils.photoshop_tools import PHOTOSHOP_PRESETS, apply_photoshop_preset
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 
@@ -62,7 +65,7 @@ def analyze_image_properties(image, label=""):
 def compare_format_processing(jpeg_file, nef_file, preset_name='sports_action'):
     """Compare processing results between JPEG and NEF formats"""
 
-    print(f"🔬 JPEG vs NEF Processing Analysis")
+    print("🔬 JPEG vs NEF Processing Analysis")
     print(f"📁 JPEG: {os.path.basename(jpeg_file)}")
     print(f"📁 NEF:  {os.path.basename(nef_file)}")
     print(f"🎨 Preset: {preset_name}")
@@ -81,7 +84,7 @@ def compare_format_processing(jpeg_file, nef_file, preset_name='sports_action'):
 
         print(f"⏱️  JPEG loaded in: {jpeg_load_time:.2f}s")
         print(f"⏱️  NEF loaded in:  {nef_load_time:.2f}s")
-        print(f"⏱️  NEF is {nef_load_time/jpeg_load_time:.1f}x slower to load")
+        print(f"⏱️  NEF is {nef_load_time / jpeg_load_time:.1f}x slower to load")
 
         # Analyze original properties
         print("\n📊 Original Image Analysis:")
@@ -280,7 +283,7 @@ def test_all_sports_presets():
 if __name__ == "__main__":
     # Example usage
     print("📸 JPEG vs NEF Processing Analysis Tool")
-    print("="*50)
+    print("=" * 50)
 
     # Test preset comparison
     test_all_sports_presets()

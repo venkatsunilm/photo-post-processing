@@ -3,12 +3,14 @@ Main test runner for the photo post-processing pipeline.
 Provides easy access to all testing and analysis tools.
 """
 
-from raw_processing.test_raw_quality import main as raw_tests
+import os
+import sys
+
 from image_processing.test_quality_impact import main as quality_tests
 from preset_analysis.compare_presets import main as preset_tests
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+from raw_processing.test_raw_quality import main as raw_tests
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 # Import all test modules
 
@@ -39,7 +41,7 @@ def run_sports_analysis():
     print("=" * 50)
 
     # Import and run sports-specific analysis
-    sys.path.append(os.path.join(os.path.dirname(__file__), 'preset_analysis'))
+    sys.path.append(os.path.join(os.path.dirname(__file__), "preset_analysis"))
     from compare_presets import compare_sports_presets
 
     compare_sports_presets()
@@ -50,8 +52,8 @@ def run_raw_vs_jpg():
     print("⚖️ RAW VS JPG QUALITY COMPARISON")
     print("=" * 50)
 
-    sys.path.append(os.path.join(os.path.dirname(__file__), 'raw_processing'))
-    from test_raw_quality import scan_input_directory, compare_raw_vs_jpg
+    sys.path.append(os.path.join(os.path.dirname(__file__), "raw_processing"))
+    from test_raw_quality import compare_raw_vs_jpg, scan_input_directory
 
     raw_files, jpg_files = scan_input_directory()
 
@@ -66,8 +68,7 @@ def run_performance_test():
     print("🏃‍♂️ PERFORMANCE BENCHMARK")
     print("=" * 50)
 
-    sys.path.append(os.path.join(
-        os.path.dirname(__file__), 'image_processing'))
+    sys.path.append(os.path.join(os.path.dirname(__file__), "image_processing"))
     from test_quality_impact import performance_benchmark
 
     performance_benchmark()
@@ -84,8 +85,9 @@ def run_all_tests():
 
     print("\n2️⃣ RAW PROCESSING TESTS")
     print("-" * 30)
-    sys.path.append(os.path.join(os.path.dirname(__file__), 'raw_processing'))
+    sys.path.append(os.path.join(os.path.dirname(__file__), "raw_processing"))
     from test_raw_quality import run_comprehensive_test
+
     run_comprehensive_test()
 
     print("\n3️⃣ PERFORMANCE BENCHMARK")
@@ -103,28 +105,28 @@ def main():
 
         print("\n")
 
-        if choice == '1':
+        if choice == "1":
             preset_tests()
-        elif choice == '2':
+        elif choice == "2":
             raw_tests()
-        elif choice == '3':
+        elif choice == "3":
             quality_tests()
-        elif choice == '4':
+        elif choice == "4":
             run_sports_analysis()
-        elif choice == '5':
+        elif choice == "5":
             run_raw_vs_jpg()
-        elif choice == '6':
+        elif choice == "6":
             run_performance_test()
-        elif choice == '7':
+        elif choice == "7":
             run_all_tests()
-        elif choice == '8':
+        elif choice == "8":
             print("👋 Goodbye!")
             break
         else:
             print("❌ Invalid choice. Please try again.")
 
         input("\nPress Enter to continue...")
-        print("\n" + "="*60 + "\n")
+        print("\n" + "=" * 60 + "\n")
 
 
 if __name__ == "__main__":

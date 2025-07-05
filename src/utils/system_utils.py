@@ -3,12 +3,13 @@ System utilities for photo post-processing.
 Handles cross-platform operations and user interactions.
 """
 
-import subprocess
-import platform
 import os
+import platform
+import subprocess
+from typing import Optional
 
 
-def open_folder_in_explorer(folder_path):
+def open_folder_in_explorer(folder_path: str) -> None:
     """Open folder in Windows Explorer (or equivalent on other platforms)"""
     try:
         if platform.system() == "Windows":
@@ -24,7 +25,7 @@ def open_folder_in_explorer(folder_path):
         print(f"📁 Manual path: {folder_path}")
 
 
-def get_user_input_path(default_path=None):
+def get_user_input_path(default_path: Optional[str] = None) -> str:
     """Get input path from user with smart default handling"""
     if default_path and os.path.exists(default_path):
         print(f"📁 Using default path: {default_path}")
@@ -34,8 +35,7 @@ def get_user_input_path(default_path=None):
         if default_path:
             print(f"⚠️ Default path not found: {default_path}")
 
-        input_path = input(
-            "📁 Enter folder path or ZIP file path: ").strip().strip('"')
+        input_path = input("📁 Enter folder path or ZIP file path: ").strip().strip('"')
 
         if not input_path:
             print("❌ No input provided. Exiting...")
@@ -44,13 +44,12 @@ def get_user_input_path(default_path=None):
         return input_path
 
 
-def prompt_open_folder(project_folder):
+def prompt_open_folder(project_folder: str) -> None:
     """Prompt user to open output folder and handle the response"""
     print("\n" + "=" * 60)
     try:
-        choice = input(
-            "🚀 Open output folder in Explorer? (y/n): ").strip().lower()
-        if choice in ['y', 'yes']:
+        choice = input("🚀 Open output folder in Explorer? (y/n): ").strip().lower()
+        if choice in ["y", "yes"]:
             print("📂 Opening folder in Explorer...")
             open_folder_in_explorer(project_folder)
         else:
@@ -61,7 +60,7 @@ def prompt_open_folder(project_folder):
         print(f"   {project_folder}")
 
 
-def print_header():
+def print_header() -> None:
     """Print application header with features"""
     print("=" * 60)
     print("📸 PHOTO POST-PROCESSING SCRIPT")
@@ -74,7 +73,7 @@ def print_header():
     print("=" * 60)
 
 
-def print_processing_header():
+def print_processing_header() -> None:
     """Print processing utility header"""
     print("=" * 60)
     print("📸 PHOTO PROCESSING UTILITY")

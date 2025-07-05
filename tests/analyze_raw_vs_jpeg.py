@@ -3,15 +3,17 @@ Test script to demonstrate the difference between standard and enhanced RAW proc
 This will help you see why processed RAW files looked "dull" and how the enhanced version fixes it.
 """
 
-from PIL import Image
-from utils.raw_processing_enhanced import load_image_smart_enhanced, compare_raw_processing_methods
-from utils.raw_processing import load_image_smart as load_standard
 import os
 import sys
 
+from utils.raw_processing_enhanced import (
+    compare_raw_processing_methods,
+)
+
 # Add the src directory to Python path
-src_path = os.path.join(os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))), 'src')
+src_path = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"
+)
 sys.path.append(src_path)
 
 
@@ -29,7 +31,9 @@ def analyze_raw_processing_differences():
     print("2. 🎨 Camera manufacturers apply aggressive tone curves to JPEG previews")
     print("3. 🔧 Basic RAW processing uses conservative settings (flat, neutral)")
     print("4. ⚡ RAW files need additional contrast, saturation, and sharpening")
-    print("5. 📊 Missing tone curve makes RAW files look flat compared to JPEG previews")
+    print(
+        "5. 📊 Missing tone curve makes RAW files look flat compared to JPEG previews"
+    )
 
     print("\n🚀 ENHANCED RAW PROCESSING FIXES:")
     print("-" * 40)
@@ -53,16 +57,15 @@ def analyze_raw_processing_differences():
 
 def find_raw_files_in_workspace():
     """Find any RAW files in the workspace for testing."""
-    raw_extensions = ('.nef', '.NEF', '.raw', '.RAW',
-                      '.cr2', '.CR2', '.arw', '.ARW')
+    raw_extensions = (".nef", ".NEF", ".raw", ".RAW", ".cr2", ".CR2", ".arw", ".ARW")
     raw_files = []
 
     # Search in common directories
     search_dirs = [
-        os.path.join(os.getcwd(), 'input'),
-        os.path.join(os.getcwd(), 'tests'),
-        os.path.join(os.getcwd(), 'output'),
-        os.getcwd()
+        os.path.join(os.getcwd(), "input"),
+        os.path.join(os.getcwd(), "tests"),
+        os.path.join(os.getcwd(), "output"),
+        os.getcwd(),
     ]
 
     for search_dir in search_dirs:
@@ -106,18 +109,16 @@ def test_enhanced_processing():
             print("\n📊 PROCESSING COMPARISON RESULTS:")
             print("-" * 40)
             for method, image in results.items():
-                print(
-                    f"• {method.upper()}: {image.size[0]}x{image.size[1]} pixels")
+                print(f"• {method.upper()}: {image.size[0]}x{image.size[1]} pixels")
 
             # Save comparison images if possible
-            output_dir = os.path.join(os.getcwd(), 'tests', 'raw_comparison')
+            output_dir = os.path.join(os.getcwd(), "tests", "raw_comparison")
             os.makedirs(output_dir, exist_ok=True)
 
             base_name = os.path.splitext(os.path.basename(test_file))[0]
 
             for method, image in results.items():
-                output_path = os.path.join(
-                    output_dir, f"{base_name}_{method}.jpg")
+                output_path = os.path.join(output_dir, f"{base_name}_{method}.jpg")
                 image.save(output_path, quality=95)
                 print(f"💾 Saved: {output_path}")
 
@@ -153,9 +154,15 @@ def show_best_practices():
 
     print("\n⚙️ TECHNICAL RECOMMENDATIONS:")
     print("-" * 35)
-    print("• For portraits: Use RAW + 'Portrait Natural' or 'Portrait Dramatic' (auto-detects RAW)")
-    print("• For sports: Use RAW + 'Sports Action' (auto-detects and applies RAW preset)")
-    print("• For wildlife: Use RAW + 'Natural Wildlife' (auto-detects RAW and enhances)")
+    print(
+        "• For portraits: Use RAW + 'Portrait Natural' or 'Portrait Dramatic' (auto-detects RAW)"
+    )
+    print(
+        "• For sports: Use RAW + 'Sports Action' (auto-detects and applies RAW preset)"
+    )
+    print(
+        "• For wildlife: Use RAW + 'Natural Wildlife' (auto-detects RAW and enhances)"
+    )
     print("• For batch processing: Mix - the system auto-optimizes each file format")
     print("• For web/social: JPEG is usually sufficient")
 
@@ -188,5 +195,7 @@ if __name__ == "__main__":
     print("2. 🎨 RAW files will now look vibrant instead of dull")
     print("3. 🔧 The enhanced processing mimics camera JPEG processing")
     print("4. ⚡ For best results: RAW + Enhanced Processing + Sports/Portrait presets")
-    print("5. 💡 The 'dull' look was due to missing tone curves and conservative processing")
+    print(
+        "5. 💡 The 'dull' look was due to missing tone curves and conservative processing"
+    )
     print("\n✅ Your RAW processing pipeline is now significantly improved!")

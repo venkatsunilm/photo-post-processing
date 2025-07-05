@@ -2,9 +2,11 @@
 Optimized preset recommendations based on JPEG vs NEF processing analysis.
 """
 
-from utils.photoshop_tools import PHOTOSHOP_PRESETS
-import sys
 import os
+import sys
+
+from utils.photoshop_tools import PHOTOSHOP_PRESETS
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 
@@ -143,7 +145,7 @@ def create_format_detection_guide():
 
 if __name__ == "__main__":
     print("🎨 JPEG vs NEF PRESET OPTIMIZATION")
-    print("="*50)
+    print("=" * 50)
 
     # Analyze differences
     optimized_presets = analyze_preset_differences()

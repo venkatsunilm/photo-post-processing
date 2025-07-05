@@ -126,7 +126,7 @@ def processing_recommendations_by_genre():
         print(f"   🏆 Best Format: {details['best_format']}")
         print(f"   🎨 Recommended Preset: {details['preset']}")
         print(f"   ✨ Key Benefits: {details['key_benefits']}")
-        print(f"   📋 Why RAW is Better:")
+        print("   📋 Why RAW is Better:")
         for reason in details['reasons']:
             print(f"      • {reason}")
         print()

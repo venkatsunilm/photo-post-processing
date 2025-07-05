@@ -3,10 +3,12 @@ Your Pipeline: RAW vs JPEG Processing Demonstration
 Shows how your automatic optimization system maximizes RAW file advantages
 """
 
+import os
+import sys
+
 from utils.format_optimizer import FormatOptimizer
 from utils.photoshop_tools import PHOTOSHOP_PRESETS
-import sys
-import os
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 

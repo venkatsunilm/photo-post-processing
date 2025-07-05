@@ -1,11 +1,15 @@
 """
 Test the new brightness_adjustment method
 """
-from PIL import Image
-from utils.photoshop_tools import PhotoshopStyleEnhancer
-import sys
+
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+import sys
+
+from PIL import Image
+
+from utils.photoshop_tools import PhotoshopStyleEnhancer
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 
 def test_brightness_method():
@@ -15,8 +19,7 @@ def test_brightness_method():
 
     try:
         # Create a test image
-        test_img = Image.new(
-            'RGB', (100, 100), color=(128, 128, 128))  # Mid-gray
+        test_img = Image.new("RGB", (100, 100), color=(128, 128, 128))  # Mid-gray
         print("✅ Created test image (mid-gray)")
 
         # Test brightness adjustment
@@ -46,6 +49,7 @@ def test_brightness_method():
     except Exception as e:
         print(f"❌ Error testing brightness method: {e}")
         import traceback
+
         traceback.print_exc()
 
 

@@ -1,12 +1,12 @@
 import os
 import shutil
-from pathlib import Path
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import threading
+from typing import List, Tuple
 
 
-def list_media_files(source_dir):
+def list_media_files(source_dir: str) -> List[Tuple[str, str, int]]:
     """List all media files including .NEF in the source directory with progress"""
     print("🔍 Scanning external drive for files... (this may take a moment)")
     start_time = time.time()
@@ -21,7 +21,19 @@ def list_media_files(source_dir):
                 if file_count % 100 == 0:  # Progress indicator
                     print(f"   📂 Scanned {file_count} files...")
 
-                if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.mp4', '.mov', '.avi', '.raw', '.cr2', '.nef')):
+                if filename.lower().endswith(
+                    (
+                        ".jpg",
+                        ".jpeg",
+                        ".png",
+                        ".mp4",
+                        ".mov",
+                        ".avi",
+                        ".raw",
+                        ".cr2",
+                        ".nef",
+                    )
+                ):
                     full_path = os.path.join(root, filename)
                     relative_path = os.path.relpath(full_path, source_dir)
                     file_size = os.path.getsize(full_path)
@@ -29,14 +41,22 @@ def list_media_files(source_dir):
 
         scan_time = time.time() - start_time
         print(
-            f"✅ Scan complete! Found {len(files)} media files in {scan_time:.1f} seconds")
+            f"✅ Scan complete! Found {len(files)} media files in {scan_time:.1f} seconds"
+        )
         return files
     except Exception as e:
         print(f"❌ Error listing files: {e}")
         return []
 
 
-def copy_single_file(file_info, dest_dir, progress_lock, copied_count, skipped_count, total_files):
+def copy_single_file(
+    file_info: Tuple[str, str, int],
+    dest_dir: str,
+    progress_lock: threading.Lock,
+    copied_count: List[int],
+    skipped_count: List[int],
+    total_files: int,
+) -> Tuple[bool, str, str]:
     """Copy a single file with progress tracking and resume capability"""
     full_path, relative_path, file_size = file_info
 
@@ -53,12 +73,12 @@ def copy_single_file(file_info, dest_dir, progress_lock, copied_count, skipped_c
                     skipped_count[0] += 1
                     size_mb = file_size / (1024 * 1024)
                     print(
-                        f"⏭️  [{copied_count[0] + skipped_count[0]}/{total_files}] Skipped (exists): {relative_path} ({size_mb:.1f} MB)")
+                        f"⏭️  [{copied_count[0] + skipped_count[0]}/{total_files}] Skipped (exists): {relative_path} ({size_mb:.1f} MB)"
+                    )
                 return True, relative_path, "skipped"
             else:
                 with progress_lock:
-                    print(
-                        f"🔄 Size mismatch for {relative_path}, re-copying...")
+                    print(f"🔄 Size mismatch for {relative_path}, re-copying...")
 
         # Use high-performance copy with buffering
         shutil.copy2(full_path, dest_path)
@@ -69,7 +89,8 @@ def copy_single_file(file_info, dest_dir, progress_lock, copied_count, skipped_c
                 copied_count[0] += 1
                 size_mb = file_size / (1024 * 1024)
                 print(
-                    f"✅ [{copied_count[0] + skipped_count[0]}/{total_files}] Copied: {relative_path} ({size_mb:.1f} MB)")
+                    f"✅ [{copied_count[0] + skipped_count[0]}/{total_files}] Copied: {relative_path} ({size_mb:.1f} MB)"
+                )
             return True, relative_path, "copied"
         else:
             raise Exception("File copy verification failed")
@@ -80,7 +101,7 @@ def copy_single_file(file_info, dest_dir, progress_lock, copied_count, skipped_c
         return False, relative_path, "failed"
 
 
-def delete_all_files(source_dir):
+def delete_all_files(source_dir: str) -> None:
     """Delete ALL files from source directory"""
     print("\n🗑️ Scanning for ALL files to delete...")
     try:
@@ -103,12 +124,14 @@ def delete_all_files(source_dir):
                 os.remove(full_path)
                 deleted_count += 1
                 print(
-                    f"🗑️ [{deleted_count}/{len(files_to_delete)}] Deleted: {relative_path}")
+                    f"🗑️ [{deleted_count}/{len(files_to_delete)}] Deleted: {relative_path}"
+                )
             except Exception as e:
                 print(f"❌ Failed to delete {relative_path}: {e}")
 
         print(
-            f"\n🎉 Successfully deleted {deleted_count} out of {len(files_to_delete)} files")
+            f"\n🎉 Successfully deleted {deleted_count} out of {len(files_to_delete)} files"
+        )
 
         # Clean up empty directories
         cleanup_empty_dirs(source_dir)
@@ -117,7 +140,7 @@ def delete_all_files(source_dir):
         print(f"❌ Error during deletion: {e}")
 
 
-def cleanup_empty_dirs(directory):
+def cleanup_empty_dirs(directory: str) -> None:
     """Remove empty directories recursively"""
     try:
         for root, dirs, files in os.walk(directory, topdown=False):
@@ -127,20 +150,21 @@ def cleanup_empty_dirs(directory):
                     if not os.listdir(dir_path):  # Directory is empty
                         os.rmdir(dir_path)
                         print(
-                            f"🗑️ Removed empty directory: {os.path.relpath(dir_path, directory)}")
+                            f"🗑️ Removed empty directory: {os.path.relpath(dir_path, directory)}"
+                        )
                 except OSError:
                     pass  # Directory not empty or permission denied
     except Exception as e:
         print(f"❌ Error cleaning up directories: {e}")
 
 
-def copy_files(source_dir, dest_dir):
+def copy_files(source_dir: str, dest_dir: str) -> bool:
     """Copy all media files from source to destination with multi-threading and resume capability"""
     files = list_media_files(source_dir)
 
     if not files:
         print("❌ No media files found in source directory")
-        return
+        return False
 
     # Create destination directory if it doesn't exist
     os.makedirs(dest_dir, exist_ok=True)
@@ -149,8 +173,7 @@ def copy_files(source_dir, dest_dir):
     total_size = sum(file_info[2] for file_info in files)
     total_size_gb = total_size / (1024 * 1024 * 1024)
 
-    print(
-        f"\n📋 Found {len(files)} media files to copy ({total_size_gb:.2f} GB)")
+    print(f"\n📋 Found {len(files)} media files to copy ({total_size_gb:.2f} GB)")
     print("🔍 Checking for existing files (resume capability)...")
     print("🚀 Starting multi-threaded copy operation...")
 
@@ -167,7 +190,15 @@ def copy_files(source_dir, dest_dir):
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all copy tasks
         future_to_file = {
-            executor.submit(copy_single_file, file_info, dest_dir, progress_lock, copied_count, skipped_count, len(files)): file_info
+            executor.submit(
+                copy_single_file,
+                file_info,
+                dest_dir,
+                progress_lock,
+                copied_count,
+                skipped_count,
+                len(files),
+            ): file_info
             for file_info in files
         }
 
@@ -182,24 +213,27 @@ def copy_files(source_dir, dest_dir):
     end_time = time.time()
     duration = end_time - start_time
 
-    print(f"\n🎉 Copy operation completed!")
+    print("\n🎉 Copy operation completed!")
     print(f"✅ Successfully copied: {copied_count[0]} files")
     print(f"⏭️  Skipped (already exist): {skipped_count[0]} files")
     print(f"📊 Total processed: {successful_copies}/{len(files)} files")
     print(f"⏱️ Total time: {duration:.1f} seconds")
 
     if copied_count[0] > 0:
-        copied_size = sum(file_info[2] for file_info in files if file_info not in [
-                          f for f in files if os.path.exists(os.path.join(dest_dir, f[1]))])
-        avg_speed = copied_size / duration / \
-            (1024 * 1024) if duration > 0 else 0
+        copied_size = sum(
+            file_info[2]
+            for file_info in files
+            if file_info
+            not in [f for f in files if os.path.exists(os.path.join(dest_dir, f[1]))]
+        )
+        avg_speed = copied_size / duration / (1024 * 1024) if duration > 0 else 0
         print(f"📈 Average speed: {avg_speed:.1f} MB/s")
 
     # Return success status for deletion prompt
     return successful_copies == len(files)
 
 
-def main():
+def main() -> None:
     source_dir = r"D:\DCIM"
     dest_dir = r"C:\Users\harit\Documents\temp\From Camera"
 
@@ -240,8 +274,7 @@ def main():
             elif choice == "2":
                 print("⚠️ Will DELETE ALL files from external drive after copying")
                 print("⚠️ This CANNOT be undone!")
-                confirm = input(
-                    "Are you sure? Type 'YES' to confirm: ").strip()
+                confirm = input("Are you sure? Type 'YES' to confirm: ").strip()
                 if confirm.upper() == "YES":
                     print("✅ Confirmed: Will delete all files after successful copy")
                     delete_after_copy = True

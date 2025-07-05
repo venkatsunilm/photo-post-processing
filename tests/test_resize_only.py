@@ -1,10 +1,11 @@
 """
 Test script for the new resize_only mode
 """
-from process_photos import process_images
-import sys
+
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 
 def test_resize_only_mode():
@@ -40,6 +41,7 @@ def test_resize_only_mode():
     except Exception as e:
         print(f"❌ Error: {e}")
         import traceback
+
         traceback.print_exc()
 
 
