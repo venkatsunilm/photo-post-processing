@@ -64,3 +64,7 @@ sports_comparison_output/
 !assets/*.jpg
 !assets/*.jpeg
 !assets/*.png
+
+# Local development scripts and personal configs
+scripts/
+docs/git_shared_computer_guide.md
