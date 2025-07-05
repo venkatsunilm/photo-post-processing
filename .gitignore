@@ -44,3 +44,23 @@ temp/
 # Test data
 *photoshoot*/
 *Photoshoot*/
+
+# Output folders and processed images
+*_output/
+*_comparison/
+sports_comparison_output/
+
+# Large image files (keep sample images in assets/ only)
+*.jpg
+*.jpeg
+*.png
+*.tiff
+*.tif
+*.raw
+*.nef
+*.cr2
+*.arw
+*.dng
+!assets/*.jpg
+!assets/*.jpeg
+!assets/*.png
