@@ -6,9 +6,7 @@ This will help you see why processed RAW files looked "dull" and how the enhance
 import os
 import sys
 
-from utils.raw_processing_enhanced import (
-    compare_raw_processing_methods,
-)
+from utils.raw_processing_enhanced import compare_raw_processing_methods
 
 # Add the src directory to Python path
 src_path = os.path.join(

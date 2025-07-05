@@ -6,7 +6,7 @@ Provides proper RAW file loading with high-quality conversion to RGB.
 import os
 
 import numpy as np
-import rawpy  # type: ignore[import-untyped]
+import rawpy
 from PIL import Image
 
 
@@ -44,7 +44,7 @@ def load_raw_image(file_path: str) -> Image.Image:
             # Normalize to 0-255 range if needed
             rgb_array = ((rgb_array / rgb_array.max()) * 255).astype(np.uint8)
 
-        img = Image.fromarray(rgb_array, "RGB")
+        img = Image.fromarray(rgb_array)
         # print(
         #     f"✅ RAW file loaded successfully: {img.size[0]}x{img.size[1]} pixels")
         return img

@@ -13,7 +13,7 @@ from utils.raw_processing import get_raw_metadata, is_raw_file, load_image_smart
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 
-def test_raw_loading(file_path):
+def analyze_raw_loading(file_path):
     """Test RAW file loading performance and quality"""
 
     if not os.path.exists(file_path):
@@ -61,7 +61,7 @@ def test_raw_loading(file_path):
         return False
 
 
-def test_raw_metadata(file_path):
+def analyze_raw_metadata(file_path):
     """Test RAW metadata extraction"""
 
     print(f"🔍 Extracting metadata from: {os.path.basename(file_path)}")
@@ -159,11 +159,11 @@ def run_comprehensive_test():
     test_file = raw_files[0]
     print("\n1️⃣ DETAILED RAW ANALYSIS")
     print("-" * 40)
-    test_raw_loading(test_file)
+    analyze_raw_loading(test_file)
 
     print("\n2️⃣ METADATA EXTRACTION")
     print("-" * 40)
-    test_raw_metadata(test_file)
+    analyze_raw_metadata(test_file)
 
     # Compare with JPG if available
     if jpg_files:
@@ -180,7 +180,7 @@ def run_comprehensive_test():
 
         for raw_file in raw_files:
             start_time = time.time()
-            success = test_raw_loading(raw_file)
+            success = analyze_raw_loading(raw_file)
             load_time = time.time() - start_time
             total_time += load_time
 
@@ -210,9 +210,9 @@ def main():
     raw_files, jpg_files = scan_input_directory()
 
     if choice == "1" and raw_files:
-        test_raw_loading(raw_files[0])
+        analyze_raw_loading(raw_files[0])
     elif choice == "2" and raw_files:
-        test_raw_metadata(raw_files[0])
+        analyze_raw_metadata(raw_files[0])
     elif choice == "3" and raw_files and jpg_files:
         compare_raw_vs_jpg(raw_files[0], jpg_files[0])
     elif choice == "4":

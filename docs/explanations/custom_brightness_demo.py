@@ -1,12 +1,14 @@
 """
 Test the new brightness option in custom adjustments mode
 """
-import sys
+
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 
-def demonstrate_custom_adjustments_with_brightness():
+def demonstrate_custom_adjustments_with_brightness() -> None:
     """Show how the custom adjustments mode now includes brightness"""
     print("🛠️ ENHANCED CUSTOM ADJUSTMENTS MODE")
     print("=" * 50)

@@ -305,8 +305,13 @@ class PhotoshopStyleEnhancer:
                 # Apply the protected brightness back to the image
                 hsv_array[:, :, 2] = protected_brightness
 
-                # Convert back to RGB
-                protected_img = Image.fromarray(hsv_array, "HSV").convert("RGB")
+                # Convert back to RGB - use context manager to suppress deprecation warning
+                import warnings
+
+                with warnings.catch_warnings():
+                    warnings.filterwarnings("ignore", category=DeprecationWarning)
+                    hsv_img = Image.fromarray(hsv_array.astype(np.uint8), mode="HSV")
+                    protected_img = hsv_img.convert("RGB")
 
                 # Blend with original for natural transition
                 self.working = Image.blend(self.working, protected_img, 0.5)

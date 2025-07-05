@@ -27,12 +27,13 @@ IMAGE_EXTENSIONS_CASE = (
 # DEFAULT_INPUT_PATH = r"C:\Users\harit\Downloads\Food-20250629T220226Z-1-001.zip"
 # DEFAULT_INPUT_PATH = r"C:\Users\harit\Downloads\Wildlife & Landscapes-20250629T214837Z-1-001\Wildlife & Landscapes"
 
-DEFAULT_INPUT_PATH = r"C:\Users\harit\Documents\temp\Input Photos"
-DEFAULT_OUTPUT_DIR = r"C:\Users\harit\Documents\temp\output"
+# WSL path (Linux format for Windows drives)
+DEFAULT_INPUT_PATH = r"/mnt/c/Users/harit/Documents/temp/Input Photos"
+DEFAULT_OUTPUT_DIR = r"/mnt/c/Users/harit/Documents/temp/output"
 DEFAULT_JPEG_QUALITY = 90
 
 # Watermark configuration
-DEFAULT_LOGO_PATH = r"assets\photographer_logo_original.png"
+DEFAULT_LOGO_PATH = "assets/photographer_logo_original.png"
 
 # Watermark settings
 WATERMARK_OPACITY = 0.9  # Watermark opacity (0.0 to 1.0)

@@ -7,7 +7,7 @@ import sys
 
 from utils.photoshop_tools import PHOTOSHOP_PRESETS
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 
 def create_optimized_presets():
@@ -15,33 +15,33 @@ def create_optimized_presets():
 
     # Enhanced JPEG preset (slightly more conservative)
     jpeg_sports_optimized = {
-        'exposure': 0.08,               # Slightly less than RAW
-        'highlights': -12,              # Less aggressive than RAW
-        'shadows': 18,                  # Conservative shadow lift
-        'vibrance': 15,                 # Good for JPEG color space
-        'saturation': 3,                # Minimal saturation boost
-        'clarity': 10,                  # Good clarity for JPEG
-        'structure': 12,                # Appropriate detail enhancement
-        'temperature': 2,               # Subtle warmth
-        'skin_smoothing': 0             # No smoothing for sports
+        "exposure": 0.08,  # Slightly less than RAW
+        "highlights": -12,  # Less aggressive than RAW
+        "shadows": 18,  # Conservative shadow lift
+        "vibrance": 15,  # Good for JPEG color space
+        "saturation": 3,  # Minimal saturation boost
+        "clarity": 10,  # Good clarity for JPEG
+        "structure": 12,  # Appropriate detail enhancement
+        "temperature": 2,  # Subtle warmth
+        "skin_smoothing": 0,  # No smoothing for sports
     }
 
     # Enhanced NEF preset (more aggressive)
     nef_sports_optimized = {
-        'exposure': 0.15,               # More exposure headroom
-        'highlights': -25,              # Much more aggressive recovery
-        'shadows': 30,                  # Strong shadow lift
-        'vibrance': 30,                 # Much higher vibrance for RAW
-        'saturation': 8,                # More saturation for RAW
-        'clarity': 20,                  # Higher clarity for RAW sharpness
-        'structure': 25,                # Strong detail enhancement
-        'temperature': 8,               # More warmth for appealing skin
-        'skin_smoothing': 0             # No smoothing for sports
+        "exposure": 0.15,  # More exposure headroom
+        "highlights": -25,  # Much more aggressive recovery
+        "shadows": 30,  # Strong shadow lift
+        "vibrance": 30,  # Much higher vibrance for RAW
+        "saturation": 8,  # More saturation for RAW
+        "clarity": 20,  # Higher clarity for RAW sharpness
+        "structure": 25,  # Strong detail enhancement
+        "temperature": 8,  # More warmth for appealing skin
+        "skin_smoothing": 0,  # No smoothing for sports
     }
 
     return {
-        'sports_jpeg_optimized': jpeg_sports_optimized,
-        'sports_nef_optimized': nef_sports_optimized
+        "sports_jpeg_optimized": jpeg_sports_optimized,
+        "sports_nef_optimized": nef_sports_optimized,
     }
 
 
@@ -53,8 +53,8 @@ def analyze_preset_differences():
 
     optimized = create_optimized_presets()
     existing_presets = {
-        'sports_action': PHOTOSHOP_PRESETS['sports_action'],
-        'sports_action_raw': PHOTOSHOP_PRESETS['sports_action_raw']
+        "sports_action": PHOTOSHOP_PRESETS["sports_action"],
+        "sports_action_raw": PHOTOSHOP_PRESETS["sports_action_raw"],
     }
 
     all_presets = {**existing_presets, **optimized}
@@ -62,13 +62,21 @@ def analyze_preset_differences():
     # Display comparison table
     print(f"{'Parameter':<15}", end="")
     for name in all_presets.keys():
-        display_name = name.replace('_', ' ').title()[:12]
+        display_name = name.replace("_", " ").title()[:12]
         print(f"{display_name:<15}", end="")
     print()
     print("-" * 95)
 
-    params = ['exposure', 'highlights', 'shadows', 'vibrance',
-              'saturation', 'clarity', 'structure', 'temperature']
+    params = [
+        "exposure",
+        "highlights",
+        "shadows",
+        "vibrance",
+        "saturation",
+        "clarity",
+        "structure",
+        "temperature",
+    ]
 
     for param in params:
         print(f"{param:<15}", end="")

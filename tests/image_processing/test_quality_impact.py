@@ -42,7 +42,7 @@ def analyze_image_properties(img, name="Image"):
     }
 
 
-def test_preset_impact(img, preset_name):
+def analyze_preset_impact(img, preset_name):
     """Test the impact of a specific preset on an image"""
 
     print(f"\n🎨 Testing {preset_name.replace('_', ' ').title()} Preset")
@@ -123,7 +123,7 @@ def compare_presets_on_image(image_path):
 
     # Test each preset
     for preset_name in PHOTOSHOP_PRESETS.keys():
-        result = test_preset_impact(test_img, preset_name)
+        result = analyze_preset_impact(test_img, preset_name)
         results[preset_name] = result
 
     # Summary comparison
@@ -247,7 +247,7 @@ def main():
         preset = input("Enter preset name: ").strip()
         if preset in PHOTOSHOP_PRESETS:
             img = load_image_smart(test_files[0])
-            test_preset_impact(img, preset)
+            analyze_preset_impact(img, preset)
         else:
             print("❌ Invalid preset name")
 

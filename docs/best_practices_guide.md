@@ -70,7 +70,7 @@ class ProcessingConfig:
     watermark_opacity: float = 0.9
     watermark_scale: float = 0.15
     enable_brightness_adjust: bool = False
-    
+
 @dataclass
 class PathConfig:
     """Path configuration"""
@@ -78,7 +78,7 @@ class PathConfig:
     input_dir: Path = None
     output_dir: Path = None
     assets_dir: Path = None
-    
+
     def __post_init__(self):
         if self.input_dir is None:
             self.input_dir = self.base_dir / "input"
@@ -93,7 +93,7 @@ class Config:
         self.env = env
         self.processing = ProcessingConfig()
         self.paths = PathConfig()
-        
+
     @classmethod
     def from_env(cls) -> "Config":
         env = os.getenv("PHOTO_PROCESSOR_ENV", "development")
@@ -115,7 +115,7 @@ testpaths = tests
 python_files = test_*.py
 python_classes = Test*
 python_functions = test_*
-addopts = 
+addopts =
     --strict-markers
     --strict-config
     --verbose
@@ -141,7 +141,7 @@ markers =
 ```
 requirements/
 ├── base.txt          # Core dependencies
-├── dev.txt          # Development dependencies  
+├── dev.txt          # Development dependencies
 ├── test.txt         # Testing dependencies
 └── docs.txt         # Documentation dependencies
 ```
@@ -184,7 +184,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8, 3.9, "3.10", "3.11"]
-    
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
@@ -285,21 +285,21 @@ from pathlib import Path
 
 def setup_logging(level: str = "INFO", log_file: Path = None):
     """Configure logging for the application"""
-    
+
     formatters = {
         'detailed': logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         ),
         'simple': logging.Formatter('%(levelname)s - %(message)s')
     }
-    
+
     handlers = [
         logging.StreamHandler(sys.stdout)
     ]
-    
+
     if log_file:
         handlers.append(logging.FileHandler(log_file))
-    
+
     logging.basicConfig(
         level=getattr(logging, level.upper()),
         handlers=handlers,
@@ -322,15 +322,15 @@ def track_performance(func):
     def wrapper(*args, **kwargs):
         start_time = time.time()
         start_memory = psutil.Process().memory_info().rss
-        
+
         result = func(*args, **kwargs)
-        
+
         end_time = time.time()
         end_memory = psutil.Process().memory_info().rss
-        
+
         logger.info(f"{func.__name__} took {end_time - start_time:.2f}s")
         logger.info(f"Memory usage: {(end_memory - start_memory) / 1024 / 1024:.2f}MB")
-        
+
         return result
     return wrapper
 ```

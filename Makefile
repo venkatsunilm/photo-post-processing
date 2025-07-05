@@ -23,7 +23,7 @@ test:  ## Run tests (uv)
 test-cov:  ## Run tests with coverage (uv)
 	uv run pytest --cov=src --cov-report=html --cov-report=term-missing
 
-lint:  ## Run linting checks (uv)
+lint:  ## Run linting checks (uv) - includes mypy type checking
 	uv run flake8 src tests
 	uv run mypy src
 

@@ -36,7 +36,7 @@ Choose Option 7: "Sports Action"
 ```
 📸 Processing Modes:
 1. Portrait Subtle        → 🤖 Auto-detect (portrait_subtle vs portrait_subtle)
-2. Portrait Natural       → 🤖 Auto-detect (portrait_natural vs portrait_natural_raw)  
+2. Portrait Natural       → 🤖 Auto-detect (portrait_natural vs portrait_natural_raw)
 3. Portrait Dramatic      → 🤖 Auto-detect (portrait_dramatic vs portrait_dramatic_raw)
 4. Studio Portrait        → 🤖 Auto-detect (studio_portrait - optimized per format)
 5. Bright Photo Balance   → 🤖 Auto-detect (overexposed_recovery - optimized per format)
@@ -77,7 +77,7 @@ Choose Option 7: "Sports Action"
 # sports_action (JPEG):
 'vibrance': 18, 'clarity': 12, 'structure': 15
 
-# sports_action_raw (NEF):  
+# sports_action_raw (NEF):
 'vibrance': 25, 'clarity': 18, 'structure': 22  # More aggressive!
 ```
 

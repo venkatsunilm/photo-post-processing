@@ -26,7 +26,9 @@ def test_rawpy_parameters():
 
     if not test_file:
         print("❌ No RAW files found for parameter testing")
-        return {}
+        # Skip test if no RAW files available - this is not a failure
+        print("ℹ️ Skipping rawpy compatibility test - no RAW files available")
+        return
 
     print(f"📸 Testing with: {os.path.basename(test_file)}")
 
@@ -50,7 +52,7 @@ def test_rawpy_parameters():
                 print("✅ Basic parameters supported")
             except Exception as e:
                 print(f"❌ Basic parameters failed: {e}")
-                return {}
+                assert False, f"Basic rawpy parameters not supported: {e}"
 
             # Test advanced parameters one by one
             test_params = [
@@ -79,14 +81,20 @@ def test_rawpy_parameters():
 
     except Exception as e:
         print(f"❌ Error during testing: {e}")
-        return {}
+        assert False, f"Error during rawpy testing: {e}"
 
     print(f"\n📊 Supported parameters: {len(supported_params)}")
-    return supported_params
+    # Assert that at least basic parameters are supported
+    assert (
+        len(supported_params) >= 5
+    ), f"Too few rawpy parameters supported: {len(supported_params)}"
 
 
 if __name__ == "__main__":
-    supported = test_rawpy_parameters()
-    print("\n🎯 COMPATIBLE PARAMETERS:")
-    for param, value in supported.items():
-        print(f"  • {param}: {value}")
+    try:
+        test_rawpy_parameters()
+        print("\n🎯 RAWPY COMPATIBILITY TEST PASSED")
+    except AssertionError as e:
+        print(f"\n❌ RAWPY COMPATIBILITY TEST FAILED: {e}")
+    except Exception as e:
+        print(f"\n❌ UNEXPECTED ERROR: {e}")

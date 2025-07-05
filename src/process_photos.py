@@ -12,10 +12,7 @@ from utils.file_operations import (
     get_image_files_from_directory,
 )
 from utils.image_processing import add_watermark
-from utils.raw_processing_enhanced import (
-    load_image_basic,
-    load_image_smart_enhanced,
-)
+from utils.raw_processing_enhanced import load_image_basic, load_image_smart_enhanced
 
 
 def fix_image_orientation(img: Image.Image) -> Image.Image:

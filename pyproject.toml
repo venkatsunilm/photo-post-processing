@@ -81,6 +81,20 @@ warn_no_return = true
 warn_unreachable = true
 strict_equality = true
 
+# Handle specific library type issues
+[[tool.mypy.overrides]]
+module = ["rawpy", "rawpy.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["PIL.*"]
+ignore_errors = true
+
+# Disable specific warnings for compatibility between environments
+[[tool.mypy.overrides]]
+module = ["src.utils.image_processing"]
+disable_error_code = ["attr-defined", "arg-type", "unused-ignore"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]

@@ -104,7 +104,7 @@ Processing 4K images with sports_action preset...
 
 ### 🏆 **For Sports Photography**
 - **NEF files**: Always use `sports_action_raw` (or let auto-optimization choose it)
-- **JPEG files**: Use `sports_action` 
+- **JPEG files**: Use `sports_action`
 - **Mixed batches**: Just select `sports_action` - the system handles the rest
 
 ### 🎨 **For Portraits**

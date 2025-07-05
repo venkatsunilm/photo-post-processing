@@ -7,7 +7,7 @@ import os
 from typing import Any, Dict, Optional
 
 import numpy as np
-import rawpy  # type: ignore
+import rawpy
 from PIL import Image, ImageEnhance
 
 
@@ -132,7 +132,7 @@ def load_raw_image_enhanced(
             rgb_array = np.clip(rgb_array, 0, 255).astype(np.uint8)
 
         # Convert to PIL Image
-        img = Image.fromarray(rgb_array, "RGB")
+        img = Image.fromarray(rgb_array)
 
         # Apply additional vibrancy enhancements for RAW files
         if apply_enhancements:
@@ -171,7 +171,7 @@ def load_raw_image_standard(file_path: str) -> Image.Image:
         if rgb_array.dtype != np.uint8:
             rgb_array = ((rgb_array / rgb_array.max()) * 255).astype(np.uint8)
 
-        img = Image.fromarray(rgb_array, "RGB")
+        img = Image.fromarray(rgb_array)
         return img
 
     except Exception as e:

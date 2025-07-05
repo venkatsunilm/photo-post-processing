@@ -9,7 +9,7 @@ import sys
 from utils.format_optimizer import FormatOptimizer
 from utils.photoshop_tools import PHOTOSHOP_PRESETS
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 
 def test_complete_integration():
@@ -38,8 +38,7 @@ def test_complete_integration():
 
     all_passed = True
     for filename, original_preset in test_cases:
-        optimal_preset = optimizer.get_optimal_preset(
-            filename, original_preset)
+        optimal_preset = optimizer.get_optimal_preset(filename, original_preset)
 
         # Check if optimized preset exists
         if optimal_preset in PHOTOSHOP_PRESETS:
@@ -51,7 +50,8 @@ def test_complete_integration():
         print(f"{filename:<20} {original_preset:<20} {optimal_preset:<25} {status}")
 
     print(
-        f"\n🎯 OVERALL RESULT: {'✅ ALL TESTS PASSED' if all_passed else '❌ SOME TESTS FAILED'}")
+        f"\n🎯 OVERALL RESULT: {'✅ ALL TESTS PASSED' if all_passed else '❌ SOME TESTS FAILED'}"
+    )
 
     # Test format detection accuracy
     print("\n🔍 FORMAT DETECTION TEST:")
@@ -63,14 +63,13 @@ def test_complete_integration():
         ("photo.JPG", "jpeg"),
         ("photo.jpeg", "jpeg"),
         ("photo.JPEG", "jpeg"),
-        ("photo.png", "unknown")
+        ("photo.png", "unknown"),
     ]
 
     for filename, expected in format_tests:
         detected = optimizer.detect_file_format(filename)
         status = "✅" if detected == expected else "❌"
-        print(
-            f"   {filename:<15} -> {detected:<8} (expected: {expected:<8}) {status}")
+        print(f"   {filename:<15} -> {detected:<8} (expected: {expected:<8}) {status}")
 
     # Show available presets
     print("\n📚 AVAILABLE PRESETS:")
@@ -78,7 +77,7 @@ def test_complete_integration():
     raw_presets = []
 
     for preset_name in PHOTOSHOP_PRESETS.keys():
-        if '_raw' in preset_name:
+        if "_raw" in preset_name:
             raw_presets.append(preset_name)
         else:
             regular_presets.append(preset_name)
@@ -98,7 +97,8 @@ def test_complete_integration():
     print("   4. For wildlife: Use 'natural_wildlife'")
     print("   5. For mixed JPEG/NEF batches: Any preset - auto-optimization handles it")
 
-    return all_passed
+    # Use assertion instead of return
+    assert all_passed, "Some integration tests failed"
 
 
 if __name__ == "__main__":

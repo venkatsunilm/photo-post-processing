@@ -52,7 +52,7 @@ def apply_tone_curve(img_array):
 #### 3. **🎨 Post-Processing Enhancements**
 ```python
 # Contrast: +15%
-# Saturation: +25% 
+# Saturation: +25%
 # Sharpness: +10%
 ```
 
@@ -111,10 +111,10 @@ def apply_tone_curve(img_array):
 - Use: "Sports Action" (auto-detects format)
   • RAW Files → Automatically gets sports_action_raw preset:
     - Higher clarity (+18)
-    - More vibrance (+25)  
+    - More vibrance (+25)
     - Stronger structure (+22)
     - Better highlight recovery
-  
+
   • JPEG Files → Automatically gets sports_action preset:
     - Moderate settings for already-processed files
 ```
@@ -163,7 +163,7 @@ When you run the pipeline, you'll see:
 =================================
 Processing Mode:
 1. 🎯 Portrait Subtle
-2. 🎨 Portrait Natural  
+2. 🎨 Portrait Natural
 3. 🔥 Portrait Dramatic
 4. 🏆 Studio Portrait
 5. ⚡ Enhanced
