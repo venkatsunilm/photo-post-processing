@@ -2,7 +2,9 @@ import os
 import shutil
 import threading
 import time
+import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime
 from typing import List, Tuple
 
 
@@ -158,6 +160,64 @@ def cleanup_empty_dirs(directory: str) -> None:
         print(f"❌ Error cleaning up directories: {e}")
 
 
+def create_backup_zip(dest_dir: str, files: List[Tuple[str, str, int]]) -> str:
+    """Create a backup ZIP file with today's date and file range information"""
+    if not files:
+        print("❌ No files to backup")
+        return ""
+
+    # Get today's date
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    # Sort files by name to get first and last
+    sorted_files = sorted([f[1] for f in files])  # Sort by relative path (filename)
+    first_file = os.path.splitext(os.path.basename(sorted_files[0]))[0]
+    last_file = os.path.splitext(os.path.basename(sorted_files[-1]))[0]
+
+    # Create backup zip filename with date and file range
+    zip_filename = f"backup_{today}_{first_file}_to_{last_file}.zip"
+    zip_path = os.path.join(os.path.dirname(dest_dir), zip_filename)
+
+    print(f"\n📦 Creating backup ZIP: {zip_filename}")
+    print("🔄 This may take a while depending on file sizes...")
+
+    start_time = time.time()
+    compressed_files = 0
+
+    try:
+        with zipfile.ZipFile(
+            zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6
+        ) as zipf:
+            for root, dirs, filenames in os.walk(dest_dir):
+                for filename in filenames:
+                    file_path = os.path.join(root, filename)
+                    # Create archive path relative to dest_dir
+                    arcname = os.path.relpath(file_path, dest_dir)
+                    zipf.write(file_path, arcname)
+                    compressed_files += 1
+
+                    if compressed_files % 10 == 0:  # Progress indicator
+                        print(f"   📦 Compressed {compressed_files} files...")
+
+        # Get ZIP file size
+        zip_size = os.path.getsize(zip_path)
+        zip_size_mb = zip_size / (1024 * 1024)
+
+        compression_time = time.time() - start_time
+
+        print("✅ Backup ZIP created successfully!")
+        print(f"📦 ZIP file: {zip_path}")
+        print(f"📊 Compressed {compressed_files} files")
+        print(f"💾 ZIP size: {zip_size_mb:.1f} MB")
+        print(f"⏱️ Compression time: {compression_time:.1f} seconds")
+
+        return zip_path
+
+    except Exception as e:
+        print(f"❌ Error creating backup ZIP: {e}")
+        return ""
+
+
 def copy_files(source_dir: str, dest_dir: str) -> bool:
     """Copy all media files from source to destination with multi-threading and resume capability"""
     files = list_media_files(source_dir)
@@ -297,10 +357,26 @@ def main() -> None:
     print("  • Includes all media files (JPG, PNG, MP4, RAW, NEF)")
     print("  • Resume capability (skips existing files)")
     print("  • File integrity verification")
+    print("  • Automatic backup ZIP creation with date and file range")
     print("")
 
     # Copy files first
     copy_successful = copy_files(source_dir, dest_dir)
+
+    # Create backup ZIP if copy was successful
+    if copy_successful:
+        print("\n" + "=" * 60)
+        print("📦 CREATING BACKUP ZIP")
+        print("=" * 60)
+
+        # Get the files that were copied for backup
+        copied_files = list_media_files(dest_dir)
+        backup_zip = create_backup_zip(dest_dir, copied_files)
+
+        if backup_zip:
+            print(f"✅ Backup ZIP created: {os.path.basename(backup_zip)}")
+        else:
+            print("❌ Failed to create backup ZIP")
 
     # Delete files if user chose to and copy was successful
     if copy_successful and delete_after_copy:
@@ -315,7 +391,7 @@ def main() -> None:
     elif copy_successful and not delete_after_copy:
         print("\n✅ Copy completed! Files kept on external drive as requested.")
     elif not copy_successful:
-        print("\n❌ Copy operation had errors. Deletion skipped for safety.")
+        print("\n❌ Copy operation had errors. Deletion and backup skipped for safety.")
         if delete_after_copy:
             print("💡 You can manually delete files after reviewing the errors.")
 

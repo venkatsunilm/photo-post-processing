@@ -516,6 +516,28 @@ PHOTOSHOP_PRESETS = {
         "temperature": 5,  # Slight warmth for natural look
         "skin_smoothing": 0,  # No smoothing - preserve texture
     },
+    "enhanced_mode": {
+        "exposure": 0.12,  # Moderate exposure boost
+        "highlights": -20,  # Strong highlight recovery
+        "shadows": 25,  # Aggressive shadow lift
+        "vibrance": 15,  # Enhanced color vibrancy
+        "saturation": 5,  # Moderate saturation boost
+        "clarity": 10,  # Good mid-tone contrast
+        "structure": 15,  # Strong detail enhancement
+        "temperature": 3,  # Slight warmth for appeal
+        "skin_smoothing": 5,  # Light smoothing for portraits
+    },
+    "enhanced_mode_raw": {
+        "exposure": 0.18,  # Stronger exposure for RAW
+        "highlights": -30,  # Very strong highlight recovery
+        "shadows": 35,  # Very aggressive shadow lift
+        "vibrance": 25,  # High vibrancy for challenging lighting
+        "saturation": 8,  # Moderate saturation for impact
+        "clarity": 15,  # Strong mid-tone contrast
+        "structure": 20,  # Very strong detail enhancement
+        "temperature": 5,  # Moderate warmth for appeal
+        "skin_smoothing": 3,  # Minimal smoothing to preserve detail
+    },
 }
 
 
