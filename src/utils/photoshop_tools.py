@@ -294,7 +294,7 @@ class PhotoshopStyleEnhancer:
                 darkening_factor = 0.94  # Reduce brightness by 6%
 
                 # Apply the darkening only to the detected areas
-                protected_brightness = brightness.copy().astype(np.float32)
+                protected_brightness: np.ndarray = brightness.copy().astype(np.float32)
                 protected_brightness[target_mask] *= darkening_factor
 
                 # Ensure values stay within valid range
