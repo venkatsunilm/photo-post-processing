@@ -47,16 +47,14 @@ def apply_tone_curve(img_array: np.ndarray) -> np.ndarray:
     curve = 255 * ((x / 255) ** 0.85)  # More pronounced curve
     curve = np.clip(curve, 0, 255).astype(np.uint8)
 
-    # Apply curve to each channel
-    num_dims = len(img_array.shape)
-    if num_dims == 3:
+    # Apply curve to each channel based on image dimensions
+    if len(img_array.shape) == 3:
         # Color image with 3 channels (RGB)
         for channel in range(3):
             img_array[:, :, channel] = curve[img_array[:, :, channel]]
-    elif num_dims == 2:
-        # Grayscale image
+    else:
+        # Grayscale or other format - apply curve directly
         img_array = curve[img_array]
-    # Note: Other dimensions are handled by returning unchanged
 
     return img_array
 
