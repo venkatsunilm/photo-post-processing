@@ -3,16 +3,17 @@ RAW image processing test and analysis tool.
 Tests NEF file loading, processing quality, and performance.
 """
 
-from PIL import Image
-from utils.config import DEFAULT_INPUT_PATH
-from utils.raw_processing import load_image_smart, is_raw_file, get_raw_metadata
-import sys
 import os
+import sys
 import time
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+
+from utils.config import DEFAULT_INPUT_PATH
+from utils.raw_processing import get_raw_metadata, is_raw_file, load_image_smart
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 
-def test_raw_loading(file_path):
+def analyze_raw_loading(file_path):
     """Test RAW file loading performance and quality"""
 
     if not os.path.exists(file_path):
@@ -39,13 +40,15 @@ def test_raw_loading(file_path):
         img_array = list(img.getdata())
 
         # Check for proper color range
-        r_values = [pixel[0]
-                    # Sample every 1000th pixel
-                    for pixel in img_array[::1000]]
+        r_values = [
+            pixel[0]
+            # Sample every 1000th pixel
+            for pixel in img_array[::1000]
+        ]
         g_values = [pixel[1] for pixel in img_array[::1000]]
         b_values = [pixel[2] for pixel in img_array[::1000]]
 
-        print(f"🎨 Color range analysis (sampled):")
+        print("🎨 Color range analysis (sampled):")
         print(f"   Red: {min(r_values)} - {max(r_values)}")
         print(f"   Green: {min(g_values)} - {max(g_values)}")
         print(f"   Blue: {min(b_values)} - {max(b_values)}")
@@ -58,7 +61,7 @@ def test_raw_loading(file_path):
         return False
 
 
-def test_raw_metadata(file_path):
+def analyze_raw_metadata(file_path):
     """Test RAW metadata extraction"""
 
     print(f"🔍 Extracting metadata from: {os.path.basename(file_path)}")
@@ -80,7 +83,7 @@ def test_raw_metadata(file_path):
 def compare_raw_vs_jpg(raw_file, jpg_file):
     """Compare RAW vs JPG processing"""
 
-    print(f"⚖️ Comparing RAW vs JPG processing")
+    print("⚖️ Comparing RAW vs JPG processing")
     print(f"RAW: {os.path.basename(raw_file)}")
     print(f"JPG: {os.path.basename(jpg_file)}")
 
@@ -94,23 +97,23 @@ def compare_raw_vs_jpg(raw_file, jpg_file):
         jpg_img = load_image_smart(jpg_file)
         jpg_time = time.time() - start_time
 
-        print(f"\n📊 Loading Performance:")
+        print("\n📊 Loading Performance:")
         print(f"   RAW loading: {raw_time:.2f} seconds")
         print(f"   JPG loading: {jpg_time:.2f} seconds")
-        print(f"   RAW is {raw_time/jpg_time:.1f}x slower")
+        print(f"   RAW is {raw_time / jpg_time:.1f}x slower")
 
-        print(f"\n📐 Image Dimensions:")
+        print("\n📐 Image Dimensions:")
         print(f"   RAW: {raw_img.size[0]} x {raw_img.size[1]} pixels")
         print(f"   JPG: {jpg_img.size[0]} x {jpg_img.size[1]} pixels")
 
         raw_pixels = raw_img.size[0] * raw_img.size[1]
         jpg_pixels = jpg_img.size[0] * jpg_img.size[1]
-        print(f"   RAW has {raw_pixels/jpg_pixels:.1f}x more pixels")
+        print(f"   RAW has {raw_pixels / jpg_pixels:.1f}x more pixels")
 
-        print(f"\n🎨 Quality Assessment:")
-        print(f"   ✅ RAW: Full dynamic range, no compression artifacts")
-        print(f"   ⚠️ JPG: 8-bit compressed, potential quality loss")
-        print(f"   🏆 Winner: RAW (better for post-processing)")
+        print("\n🎨 Quality Assessment:")
+        print("   ✅ RAW: Full dynamic range, no compression artifacts")
+        print("   ⚠️ JPG: 8-bit compressed, potential quality loss")
+        print("   🏆 Winner: RAW (better for post-processing)")
 
     except Exception as e:
         print(f"❌ Comparison failed: {e}")
@@ -133,7 +136,7 @@ def scan_input_directory():
         if os.path.isfile(file_path):
             if is_raw_file(file_path):
                 raw_files.append(file_path)
-            elif file.lower().endswith(('.jpg', '.jpeg')):
+            elif file.lower().endswith((".jpg", ".jpeg")):
                 jpg_files.append(file_path)
 
     print(f"📋 Found {len(raw_files)} RAW files and {len(jpg_files)} JPG files")
@@ -154,30 +157,30 @@ def run_comprehensive_test():
 
     # Test first RAW file in detail
     test_file = raw_files[0]
-    print(f"\n1️⃣ DETAILED RAW ANALYSIS")
+    print("\n1️⃣ DETAILED RAW ANALYSIS")
     print("-" * 40)
-    test_raw_loading(test_file)
+    analyze_raw_loading(test_file)
 
-    print(f"\n2️⃣ METADATA EXTRACTION")
+    print("\n2️⃣ METADATA EXTRACTION")
     print("-" * 40)
-    test_raw_metadata(test_file)
+    analyze_raw_metadata(test_file)
 
     # Compare with JPG if available
     if jpg_files:
-        print(f"\n3️⃣ RAW VS JPG COMPARISON")
+        print("\n3️⃣ RAW VS JPG COMPARISON")
         print("-" * 40)
         compare_raw_vs_jpg(test_file, jpg_files[0])
 
     # Test all RAW files for loading
     if len(raw_files) > 1:
-        print(f"\n4️⃣ BATCH LOADING TEST")
+        print("\n4️⃣ BATCH LOADING TEST")
         print("-" * 40)
         success_count = 0
         total_time = 0
 
         for raw_file in raw_files:
             start_time = time.time()
-            success = test_raw_loading(raw_file)
+            success = analyze_raw_loading(raw_file)
             load_time = time.time() - start_time
             total_time += load_time
 
@@ -185,12 +188,11 @@ def run_comprehensive_test():
                 success_count += 1
             print("-" * 30)
 
-        print(f"\n📊 BATCH TEST SUMMARY:")
+        print("\n📊 BATCH TEST SUMMARY:")
         print(f"   ✅ Successful: {success_count}/{len(raw_files)} files")
         print(f"   ⏱️ Total time: {total_time:.2f} seconds")
-        print(
-            f"   📈 Average time: {total_time/len(raw_files):.2f} seconds per file")
-        print(f"   🎯 Success rate: {success_count/len(raw_files)*100:.1f}%")
+        print(f"   📈 Average time: {total_time / len(raw_files):.2f} seconds per file")
+        print(f"   🎯 Success rate: {success_count / len(raw_files) * 100:.1f}%")
 
 
 def main():
@@ -207,13 +209,13 @@ def main():
 
     raw_files, jpg_files = scan_input_directory()
 
-    if choice == '1' and raw_files:
-        test_raw_loading(raw_files[0])
-    elif choice == '2' and raw_files:
-        test_raw_metadata(raw_files[0])
-    elif choice == '3' and raw_files and jpg_files:
+    if choice == "1" and raw_files:
+        analyze_raw_loading(raw_files[0])
+    elif choice == "2" and raw_files:
+        analyze_raw_metadata(raw_files[0])
+    elif choice == "3" and raw_files and jpg_files:
         compare_raw_vs_jpg(raw_files[0], jpg_files[0])
-    elif choice == '4':
+    elif choice == "4":
         run_comprehensive_test()
     else:
         print("❌ Invalid choice or no test files available")

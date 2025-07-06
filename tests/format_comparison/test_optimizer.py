@@ -1,7 +1,9 @@
-from utils.format_optimizer import FormatOptimizer
-import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+import sys
+
+from utils.format_optimizer import FormatOptimizer
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 
 # Test the format optimizer
@@ -16,7 +18,7 @@ test_files = [
     ("photo.cr2", "portrait_dramatic"),
     ("image.jpeg", "portrait_dramatic"),
     ("landscape.arw", "landscape"),
-    ("wildlife.dng", "natural_wildlife")
+    ("wildlife.dng", "natural_wildlife"),
 ]
 
 for filename, preset in test_files:

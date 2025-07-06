@@ -3,19 +3,20 @@ Image processing utilities for photo post-processing.
 Handles image transformations, lighting adjustments, and watermarking.
 """
 
-from PIL import Image, ImageEnhance, ExifTags, ImageStat, ImageDraw, ImageFont
-import numpy as np
+from typing import Tuple
+
+from PIL import ExifTags, Image, ImageEnhance, ImageStat
 
 
-def fix_image_orientation(img):
+def fix_image_orientation(img: Image.Image) -> Image.Image:
     """Fix image orientation based on EXIF data only if needed"""
     try:
         # Get EXIF data
-        exif = img._getexif()
+        exif = img.getexif()
         if exif is not None:
             # Find orientation tag
             for tag, value in exif.items():
-                if tag in ExifTags.TAGS and ExifTags.TAGS[tag] == 'Orientation':
+                if tag in ExifTags.TAGS and ExifTags.TAGS[tag] == "Orientation":
                     # Only apply rotation for specific EXIF values that actually need correction
                     # Value 1 = normal (no rotation needed)
                     # Value 3 = 180° rotation needed
@@ -38,7 +39,7 @@ def fix_image_orientation(img):
     return img
 
 
-def resize_and_crop(img, target_size):
+def resize_and_crop(img: Image.Image, target_size: Tuple[int, int]) -> Image.Image:
     """Resize image to target size while maintaining aspect ratio, then crop"""
     img_ratio = img.width / img.height
     target_ratio = target_size[0] / target_size[1]
@@ -63,7 +64,9 @@ def resize_and_crop(img, target_size):
     return img.crop((left, top, right, bottom))
 
 
-def add_watermark(img, watermark_opacity=0.9, scale_factor=0.15):
+def add_watermark(
+    img: Image.Image, watermark_opacity: float = 0.9, scale_factor: float = 0.15
+) -> Image.Image:
     """Add image watermark to the bottom left corner of the image with enhanced visibility
 
     Args:
@@ -72,6 +75,7 @@ def add_watermark(img, watermark_opacity=0.9, scale_factor=0.15):
         scale_factor: Size of watermark relative to image width (0.1 to 0.3)
     """
     import os
+
     from .config import DEFAULT_LOGO_PATH
 
     # Create a copy to avoid modifying the original
@@ -82,10 +86,9 @@ def add_watermark(img, watermark_opacity=0.9, scale_factor=0.15):
     watermark_path = os.path.join(project_root, DEFAULT_LOGO_PATH)
 
     try:
-        watermark = Image.open(watermark_path).convert('RGBA')
+        watermark = Image.open(watermark_path).convert("RGBA")
     except (FileNotFoundError, IOError) as e:
-        print(
-            f"Warning: Could not load watermark image from {watermark_path}: {e}")
+        print(f"Warning: Could not load watermark image from {watermark_path}: {e}")
         return watermarked_img
 
     # Calculate watermark size based on image dimensions
@@ -98,7 +101,8 @@ def add_watermark(img, watermark_opacity=0.9, scale_factor=0.15):
 
     # Resize watermark
     watermark = watermark.resize(
-        (watermark_width, watermark_height), Image.Resampling.LANCZOS)
+        (watermark_width, watermark_height), Image.Resampling.LANCZOS
+    )
 
     # Position watermark in bottom LEFT corner with padding
     padding = 20
@@ -106,8 +110,8 @@ def add_watermark(img, watermark_opacity=0.9, scale_factor=0.15):
     y = img_height - watermark_height - padding
 
     # Convert main image to RGBA if needed
-    if watermarked_img.mode != 'RGBA':
-        watermarked_img = watermarked_img.convert('RGBA')
+    if watermarked_img.mode != "RGBA":
+        watermarked_img = watermarked_img.convert("RGBA")
 
     # Create a semi-transparent background for better visibility
     bg_padding = 10
@@ -115,7 +119,7 @@ def add_watermark(img, watermark_opacity=0.9, scale_factor=0.15):
     bg_height = watermark_height + (bg_padding * 2)
 
     # Create a subtle background (white with low opacity)
-    background = Image.new('RGBA', (bg_width, bg_height), (255, 255, 255, 2))
+    background = Image.new("RGBA", (bg_width, bg_height), (255, 255, 255, 2))
 
     # Position background
     bg_x = x - bg_padding
@@ -132,7 +136,7 @@ def add_watermark(img, watermark_opacity=0.9, scale_factor=0.15):
     if watermark_opacity < 1.0:
         # Create a new image with adjusted opacity but higher visibility
         watermark_data = []
-        for pixel in watermark.getdata():
+        for pixel in list(watermark.getdata()):
             if len(pixel) == 4:  # RGBA
                 r, g, b, a = pixel
                 if a > 0:  # Only modify non-transparent pixels
@@ -152,17 +156,14 @@ def add_watermark(img, watermark_opacity=0.9, scale_factor=0.15):
     watermarked_img.paste(watermark, (x, y), watermark)
 
     # Convert back to RGB
-    rgb_img = Image.new('RGB', watermarked_img.size, (255, 255, 255))
+    rgb_img = Image.new("RGB", watermarked_img.size, (255, 255, 255))
     rgb_img.paste(watermarked_img, mask=watermarked_img.split()[-1])
 
     return rgb_img
 
 
-def analyze_and_adjust_lighting(img):
+def analyze_and_adjust_lighting(img: Image.Image) -> Image.Image:
     """Analyze image lighting and apply intelligent adjustments"""
-    # Convert to numpy array for analysis
-    img_array = np.array(img)
-
     # Calculate image statistics
     stat = ImageStat.Stat(img)
 
@@ -214,29 +215,28 @@ def analyze_and_adjust_lighting(img):
 
     # Brightness adjustment
     if brightness_factor != 1.0:
-        enhancer = ImageEnhance.Brightness(enhanced_img)
-        enhanced_img = enhancer.enhance(brightness_factor)
+        brightness_enhancer = ImageEnhance.Brightness(enhanced_img)
+        enhanced_img = brightness_enhancer.enhance(brightness_factor)
 
     # Contrast adjustment
     if contrast_factor != 1.0:
-        enhancer = ImageEnhance.Contrast(enhanced_img)
-        enhanced_img = enhancer.enhance(contrast_factor)
+        contrast_enhancer = ImageEnhance.Contrast(enhanced_img)
+        enhanced_img = contrast_enhancer.enhance(contrast_factor)
 
     # Gamma correction (simulate with curve adjustment)
     if gamma_factor != 1.0:
         # Create gamma lookup table
-        gamma_table = [int(((i / 255.0) ** gamma_factor) * 255)
-                       for i in range(256)]
+        gamma_table = [int(((i / 255.0) ** gamma_factor) * 255) for i in range(256)]
         enhanced_img = enhanced_img.point(gamma_table * 3)  # Apply to R, G, B
 
     # Final subtle color enhancement
-    enhancer = ImageEnhance.Color(enhanced_img)
-    enhanced_img = enhancer.enhance(1.05)  # Slight color saturation boost
+    color_enhancer = ImageEnhance.Color(enhanced_img)
+    enhanced_img = color_enhancer.enhance(1.05)  # Slight color saturation boost
 
     return enhanced_img
 
 
-def calculate_target_size(total_pixels, original_ratio):
+def calculate_target_size(total_pixels: int, original_ratio: float) -> Tuple[int, int]:
     """Calculate target dimensions based on total pixels and aspect ratio"""
     target_width = int((total_pixels * original_ratio) ** 0.5)
     target_height = int(total_pixels / target_width)

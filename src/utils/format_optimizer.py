@@ -5,60 +5,66 @@ Integrates with the main processing pipeline to choose JPEG vs RAW presets autom
 
 import os
 from pathlib import Path
+from typing import Any, Dict, Union
 
 
 class FormatOptimizer:
     """Automatically optimizes processing based on file format"""
 
-    def __init__(self):
-        self.raw_extensions = {'.nef', '.cr2', '.arw',
-                               '.dng', '.raf', '.orf', '.rw2', '.pef', '.srw'}
-        self.jpeg_extensions = {'.jpg', '.jpeg', '.jpe', '.jfif'}
+    def __init__(self) -> None:
+        self.raw_extensions = {
+            ".nef",
+            ".cr2",
+            ".arw",
+            ".dng",
+            ".raf",
+            ".orf",
+            ".rw2",
+            ".pef",
+            ".srw",
+        }
+        self.jpeg_extensions = {".jpg", ".jpeg", ".jpe", ".jfif"}
 
         # Preset mapping for automatic selection
         self.preset_mapping = {
-            'sports_action': {
-                'raw': 'sports_action_raw',
-                'jpeg': 'sports_action'
+            "sports_action": {"raw": "sports_action_raw", "jpeg": "sports_action"},
+            "portrait_dramatic": {
+                "raw": "portrait_dramatic_raw",
+                "jpeg": "portrait_dramatic",
             },
-            'portrait_dramatic': {
-                'raw': 'portrait_dramatic_raw',
-                'jpeg': 'portrait_dramatic'
+            "portrait_natural": {
+                "raw": "portrait_natural_raw",
+                "jpeg": "portrait_natural",
             },
-            'portrait_natural': {
-                'raw': 'portrait_natural_raw',
-                'jpeg': 'portrait_natural'
+            "portrait_subtle": {
+                "raw": "portrait_subtle_raw",
+                "jpeg": "portrait_subtle",
             },
-            'portrait_subtle': {
-                'raw': 'portrait_subtle_raw',
-                'jpeg': 'portrait_subtle'
+            "natural_wildlife": {
+                "raw": "natural_wildlife_raw",
+                "jpeg": "natural_wildlife",
             },
-            'natural_wildlife': {
-                'raw': 'natural_wildlife_raw',
-                'jpeg': 'natural_wildlife'
-            },
-            'landscape': {
-                'raw': 'landscape_raw',
-                'jpeg': 'landscape'
-            }
+            "landscape": {"raw": "landscape_raw", "jpeg": "landscape"},
         }
 
-    def detect_file_format(self, filepath):
+    def detect_file_format(self, filepath: Union[str, Path]) -> str:
         """Detect if file is RAW or JPEG format"""
         file_ext = Path(filepath).suffix.lower()
 
         if file_ext in self.raw_extensions:
-            return 'raw'
+            return "raw"
         elif file_ext in self.jpeg_extensions:
-            return 'jpeg'
+            return "jpeg"
         else:
-            return 'unknown'
+            return "unknown"
 
-    def get_optimal_preset(self, filepath, requested_preset):
+    def get_optimal_preset(
+        self, filepath: Union[str, Path], requested_preset: str
+    ) -> str:
         """Get the optimal preset based on file format"""
         file_format = self.detect_file_format(filepath)
 
-        if file_format == 'unknown':
+        if file_format == "unknown":
             return requested_preset
 
         # Check if we have a format-specific version
@@ -69,20 +75,20 @@ class FormatOptimizer:
             # For presets without format-specific versions, return as-is
             return requested_preset
 
-    def should_use_raw_preset(self, filepath):
+    def should_use_raw_preset(self, filepath: Union[str, Path]) -> bool:
         """Check if file should use RAW-optimized processing"""
-        return self.detect_file_format(filepath) == 'raw'
+        return self.detect_file_format(filepath) == "raw"
 
-    def get_format_info(self, filepath):
+    def get_format_info(self, filepath: Union[str, Path]) -> Dict[str, Any]:
         """Get detailed format information for a file"""
         file_format = self.detect_file_format(filepath)
         extension = Path(filepath).suffix.lower()
         filename = os.path.basename(filepath)
 
         return {
-            'filename': filename,
-            'format': file_format,
-            'extension': extension,
-            'is_raw': file_format == 'raw',
-            'is_jpeg': file_format == 'jpeg'
+            "filename": filename,
+            "format": file_format,
+            "extension": extension,
+            "is_raw": file_format == "raw",
+            "is_jpeg": file_format == "jpeg",
         }

@@ -2,14 +2,15 @@
 Quick test script for the enhanced RAW processing
 """
 
-import sys
 import os
+import sys
 
 # Add src to path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 try:
     from utils.raw_processing_enhanced import load_image_smart_enhanced
+
     print("✅ Enhanced RAW processing module loaded successfully")
 
     # Test with the problematic file
@@ -17,7 +18,7 @@ try:
     if os.path.exists(test_file):
         print(f"📸 Testing with: {os.path.basename(test_file)}")
         img = load_image_smart_enhanced(test_file)
-        print(f"✅ SUCCESS! Enhanced RAW processing completed!")
+        print("✅ SUCCESS! Enhanced RAW processing completed!")
         print(f"   Image size: {img.size}")
         print(f"   Mode: {img.mode}")
     else:
@@ -26,4 +27,5 @@ try:
 except Exception as e:
     print(f"❌ Error: {e}")
     import traceback
+
     traceback.print_exc()

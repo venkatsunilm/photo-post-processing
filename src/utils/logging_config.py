@@ -1,16 +1,15 @@
 """
 Improved logging configuration for the photo processing application.
 """
+
 import logging
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 
 def setup_logging(
-    level: str = "INFO",
-    log_file: Optional[Path] = None,
-    format_type: str = "detailed"
+    level: str = "INFO", log_file: Optional[Path] = None, format_type: str = "detailed"
 ) -> None:
     """
     Configure logging for the application.
@@ -21,21 +20,21 @@ def setup_logging(
         format_type: Format type ('detailed' or 'simple')
     """
     formatters = {
-        'detailed': logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s'
+        "detailed": logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s"
         ),
-        'simple': logging.Formatter('%(levelname)s - %(message)s')
+        "simple": logging.Formatter("%(levelname)s - %(message)s"),
     }
 
     # Create handlers
-    handlers = [logging.StreamHandler(sys.stdout)]
+    handlers: List[logging.Handler] = [logging.StreamHandler(sys.stdout)]
 
     if log_file:
         log_file.parent.mkdir(parents=True, exist_ok=True)
         handlers.append(logging.FileHandler(log_file))
 
     # Configure logging
-    formatter = formatters.get(format_type, formatters['detailed'])
+    formatter = formatters.get(format_type, formatters["detailed"])
     logging.basicConfig(
         level=getattr(logging, level.upper()),
         handlers=[],  # We'll add handlers manually

@@ -3,10 +3,12 @@ Comprehensive preset comparison and analysis tool for photo enhancement modes.
 Provides detailed comparison of all available presets and their parameters.
 """
 
-from utils.photoshop_tools import PHOTOSHOP_PRESETS
-import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+import sys
+
+from utils.photoshop_tools import PHOTOSHOP_PRESETS
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 
 def compare_all_presets():
@@ -16,14 +18,24 @@ def compare_all_presets():
     print("=" * 100)
 
     # All parameters
-    params = ['exposure', 'highlights', 'shadows', 'vibrance', 'saturation',
-              'clarity', 'structure', 'temperature', 'skin_smoothing']
+    params = [
+        "exposure",
+        "highlights",
+        "shadows",
+        "vibrance",
+        "saturation",
+        "clarity",
+        "structure",
+        "temperature",
+        "skin_smoothing",
+    ]
 
     # Print header
     print(f"{'Parameter':<15}", end="")
     for preset_name in PHOTOSHOP_PRESETS.keys():
-        display_name = preset_name.replace('_', ' ').title()[
-            :12]  # Truncate for alignment
+        display_name = preset_name.replace("_", " ").title()[
+            :12
+        ]  # Truncate for alignment
         print(f"{display_name:<14}", end="")
     print()
     print("-" * 120)
@@ -42,21 +54,33 @@ def compare_all_presets():
 def compare_sports_presets():
     """Detailed comparison for sports photography"""
 
-    sports_relevant = ['portrait_subtle', 'portrait_natural',
-                       'sports_action', 'natural_wildlife', 'landscape']
+    sports_relevant = [
+        "portrait_subtle",
+        "portrait_natural",
+        "sports_action",
+        "natural_wildlife",
+        "landscape",
+    ]
 
     print("🏃‍♂️ SPORTS PHOTOGRAPHY PRESET COMPARISON")
     print("=" * 80)
 
-    presets = {k: v for k, v in PHOTOSHOP_PRESETS.items()
-               if k in sports_relevant}
+    presets = {k: v for k, v in PHOTOSHOP_PRESETS.items() if k in sports_relevant}
 
-    params = ['exposure', 'highlights', 'shadows', 'vibrance', 'saturation',
-              'clarity', 'structure', 'temperature']
+    params = [
+        "exposure",
+        "highlights",
+        "shadows",
+        "vibrance",
+        "saturation",
+        "clarity",
+        "structure",
+        "temperature",
+    ]
 
     print(f"{'Parameter':<15}", end="")
     for preset_name in presets.keys():
-        display_name = preset_name.replace('_', ' ').title()
+        display_name = preset_name.replace("_", " ").title()
         print(f"{display_name:<16}", end="")
     print()
     print("-" * 95)
@@ -87,41 +111,41 @@ def analyze_preset_purpose():
     """Analyze each preset's intended purpose and use cases"""
 
     preset_analysis = {
-        'portrait_subtle': {
-            'purpose': 'Minimal enhancement preserving natural look',
-            'best_for': 'Professional headshots, family portraits, natural beauty',
-            'avoid_for': 'Action shots, dramatic scenes, sports'
+        "portrait_subtle": {
+            "purpose": "Minimal enhancement preserving natural look",
+            "best_for": "Professional headshots, family portraits, natural beauty",
+            "avoid_for": "Action shots, dramatic scenes, sports",
         },
-        'portrait_natural': {
-            'purpose': 'Balanced portrait enhancement',
-            'best_for': 'General portraits, team photos, social media',
-            'avoid_for': 'Heavy action, challenging lighting'
+        "portrait_natural": {
+            "purpose": "Balanced portrait enhancement",
+            "best_for": "General portraits, team photos, social media",
+            "avoid_for": "Heavy action, challenging lighting",
         },
-        'portrait_dramatic': {
-            'purpose': 'Enhanced contrast with natural skin tones',
-            'best_for': 'Fashion, dramatic portraits, artistic shots',
-            'avoid_for': 'Natural documentary style, subtle work'
+        "portrait_dramatic": {
+            "purpose": "Enhanced contrast with natural skin tones",
+            "best_for": "Fashion, dramatic portraits, artistic shots",
+            "avoid_for": "Natural documentary style, subtle work",
         },
-        'studio_portrait': {
-            'purpose': 'Clean, professional studio look',
-            'best_for': 'Corporate headshots, model portfolios, studio work',
-            'avoid_for': 'Outdoor photography, natural lighting'
+        "studio_portrait": {
+            "purpose": "Clean, professional studio look",
+            "best_for": "Corporate headshots, model portfolios, studio work",
+            "avoid_for": "Outdoor photography, natural lighting",
         },
-        'sports_action': {
-            'purpose': 'Dynamic sports photography optimization',
-            'best_for': 'Sports action, team celebrations, outdoor athletics',
-            'avoid_for': 'Subtle portraits, indoor formal shots'
+        "sports_action": {
+            "purpose": "Dynamic sports photography optimization",
+            "best_for": "Sports action, team celebrations, outdoor athletics",
+            "avoid_for": "Subtle portraits, indoor formal shots",
         },
-        'natural_wildlife': {
-            'purpose': 'Nature and wildlife enhancement',
-            'best_for': 'Animals, nature, outdoor photography',
-            'avoid_for': 'Portraits with skin smoothing needs'
+        "natural_wildlife": {
+            "purpose": "Nature and wildlife enhancement",
+            "best_for": "Animals, nature, outdoor photography",
+            "avoid_for": "Portraits with skin smoothing needs",
         },
-        'overexposed_recovery': {
-            'purpose': 'Fix bright/washed out photos',
-            'best_for': 'Overexposed shots, bright outdoor scenes',
-            'avoid_for': 'Properly exposed photos, dark scenes'
-        }
+        "overexposed_recovery": {
+            "purpose": "Fix bright/washed out photos",
+            "best_for": "Overexposed shots, bright outdoor scenes",
+            "avoid_for": "Properly exposed photos, dark scenes",
+        },
     }
 
     print("📋 PRESET PURPOSE AND USE CASE ANALYSIS")
@@ -129,7 +153,7 @@ def analyze_preset_purpose():
 
     for preset_name, analysis in preset_analysis.items():
         if preset_name in PHOTOSHOP_PRESETS:
-            display_name = preset_name.replace('_', ' ').title()
+            display_name = preset_name.replace("_", " ").title()
             print(f"\n🎯 {display_name.upper()}")
             print(f"Purpose: {analysis['purpose']}")
             print(f"✅ Best for: {analysis['best_for']}")
@@ -148,13 +172,13 @@ def main():
 
     choice = input("Choose analysis (1-4): ").strip()
 
-    if choice == '1':
+    if choice == "1":
         compare_all_presets()
-    elif choice == '2':
+    elif choice == "2":
         compare_sports_presets()
-    elif choice == '3':
+    elif choice == "3":
         analyze_preset_purpose()
-    elif choice == '4':
+    elif choice == "4":
         compare_all_presets()
         print("\n")
         compare_sports_presets()

@@ -34,7 +34,7 @@ Added Option 12: "Resize Only" to the photo processing pipeline
 
 ## COMPARISON WITH OTHER MODES:
 - Option 9 (Resize & Watermark): Resizes + adds watermark
-- Option 10 (Watermark Only): Keeps original size + adds watermark  
+- Option 10 (Watermark Only): Keeps original size + adds watermark
 - Option 12 (Resize Only): Resizes only, nothing else added
 
 This mode is perfect when you just need clean, resized JPEGs without any modifications!

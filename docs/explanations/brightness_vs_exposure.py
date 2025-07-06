@@ -3,12 +3,14 @@ Demonstration: Exposure vs Brightness Adjustments in Photoshop Tools
 
 This script explains why we use exposure adjustments and when linear brightness might be useful.
 """
-import sys
+
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 
-def explain_brightness_vs_exposure():
+def explain_brightness_vs_exposure() -> None:
     """Explain the difference between brightness and exposure adjustments"""
     print("📸 BRIGHTNESS vs EXPOSURE in Photo Processing")
     print("=" * 60)
@@ -58,11 +60,13 @@ def explain_brightness_vs_exposure():
 
     print("\n💡 RECOMMENDATION:")
     print("   • Keep using EXPOSURE for all current presets (professional)")
-    print("   • Add BRIGHTNESS option to custom adjustments menu for user-friendly control")
+    print(
+        "   • Add BRIGHTNESS option to custom adjustments menu for user-friendly control"
+    )
     print("   • This gives users both professional and simple options")
 
 
-def demonstrate_values():
+def demonstrate_values() -> None:
     """Show numerical examples of the difference"""
     print("\n📊 NUMERICAL COMPARISON:")
     print("=" * 40)

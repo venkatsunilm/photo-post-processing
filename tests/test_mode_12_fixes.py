@@ -1,9 +1,11 @@
 """
 Test Mode 12 (Resize Only) to verify fixes
 """
-import sys
+
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 
 def test_resize_only_fixes():
@@ -47,7 +49,9 @@ def test_resize_only_fixes():
     print("   └─ Watermark: ❌ NO")
 
     print("\n🧪 TESTING COMPLETE!")
-    print("Mode 12 should now work correctly with no watermarks and proper folder naming.")
+    print(
+        "Mode 12 should now work correctly with no watermarks and proper folder naming."
+    )
 
 
 if __name__ == "__main__":

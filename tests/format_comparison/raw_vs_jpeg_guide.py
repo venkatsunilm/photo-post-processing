@@ -20,32 +20,32 @@ def analyze_raw_vs_jpeg_advantages():
             "RAW/NEF": "12-14 bits per channel (4,096-16,384 levels)",
             "JPEG": "8 bits per channel (256 levels)",
             "Advantage": "RAW has 16-64x more tonal information",
-            "Impact": "Better highlight/shadow recovery, smoother gradients"
+            "Impact": "Better highlight/shadow recovery, smoother gradients",
         },
         "Color Space": {
             "RAW/NEF": "Full sensor gamut (wider than Adobe RGB)",
             "JPEG": "Usually sRGB (limited color range)",
             "Advantage": "RAW captures more colors",
-            "Impact": "More vibrant, accurate colors after processing"
+            "Impact": "More vibrant, accurate colors after processing",
         },
         "Processing Headroom": {
             "RAW/NEF": "Unprocessed sensor data",
             "JPEG": "Already processed by camera",
             "Advantage": "RAW can handle aggressive adjustments",
-            "Impact": "No artifacts from extreme adjustments"
+            "Impact": "No artifacts from extreme adjustments",
         },
         "White Balance": {
             "RAW/NEF": "Completely adjustable after capture",
             "JPEG": "Baked in, limited adjustment",
             "Advantage": "RAW allows perfect color temperature",
-            "Impact": "Fix color casts, creative temperature effects"
+            "Impact": "Fix color casts, creative temperature effects",
         },
         "Compression": {
             "RAW/NEF": "Lossless compression",
             "JPEG": "Lossy compression",
             "Advantage": "RAW preserves all original detail",
-            "Impact": "Better sharpening, detail enhancement"
-        }
+            "Impact": "Better sharpening, detail enhancement",
+        },
     }
 
     for aspect, details in advantages.items():
@@ -70,10 +70,10 @@ def processing_recommendations_by_genre():
                 "Fast action needs exposure recovery",
                 "Team colors benefit from vibrance adjustments",
                 "Outdoor lighting varies dramatically",
-                "Detail enhancement for faces/equipment"
+                "Detail enhancement for faces/equipment",
             ],
             "preset": "sports_action_raw",
-            "key_benefits": "Better action freeze, color pop, detail"
+            "key_benefits": "Better action freeze, color pop, detail",
         },
         "Portrait Photography": {
             "best_format": "RAW/NEF",
@@ -81,10 +81,10 @@ def processing_recommendations_by_genre():
                 "Skin tone perfection requires color headroom",
                 "Shadow/highlight balance for flattering light",
                 "Fine detail in eyes, hair, skin texture",
-                "Creative color grading possibilities"
+                "Creative color grading possibilities",
             ],
             "preset": "portrait_dramatic_raw or portrait_natural_raw",
-            "key_benefits": "Perfect skin tones, dramatic lighting, fine detail"
+            "key_benefits": "Perfect skin tones, dramatic lighting, fine detail",
         },
         "Wildlife Photography": {
             "best_format": "RAW/NEF",
@@ -92,10 +92,10 @@ def processing_recommendations_by_genre():
                 "Fur/feather texture needs structure enhancement",
                 "Challenging lighting conditions",
                 "Natural color accuracy critical",
-                "Often need exposure compensation"
+                "Often need exposure compensation",
             ],
             "preset": "natural_wildlife_raw",
-            "key_benefits": "Texture detail, natural colors, exposure flexibility"
+            "key_benefits": "Texture detail, natural colors, exposure flexibility",
         },
         "Landscape Photography": {
             "best_format": "RAW/NEF",
@@ -103,10 +103,10 @@ def processing_recommendations_by_genre():
                 "Sky/foreground exposure differences",
                 "Color grading for mood",
                 "Fine detail in textures",
-                "HDR-like processing possible"
+                "HDR-like processing possible",
             ],
             "preset": "landscape_raw",
-            "key_benefits": "Sky recovery, vibrant colors, fine detail"
+            "key_benefits": "Sky recovery, vibrant colors, fine detail",
         },
         "Street Photography": {
             "best_format": "RAW/NEF",
@@ -114,11 +114,11 @@ def processing_recommendations_by_genre():
                 "Mixed lighting conditions",
                 "Quick exposure compensation needed",
                 "Color grading for mood",
-                "Shadow detail in urban environments"
+                "Shadow detail in urban environments",
             ],
             "preset": "portrait_natural_raw or sports_action_raw",
-            "key_benefits": "Lighting flexibility, mood enhancement"
-        }
+            "key_benefits": "Lighting flexibility, mood enhancement",
+        },
     }
 
     for genre, details in genres.items():
@@ -126,8 +126,8 @@ def processing_recommendations_by_genre():
         print(f"   🏆 Best Format: {details['best_format']}")
         print(f"   🎨 Recommended Preset: {details['preset']}")
         print(f"   ✨ Key Benefits: {details['key_benefits']}")
-        print(f"   📋 Why RAW is Better:")
-        for reason in details['reasons']:
+        print("   📋 Why RAW is Better:")
+        for reason in details["reasons"]:
             print(f"      • {reason}")
         print()
 

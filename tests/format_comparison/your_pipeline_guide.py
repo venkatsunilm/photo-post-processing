@@ -3,11 +3,13 @@ Your Pipeline: RAW vs JPEG Processing Demonstration
 Shows how your automatic optimization system maximizes RAW file advantages
 """
 
+import os
+import sys
+
 from utils.format_optimizer import FormatOptimizer
 from utils.photoshop_tools import PHOTOSHOP_PRESETS
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 
 def demonstrate_your_pipeline_advantages():
@@ -25,25 +27,28 @@ def demonstrate_your_pipeline_advantages():
         ("Portrait", "Portrait.CR2", "portrait_dramatic"),
         ("Portrait", "Portrait.jpeg", "portrait_dramatic"),
         ("Wildlife", "Eagle.ARW", "natural_wildlife"),
-        ("Wildlife", "Eagle.jpg", "natural_wildlife")
+        ("Wildlife", "Eagle.jpg", "natural_wildlife"),
     ]
 
     print("🔄 AUTOMATIC PRESET OPTIMIZATION:")
     print()
-    print(f"{'Scenario':<20} {'File':<15} {'You Choose':<18} {'Pipeline Uses':<20} {'Advantage'}")
+    print(
+        f"{'Scenario':<20} {'File':<15} {'You Choose':<18} {'Pipeline Uses':<20} {'Advantage'}"
+    )
     print("-" * 90)
 
     for scenario, filename, requested, _ in test_scenarios:
         optimal = optimizer.get_optimal_preset(filename, requested)
         format_type = optimizer.detect_file_format(filename)
 
-        if format_type == 'raw':
+        if format_type == "raw":
             advantage = "🚀 RAW Power!"
         else:
             advantage = "📱 JPEG Quick"
 
         print(
-            f"{scenario:<20} {filename:<15} {requested:<18} {optimal:<20} {advantage}")
+            f"{scenario:<20} {filename:<15} {requested:<18} {optimal:<20} {advantage}"
+        )
 
     print("\n" + "=" * 60)
 
@@ -55,16 +60,23 @@ def show_preset_differences():
     print("=" * 40)
 
     # Compare sports action presets
-    jpeg_preset = PHOTOSHOP_PRESETS['sports_action']
-    raw_preset = PHOTOSHOP_PRESETS['sports_action_raw']
+    jpeg_preset = PHOTOSHOP_PRESETS["sports_action"]
+    raw_preset = PHOTOSHOP_PRESETS["sports_action_raw"]
 
     print("🏃‍♂️ SPORTS ACTION COMPARISON:")
     print()
     print(f"{'Parameter':<15} {'JPEG Preset':<12} {'RAW Preset':<12} {'RAW Advantage'}")
     print("-" * 55)
 
-    params = ['exposure', 'highlights', 'shadows',
-              'vibrance', 'saturation', 'clarity', 'structure']
+    params = [
+        "exposure",
+        "highlights",
+        "shadows",
+        "vibrance",
+        "saturation",
+        "clarity",
+        "structure",
+    ]
 
     for param in params:
         jpeg_val = jpeg_preset.get(param, 0)
@@ -101,22 +113,22 @@ def practical_benefits_for_your_work():
             "Player faces sharp even in shadows (+67% shadow lift)",
             "Equipment details crystal clear (+47% structure)",
             "Action freeze with proper exposure recovery",
-            "Crowd atmosphere enhanced with better colors"
+            "Crowd atmosphere enhanced with better colors",
         ],
         "Portrait Photography": [
             "Perfect skin tones with color headroom",
             "Eye detail enhancement without artifacts",
             "Hair texture and fine details preserved",
             "Creative color grading possibilities",
-            "Natural lighting balance in any condition"
+            "Natural lighting balance in any condition",
         ],
         "Wildlife Photography": [
             "Fur and feather texture enhancement (+80% structure)",
             "Natural color accuracy in any lighting",
             "Shadow detail in forest/shade conditions",
             "No processing artifacts on fine details",
-            "Better print quality for wall art"
-        ]
+            "Better print quality for wall art",
+        ],
     }
 
     for genre, benefit_list in benefits.items():
