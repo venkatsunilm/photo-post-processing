@@ -4,20 +4,28 @@ Handles ZIP extraction, directory operations, and file management.
 """
 
 import os
-import zipfile
-import tempfile
 import shutil
 import subprocess
 import sys
+import tempfile
+import zipfile
+from typing import List, Optional, Tuple
+
+from utils.config import IMAGE_EXTENSIONS_CASE
 
 
-def prompt_to_open_folder(folder_path):
+def prompt_to_open_folder(folder_path: str) -> None:
     """Prompt user to open the extracted folder"""
     try:
-        response = input(
-            f"\n📂 Would you like to open the extracted folder?\n   {folder_path}\n   (y/n): ").strip().lower()
+        response = (
+            input(
+                f"\n📂 Would you like to open the extracted folder?\n   {folder_path}\n   (y/n): "
+            )
+            .strip()
+            .lower()
+        )
 
-        if response in ['y', 'yes']:
+        if response in ["y", "yes"]:
             print("🚀 Opening folder...")
 
             # Platform-specific folder opening
@@ -37,9 +45,9 @@ def prompt_to_open_folder(folder_path):
         print(f"📁 You can manually open: {folder_path}")
 
 
-def extract_zip_if_needed(input_path):
+def extract_zip_if_needed(input_path: str) -> Tuple[Optional[str], bool]:
     """Extract ZIP file to temporary directory if input is a ZIP file"""
-    if input_path.lower().endswith('.zip') and zipfile.is_zipfile(input_path):
+    if input_path.lower().endswith(".zip") and zipfile.is_zipfile(input_path):
         print(f"📦 Detected ZIP file: {os.path.basename(input_path)}")
         print("🔧 Extracting images to temporary directory...")
 
@@ -47,14 +55,12 @@ def extract_zip_if_needed(input_path):
         temp_dir = tempfile.mkdtemp(prefix="photo_processing_")
 
         try:
-            with zipfile.ZipFile(input_path, 'r') as zip_ref:
-                # Extract only image files
-                image_extensions = ('.jpg', '.jpeg', '.png',
-                                    '.JPG', '.JPEG', '.PNG')
+            with zipfile.ZipFile(input_path, "r") as zip_ref:
+                # Extract image files including NEF
                 extracted_count = 0
 
                 for file_info in zip_ref.filelist:
-                    if file_info.filename.lower().endswith(image_extensions):
+                    if file_info.filename.endswith(IMAGE_EXTENSIONS_CASE):
                         zip_ref.extract(file_info, temp_dir)
                         extracted_count += 1
 
@@ -70,23 +76,22 @@ def extract_zip_if_needed(input_path):
         return input_path, False
 
 
-def cleanup_temp_directory(temp_dir):
+def cleanup_temp_directory(temp_dir: str) -> None:
     """Clean up temporary directory"""
     try:
         shutil.rmtree(temp_dir)
-        print(f"🧹 Cleaned up temporary directory")
+        print("🧹 Cleaned up temporary directory")
     except Exception as e:
         print(f"⚠️ Warning: Could not clean up temp directory: {e}")
 
 
-def get_image_files_from_directory(directory):
+def get_image_files_from_directory(directory: str) -> List[Tuple[str, str]]:
     """Get all image files from a directory, including subdirectories"""
     image_files = []
-    image_extensions = ('.jpg', '.jpeg', '.png')
 
     for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.lower().endswith(image_extensions):
+            if file.endswith(IMAGE_EXTENSIONS_CASE):
                 full_path = os.path.join(root, file)
                 # Get relative path for better organization
                 rel_path = os.path.relpath(full_path, directory)
@@ -95,7 +100,9 @@ def get_image_files_from_directory(directory):
     return image_files
 
 
-def create_output_structure(input_path, base_output_dir, is_temp):
+def create_output_structure(
+    input_path: str, base_output_dir: str, is_temp: bool
+) -> str:
     """Create organized output directory structure"""
     os.makedirs(base_output_dir, exist_ok=True)
 
@@ -114,15 +121,16 @@ def create_output_structure(input_path, base_output_dir, is_temp):
     return project_folder
 
 
-def create_zip_archive(output_folder, project_folder, label):
+def create_zip_archive(output_folder: str, project_folder: str, label: str) -> str:
     """Create ZIP archive of processed images"""
-    zip_name = f'processed_photos_{label}.zip'
+    zip_name = f"processed_photos_{label}.zip"
     zip_path = os.path.join(project_folder, zip_name)
 
-    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
         for file in os.listdir(output_folder):
             full_path = os.path.join(output_folder, file)
-            zipf.write(full_path, arcname=os.path.join(
-                f'processed_photos_{label}', file))
+            zipf.write(
+                full_path, arcname=os.path.join(f"processed_photos_{label}", file)
+            )
 
     return zip_path

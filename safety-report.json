@@ -1,0 +1,1407 @@
+
+
++===========================================================================================================================================================================================+
+
+
+DEPRECATED: this command (`check`) has been DEPRECATED, and will be unsupported beyond 01 June 2024.
+
+
+We highly encourage switching to the new `scan` command which is easier to use, more powerful, and can be set up to mimic the deprecated command if required.
+
+
++===========================================================================================================================================================================================+
+
+
+{
+    "report_meta": {
+        "scan_target": "environment",
+        "scanned": [
+            "/home/venkatsunilm/.pyenv/versions/3.13.0/lib/python3.13/lib-dynload",
+            "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/bin",
+            "/home/venkatsunilm/.pyenv/versions/3.13.0/lib/python313.zip",
+            "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing",
+            "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor",
+            "/home/venkatsunilm/.pyenv/versions/3.13.0/lib/python3.13",
+            "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+        ],
+        "scanned_full_path": [
+            "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/bin",
+            "/home/venkatsunilm/.pyenv/versions/3.13.0/lib/python313.zip",
+            "/home/venkatsunilm/.pyenv/versions/3.13.0/lib/python3.13",
+            "/home/venkatsunilm/.pyenv/versions/3.13.0/lib/python3.13/lib-dynload",
+            "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages",
+            "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing",
+            "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+        ],
+        "target_languages": [
+            "python"
+        ],
+        "policy_file": null,
+        "policy_file_source": "local",
+        "audit_and_monitor": false,
+        "api_key": false,
+        "account": "",
+        "local_database_path": null,
+        "safety_version": "3.5.2",
+        "timestamp": "2025-07-06 03:46:42",
+        "packages_found": 87,
+        "vulnerabilities_found": 0,
+        "vulnerabilities_ignored": 0,
+        "remediations_recommended": 0,
+        "telemetry": {
+            "safety_options": {
+                "output": {
+                    "--output": 1
+                }
+            },
+            "safety_version": "3.5.2",
+            "safety_source": "cli",
+            "os_type": "Linux",
+            "os_release": "5.15.133.1-microsoft-standard-WSL2",
+            "os_description": "Linux-5.15.133.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+            "python_version": "3.13.0",
+            "safety_command": "check"
+        },
+        "git": {
+            "branch": "feature/modernize-development-workflow",
+            "tag": "",
+            "commit": "d140e141ba6e7513f593a142fe08e5923bfe597f",
+            "dirty": "True",
+            "origin": "git@github.com:venkatsunilm/photo-post-processing.git"
+        },
+        "project": null,
+        "json_version": "1.1",
+        "remediations_attempted": 0,
+        "remediations_completed": 0,
+        "remediation_mode": "NON_INTERACTIVE"
+    },
+    "scanned_packages": {
+        "markupsafe": {
+            "name": "markupsafe",
+            "version": "3.0.2",
+            "requirements": [
+                {
+                    "raw": "markupsafe==3.0.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "markupsafe",
+                    "specifier": "==3.0.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pyyaml": {
+            "name": "pyyaml",
+            "version": "6.0.2",
+            "requirements": [
+                {
+                    "raw": "pyyaml==6.0.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pyyaml",
+                    "specifier": "==6.0.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "annotated-types": {
+            "name": "annotated-types",
+            "version": "0.7.0",
+            "requirements": [
+                {
+                    "raw": "annotated-types==0.7.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "annotated-types",
+                    "specifier": "==0.7.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "anyio": {
+            "name": "anyio",
+            "version": "4.9.0",
+            "requirements": [
+                {
+                    "raw": "anyio==4.9.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "anyio",
+                    "specifier": "==4.9.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "authlib": {
+            "name": "authlib",
+            "version": "1.6.0",
+            "requirements": [
+                {
+                    "raw": "authlib==1.6.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "authlib",
+                    "specifier": "==1.6.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "bandit": {
+            "name": "bandit",
+            "version": "1.8.5",
+            "requirements": [
+                {
+                    "raw": "bandit==1.8.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "bandit",
+                    "specifier": "==1.8.5",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "black": {
+            "name": "black",
+            "version": "25.1.0",
+            "requirements": [
+                {
+                    "raw": "black==25.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "black",
+                    "specifier": "==25.1.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "certifi": {
+            "name": "certifi",
+            "version": "2025.6.15",
+            "requirements": [
+                {
+                    "raw": "certifi==2025.6.15",
+                    "extras": [],
+                    "marker": null,
+                    "name": "certifi",
+                    "specifier": "==2025.6.15",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "cffi": {
+            "name": "cffi",
+            "version": "1.17.1",
+            "requirements": [
+                {
+                    "raw": "cffi==1.17.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "cffi",
+                    "specifier": "==1.17.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "cfgv": {
+            "name": "cfgv",
+            "version": "3.4.0",
+            "requirements": [
+                {
+                    "raw": "cfgv==3.4.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "cfgv",
+                    "specifier": "==3.4.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "charset-normalizer": {
+            "name": "charset-normalizer",
+            "version": "3.4.2",
+            "requirements": [
+                {
+                    "raw": "charset-normalizer==3.4.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "charset-normalizer",
+                    "specifier": "==3.4.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "click": {
+            "name": "click",
+            "version": "8.1.8",
+            "requirements": [
+                {
+                    "raw": "click==8.1.8",
+                    "extras": [],
+                    "marker": null,
+                    "name": "click",
+                    "specifier": "==8.1.8",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "colorama": {
+            "name": "colorama",
+            "version": "0.4.6",
+            "requirements": [
+                {
+                    "raw": "colorama==0.4.6",
+                    "extras": [],
+                    "marker": null,
+                    "name": "colorama",
+                    "specifier": "==0.4.6",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "coverage": {
+            "name": "coverage",
+            "version": "7.9.2",
+            "requirements": [
+                {
+                    "raw": "coverage==7.9.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "coverage",
+                    "specifier": "==7.9.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "cryptography": {
+            "name": "cryptography",
+            "version": "45.0.5",
+            "requirements": [
+                {
+                    "raw": "cryptography==45.0.5",
+                    "extras": [],
+                    "marker": null,
+                    "name": "cryptography",
+                    "specifier": "==45.0.5",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "distlib": {
+            "name": "distlib",
+            "version": "0.3.9",
+            "requirements": [
+                {
+                    "raw": "distlib==0.3.9",
+                    "extras": [],
+                    "marker": null,
+                    "name": "distlib",
+                    "specifier": "==0.3.9",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "dparse": {
+            "name": "dparse",
+            "version": "0.6.4",
+            "requirements": [
+                {
+                    "raw": "dparse==0.6.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "dparse",
+                    "specifier": "==0.6.4",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "filelock": {
+            "name": "filelock",
+            "version": "3.16.1",
+            "requirements": [
+                {
+                    "raw": "filelock==3.16.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "filelock",
+                    "specifier": "==3.16.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "flake8": {
+            "name": "flake8",
+            "version": "7.3.0",
+            "requirements": [
+                {
+                    "raw": "flake8==7.3.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "flake8",
+                    "specifier": "==7.3.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "h11": {
+            "name": "h11",
+            "version": "0.16.0",
+            "requirements": [
+                {
+                    "raw": "h11==0.16.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "h11",
+                    "specifier": "==0.16.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "httpcore": {
+            "name": "httpcore",
+            "version": "1.0.9",
+            "requirements": [
+                {
+                    "raw": "httpcore==1.0.9",
+                    "extras": [],
+                    "marker": null,
+                    "name": "httpcore",
+                    "specifier": "==1.0.9",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "httpx": {
+            "name": "httpx",
+            "version": "0.28.1",
+            "requirements": [
+                {
+                    "raw": "httpx==0.28.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "httpx",
+                    "specifier": "==0.28.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "identify": {
+            "name": "identify",
+            "version": "2.6.12",
+            "requirements": [
+                {
+                    "raw": "identify==2.6.12",
+                    "extras": [],
+                    "marker": null,
+                    "name": "identify",
+                    "specifier": "==2.6.12",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "idna": {
+            "name": "idna",
+            "version": "3.10",
+            "requirements": [
+                {
+                    "raw": "idna==3.10",
+                    "extras": [],
+                    "marker": null,
+                    "name": "idna",
+                    "specifier": "==3.10",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "iniconfig": {
+            "name": "iniconfig",
+            "version": "2.1.0",
+            "requirements": [
+                {
+                    "raw": "iniconfig==2.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "iniconfig",
+                    "specifier": "==2.1.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "isort": {
+            "name": "isort",
+            "version": "6.0.1",
+            "requirements": [
+                {
+                    "raw": "isort==6.0.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "isort",
+                    "specifier": "==6.0.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "jinja2": {
+            "name": "jinja2",
+            "version": "3.1.6",
+            "requirements": [
+                {
+                    "raw": "jinja2==3.1.6",
+                    "extras": [],
+                    "marker": null,
+                    "name": "jinja2",
+                    "specifier": "==3.1.6",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "joblib": {
+            "name": "joblib",
+            "version": "1.5.1",
+            "requirements": [
+                {
+                    "raw": "joblib==1.5.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "joblib",
+                    "specifier": "==1.5.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "markdown-it-py": {
+            "name": "markdown-it-py",
+            "version": "3.0.0",
+            "requirements": [
+                {
+                    "raw": "markdown-it-py==3.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "markdown-it-py",
+                    "specifier": "==3.0.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "marshmallow": {
+            "name": "marshmallow",
+            "version": "4.0.0",
+            "requirements": [
+                {
+                    "raw": "marshmallow==4.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "marshmallow",
+                    "specifier": "==4.0.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "mccabe": {
+            "name": "mccabe",
+            "version": "0.7.0",
+            "requirements": [
+                {
+                    "raw": "mccabe==0.7.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "mccabe",
+                    "specifier": "==0.7.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "mdurl": {
+            "name": "mdurl",
+            "version": "0.1.2",
+            "requirements": [
+                {
+                    "raw": "mdurl==0.1.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "mdurl",
+                    "specifier": "==0.1.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "mypy": {
+            "name": "mypy",
+            "version": "1.16.1",
+            "requirements": [
+                {
+                    "raw": "mypy==1.16.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "mypy",
+                    "specifier": "==1.16.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "mypy-extensions": {
+            "name": "mypy-extensions",
+            "version": "1.1.0",
+            "requirements": [
+                {
+                    "raw": "mypy-extensions==1.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "mypy-extensions",
+                    "specifier": "==1.1.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "nltk": {
+            "name": "nltk",
+            "version": "3.9.1",
+            "requirements": [
+                {
+                    "raw": "nltk==3.9.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nltk",
+                    "specifier": "==3.9.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "nodeenv": {
+            "name": "nodeenv",
+            "version": "1.9.1",
+            "requirements": [
+                {
+                    "raw": "nodeenv==1.9.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "nodeenv",
+                    "specifier": "==1.9.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "numpy": {
+            "name": "numpy",
+            "version": "2.3.1",
+            "requirements": [
+                {
+                    "raw": "numpy==2.3.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "numpy",
+                    "specifier": "==2.3.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "opencv-python": {
+            "name": "opencv-python",
+            "version": "4.11.0.86",
+            "requirements": [
+                {
+                    "raw": "opencv-python==4.11.0.86",
+                    "extras": [],
+                    "marker": null,
+                    "name": "opencv-python",
+                    "specifier": "==4.11.0.86",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "packaging": {
+            "name": "packaging",
+            "version": "25.0",
+            "requirements": [
+                {
+                    "raw": "packaging==25.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "packaging",
+                    "specifier": "==25.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pathspec": {
+            "name": "pathspec",
+            "version": "0.12.1",
+            "requirements": [
+                {
+                    "raw": "pathspec==0.12.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pathspec",
+                    "specifier": "==0.12.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pbr": {
+            "name": "pbr",
+            "version": "6.1.1",
+            "requirements": [
+                {
+                    "raw": "pbr==6.1.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pbr",
+                    "specifier": "==6.1.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "photo-post-processing": {
+            "name": "photo-post-processing",
+            "version": "0.1.0",
+            "requirements": [
+                {
+                    "raw": "photo-post-processing==0.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "photo-post-processing",
+                    "specifier": "==0.1.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pillow": {
+            "name": "pillow",
+            "version": "11.3.0",
+            "requirements": [
+                {
+                    "raw": "pillow==11.3.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pillow",
+                    "specifier": "==11.3.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "platformdirs": {
+            "name": "platformdirs",
+            "version": "4.3.8",
+            "requirements": [
+                {
+                    "raw": "platformdirs==4.3.8",
+                    "extras": [],
+                    "marker": null,
+                    "name": "platformdirs",
+                    "specifier": "==4.3.8",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pluggy": {
+            "name": "pluggy",
+            "version": "1.6.0",
+            "requirements": [
+                {
+                    "raw": "pluggy==1.6.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pluggy",
+                    "specifier": "==1.6.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pre-commit": {
+            "name": "pre-commit",
+            "version": "4.2.0",
+            "requirements": [
+                {
+                    "raw": "pre-commit==4.2.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pre-commit",
+                    "specifier": "==4.2.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "psutil": {
+            "name": "psutil",
+            "version": "6.1.1",
+            "requirements": [
+                {
+                    "raw": "psutil==6.1.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "psutil",
+                    "specifier": "==6.1.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pycodestyle": {
+            "name": "pycodestyle",
+            "version": "2.14.0",
+            "requirements": [
+                {
+                    "raw": "pycodestyle==2.14.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pycodestyle",
+                    "specifier": "==2.14.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pycparser": {
+            "name": "pycparser",
+            "version": "2.22",
+            "requirements": [
+                {
+                    "raw": "pycparser==2.22",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pycparser",
+                    "specifier": "==2.22",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pydantic": {
+            "name": "pydantic",
+            "version": "2.9.2",
+            "requirements": [
+                {
+                    "raw": "pydantic==2.9.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pydantic",
+                    "specifier": "==2.9.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pydantic-core": {
+            "name": "pydantic-core",
+            "version": "2.23.4",
+            "requirements": [
+                {
+                    "raw": "pydantic-core==2.23.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pydantic-core",
+                    "specifier": "==2.23.4",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pyflakes": {
+            "name": "pyflakes",
+            "version": "3.4.0",
+            "requirements": [
+                {
+                    "raw": "pyflakes==3.4.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pyflakes",
+                    "specifier": "==3.4.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pygments": {
+            "name": "pygments",
+            "version": "2.19.2",
+            "requirements": [
+                {
+                    "raw": "pygments==2.19.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pygments",
+                    "specifier": "==2.19.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pytest": {
+            "name": "pytest",
+            "version": "8.4.1",
+            "requirements": [
+                {
+                    "raw": "pytest==8.4.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pytest",
+                    "specifier": "==8.4.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "pytest-cov": {
+            "name": "pytest-cov",
+            "version": "6.2.1",
+            "requirements": [
+                {
+                    "raw": "pytest-cov==6.2.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "pytest-cov",
+                    "specifier": "==6.2.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "rawpy": {
+            "name": "rawpy",
+            "version": "0.25.0",
+            "requirements": [
+                {
+                    "raw": "rawpy==0.25.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "rawpy",
+                    "specifier": "==0.25.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "regex": {
+            "name": "regex",
+            "version": "2024.11.6",
+            "requirements": [
+                {
+                    "raw": "regex==2024.11.6",
+                    "extras": [],
+                    "marker": null,
+                    "name": "regex",
+                    "specifier": "==2024.11.6",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "requests": {
+            "name": "requests",
+            "version": "2.32.4",
+            "requirements": [
+                {
+                    "raw": "requests==2.32.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "requests",
+                    "specifier": "==2.32.4",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "rich": {
+            "name": "rich",
+            "version": "14.0.0",
+            "requirements": [
+                {
+                    "raw": "rich==14.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "rich",
+                    "specifier": "==14.0.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "ruamel.yaml": {
+            "name": "ruamel.yaml",
+            "version": "0.18.14",
+            "requirements": [
+                {
+                    "raw": "ruamel.yaml==0.18.14",
+                    "extras": [],
+                    "marker": null,
+                    "name": "ruamel.yaml",
+                    "specifier": "==0.18.14",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "ruamel.yaml.clib": {
+            "name": "ruamel.yaml.clib",
+            "version": "0.2.12",
+            "requirements": [
+                {
+                    "raw": "ruamel.yaml.clib==0.2.12",
+                    "extras": [],
+                    "marker": null,
+                    "name": "ruamel.yaml.clib",
+                    "specifier": "==0.2.12",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "safety": {
+            "name": "safety",
+            "version": "3.5.2",
+            "requirements": [
+                {
+                    "raw": "safety==3.5.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "safety",
+                    "specifier": "==3.5.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "safety-schemas": {
+            "name": "safety-schemas",
+            "version": "0.0.14",
+            "requirements": [
+                {
+                    "raw": "safety-schemas==0.0.14",
+                    "extras": [],
+                    "marker": null,
+                    "name": "safety-schemas",
+                    "specifier": "==0.0.14",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "setuptools": {
+            "name": "setuptools",
+            "version": "80.9.0",
+            "requirements": [
+                {
+                    "raw": "setuptools==80.9.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "setuptools",
+                    "specifier": "==80.9.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "shellingham": {
+            "name": "shellingham",
+            "version": "1.5.4",
+            "requirements": [
+                {
+                    "raw": "shellingham==1.5.4",
+                    "extras": [],
+                    "marker": null,
+                    "name": "shellingham",
+                    "specifier": "==1.5.4",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "sniffio": {
+            "name": "sniffio",
+            "version": "1.3.1",
+            "requirements": [
+                {
+                    "raw": "sniffio==1.3.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "sniffio",
+                    "specifier": "==1.3.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "stevedore": {
+            "name": "stevedore",
+            "version": "5.4.1",
+            "requirements": [
+                {
+                    "raw": "stevedore==5.4.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "stevedore",
+                    "specifier": "==5.4.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "tenacity": {
+            "name": "tenacity",
+            "version": "9.1.2",
+            "requirements": [
+                {
+                    "raw": "tenacity==9.1.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "tenacity",
+                    "specifier": "==9.1.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "tomlkit": {
+            "name": "tomlkit",
+            "version": "0.13.3",
+            "requirements": [
+                {
+                    "raw": "tomlkit==0.13.3",
+                    "extras": [],
+                    "marker": null,
+                    "name": "tomlkit",
+                    "specifier": "==0.13.3",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "tqdm": {
+            "name": "tqdm",
+            "version": "4.67.1",
+            "requirements": [
+                {
+                    "raw": "tqdm==4.67.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "tqdm",
+                    "specifier": "==4.67.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "typer": {
+            "name": "typer",
+            "version": "0.16.0",
+            "requirements": [
+                {
+                    "raw": "typer==0.16.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "typer",
+                    "specifier": "==0.16.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "typing-extensions": {
+            "name": "typing-extensions",
+            "version": "4.14.1",
+            "requirements": [
+                {
+                    "raw": "typing-extensions==4.14.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "typing-extensions",
+                    "specifier": "==4.14.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "urllib3": {
+            "name": "urllib3",
+            "version": "2.5.0",
+            "requirements": [
+                {
+                    "raw": "urllib3==2.5.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "urllib3",
+                    "specifier": "==2.5.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "virtualenv": {
+            "name": "virtualenv",
+            "version": "20.31.2",
+            "requirements": [
+                {
+                    "raw": "virtualenv==20.31.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "virtualenv",
+                    "specifier": "==20.31.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages"
+                }
+            ]
+        },
+        "autocommand": {
+            "name": "autocommand",
+            "version": "2.2.2",
+            "requirements": [
+                {
+                    "raw": "autocommand==2.2.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "autocommand",
+                    "specifier": "==2.2.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "backports.tarfile": {
+            "name": "backports.tarfile",
+            "version": "1.2.0",
+            "requirements": [
+                {
+                    "raw": "backports.tarfile==1.2.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "backports.tarfile",
+                    "specifier": "==1.2.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "importlib-metadata": {
+            "name": "importlib-metadata",
+            "version": "8.0.0",
+            "requirements": [
+                {
+                    "raw": "importlib-metadata==8.0.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "importlib-metadata",
+                    "specifier": "==8.0.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "inflect": {
+            "name": "inflect",
+            "version": "7.3.1",
+            "requirements": [
+                {
+                    "raw": "inflect==7.3.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "inflect",
+                    "specifier": "==7.3.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "jaraco.collections": {
+            "name": "jaraco.collections",
+            "version": "5.1.0",
+            "requirements": [
+                {
+                    "raw": "jaraco.collections==5.1.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "jaraco.collections",
+                    "specifier": "==5.1.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "jaraco.context": {
+            "name": "jaraco.context",
+            "version": "5.3.0",
+            "requirements": [
+                {
+                    "raw": "jaraco.context==5.3.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "jaraco.context",
+                    "specifier": "==5.3.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "jaraco.functools": {
+            "name": "jaraco.functools",
+            "version": "4.0.1",
+            "requirements": [
+                {
+                    "raw": "jaraco.functools==4.0.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "jaraco.functools",
+                    "specifier": "==4.0.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "jaraco.text": {
+            "name": "jaraco.text",
+            "version": "3.12.1",
+            "requirements": [
+                {
+                    "raw": "jaraco.text==3.12.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "jaraco.text",
+                    "specifier": "==3.12.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "more-itertools": {
+            "name": "more-itertools",
+            "version": "10.3.0",
+            "requirements": [
+                {
+                    "raw": "more-itertools==10.3.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "more-itertools",
+                    "specifier": "==10.3.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "tomli": {
+            "name": "tomli",
+            "version": "2.0.1",
+            "requirements": [
+                {
+                    "raw": "tomli==2.0.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "tomli",
+                    "specifier": "==2.0.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "typeguard": {
+            "name": "typeguard",
+            "version": "4.3.0",
+            "requirements": [
+                {
+                    "raw": "typeguard==4.3.0",
+                    "extras": [],
+                    "marker": null,
+                    "name": "typeguard",
+                    "specifier": "==4.3.0",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "wheel": {
+            "name": "wheel",
+            "version": "0.45.1",
+            "requirements": [
+                {
+                    "raw": "wheel==0.45.1",
+                    "extras": [],
+                    "marker": null,
+                    "name": "wheel",
+                    "specifier": "==0.45.1",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        },
+        "zipp": {
+            "name": "zipp",
+            "version": "3.19.2",
+            "requirements": [
+                {
+                    "raw": "zipp==3.19.2",
+                    "extras": [],
+                    "marker": null,
+                    "name": "zipp",
+                    "specifier": "==3.19.2",
+                    "url": null,
+                    "found": "/mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/.venv/lib/python3.13/site-packages/setuptools/_vendor"
+                }
+            ]
+        }
+    },
+    "affected_packages": {},
+    "announcements": [],
+    "vulnerabilities": [],
+    "ignored_vulnerabilities": [],
+    "remediations": {},
+    "remediations_results": {
+        "vulnerabilities_fixed": [],
+        "remediations_applied": {},
+        "remediations_skipped": {}
+    }
+}
+
+
++===========================================================================================================================================================================================+
+
+
+DEPRECATED: this command (`check`) has been DEPRECATED, and will be unsupported beyond 01 June 2024.
+
+
+We highly encourage switching to the new `scan` command which is easier to use, more powerful, and can be set up to mimic the deprecated command if required.
+
+
++===========================================================================================================================================================================================+

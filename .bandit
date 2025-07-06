@@ -1,0 +1,15 @@
+# Bandit configuration for photo processing project
+# YAML format configuration
+
+exclude_dirs:
+  - tests
+  - docs
+
+skips:
+  - B404  # Import subprocess (needed for cross-platform folder opening)
+  - B603  # subprocess call - check for execution of untrusted input
+  - B606  # Starting a process without a shell
+  - B607  # Starting a process with a partial executable path
+
+# These are acceptable for our photo processing application
+# as they're used for legitimate folder/file opening functionality

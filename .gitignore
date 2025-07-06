@@ -44,3 +44,51 @@ temp/
 # Test data
 *photoshoot*/
 *Photoshoot*/
+
+# Output folders and processed images
+*_output/
+*_comparison/
+sports_comparison_output/
+
+# Large image files (keep sample images in assets/ only)
+*.jpg
+*.jpeg
+*.png
+*.tiff
+*.tif
+*.raw
+*.nef
+*.cr2
+*.arw
+*.dng
+!assets/*.jpg
+!assets/*.jpeg
+!assets/*.png
+
+# Local development scripts and personal configs
+scripts/
+docs/git_shared_computer_guide.md
+
+# Development and testing
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+*.pyc
+__pycache__/
+.tox/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
