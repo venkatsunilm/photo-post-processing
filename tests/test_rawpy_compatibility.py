@@ -4,6 +4,7 @@ RAW processing compatibility test and auto-detection of supported parameters.
 
 import os
 
+import pytest
 import rawpy
 
 
@@ -27,8 +28,7 @@ def test_rawpy_parameters():
     if not test_file:
         print("❌ No RAW files found for parameter testing")
         # Skip test if no RAW files available - this is not a failure
-        print("ℹ️ Skipping rawpy compatibility test - no RAW files available")
-        return
+        pytest.skip("No RAW files available for testing rawpy compatibility")
 
     print(f"📸 Testing with: {os.path.basename(test_file)}")
 

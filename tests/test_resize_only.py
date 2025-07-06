@@ -5,6 +5,8 @@ Test script for the new resize_only mode
 import os
 import sys
 
+import pytest
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 
@@ -17,7 +19,7 @@ def test_resize_only_mode():
 
     if not os.path.exists(test_input):
         print(f"❌ Test input directory not found: {test_input}")
-        return
+        pytest.skip(f"Test input directory not found: {test_input}")
 
     print(f"✅ Test input found: {test_input}")
     print("🧪 Running resize_only mode test...")
