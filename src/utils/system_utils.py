@@ -13,7 +13,7 @@ def open_folder_in_explorer(folder_path: str) -> None:
     """Open folder in Windows Explorer (or equivalent on other platforms)"""
     try:
         if platform.system() == "Windows":
-            subprocess.run(f'explorer "{folder_path}"', shell=True)
+            subprocess.run(["explorer", folder_path])  # Removed shell=True for security
         elif platform.system() == "Darwin":  # macOS
             subprocess.run(["open", folder_path])
         elif platform.system() == "Linux":

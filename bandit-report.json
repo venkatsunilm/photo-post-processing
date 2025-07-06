@@ -1,0 +1,417 @@
+{
+  "errors": [],
+  "generated_at": "2025-07-06T00:32:03Z",
+  "metrics": {
+    "_totals": {
+      "CONFIDENCE.HIGH": 11,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 1,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 1,
+      "SEVERITY.LOW": 11,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 1987,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/process_photos.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 541,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/__init__.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 0,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/config.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 56,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/file_operations.py": {
+      "CONFIDENCE.HIGH": 5,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 1,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 6,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 97,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/format_optimizer.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 78,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/image_processing.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 142,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/logging_config.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 40,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/others/copy_or_cut_files.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 257,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/photoshop_tools.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 428,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/raw_processing.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 76,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/raw_processing_enhanced.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 207,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "src/utils/system_utils.py": {
+      "CONFIDENCE.HIGH": 6,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 1,
+      "SEVERITY.LOW": 5,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 65,
+      "nosec": 0,
+      "skipped_tests": 0
+    }
+  },
+  "results": [
+    {
+      "code": "7 import shutil\n8 import subprocess\n9 import sys\n",
+      "col_offset": 0,
+      "end_col_offset": 17,
+      "filename": "src/utils/file_operations.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Consider possible security implications associated with the subprocess module.",
+      "line_number": 8,
+      "line_range": [
+        8
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/blacklists/blacklist_imports.html#b404-import-subprocess",
+      "test_id": "B404",
+      "test_name": "blacklist"
+    },
+    {
+      "code": "32             if sys.platform == \"win32\":\n33                 os.startfile(folder_path)\n34             elif sys.platform == \"darwin\":  # macOS\n",
+      "col_offset": 16,
+      "end_col_offset": 41,
+      "filename": "src/utils/file_operations.py",
+      "issue_confidence": "MEDIUM",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Starting a process without a shell.",
+      "line_number": 33,
+      "line_range": [
+        33
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/plugins/b606_start_process_with_no_shell.html",
+      "test_id": "B606",
+      "test_name": "start_process_with_no_shell"
+    },
+    {
+      "code": "34             elif sys.platform == \"darwin\":  # macOS\n35                 subprocess.run([\"open\", folder_path])\n36             else:  # Linux and other Unix-like systems\n",
+      "col_offset": 16,
+      "end_col_offset": 53,
+      "filename": "src/utils/file_operations.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Starting a process with a partial executable path",
+      "line_number": 35,
+      "line_range": [
+        35
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/plugins/b607_start_process_with_partial_path.html",
+      "test_id": "B607",
+      "test_name": "start_process_with_partial_path"
+    },
+    {
+      "code": "34             elif sys.platform == \"darwin\":  # macOS\n35                 subprocess.run([\"open\", folder_path])\n36             else:  # Linux and other Unix-like systems\n",
+      "col_offset": 16,
+      "end_col_offset": 53,
+      "filename": "src/utils/file_operations.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "subprocess call - check for execution of untrusted input.",
+      "line_number": 35,
+      "line_range": [
+        35
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/plugins/b603_subprocess_without_shell_equals_true.html",
+      "test_id": "B603",
+      "test_name": "subprocess_without_shell_equals_true"
+    },
+    {
+      "code": "36             else:  # Linux and other Unix-like systems\n37                 subprocess.run([\"xdg-open\", folder_path])\n38 \n",
+      "col_offset": 16,
+      "end_col_offset": 57,
+      "filename": "src/utils/file_operations.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Starting a process with a partial executable path",
+      "line_number": 37,
+      "line_range": [
+        37
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/plugins/b607_start_process_with_partial_path.html",
+      "test_id": "B607",
+      "test_name": "start_process_with_partial_path"
+    },
+    {
+      "code": "36             else:  # Linux and other Unix-like systems\n37                 subprocess.run([\"xdg-open\", folder_path])\n38 \n",
+      "col_offset": 16,
+      "end_col_offset": 57,
+      "filename": "src/utils/file_operations.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "subprocess call - check for execution of untrusted input.",
+      "line_number": 37,
+      "line_range": [
+        37
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/plugins/b603_subprocess_without_shell_equals_true.html",
+      "test_id": "B603",
+      "test_name": "subprocess_without_shell_equals_true"
+    },
+    {
+      "code": "7 import platform\n8 import subprocess\n9 from typing import Optional\n",
+      "col_offset": 0,
+      "end_col_offset": 17,
+      "filename": "src/utils/system_utils.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Consider possible security implications associated with the subprocess module.",
+      "line_number": 8,
+      "line_range": [
+        8
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/blacklists/blacklist_imports.html#b404-import-subprocess",
+      "test_id": "B404",
+      "test_name": "blacklist"
+    },
+    {
+      "code": "15         if platform.system() == \"Windows\":\n16             subprocess.run(f'explorer \"{folder_path}\"', shell=True)\n17         elif platform.system() == \"Darwin\":  # macOS\n",
+      "col_offset": 12,
+      "end_col_offset": 67,
+      "filename": "src/utils/system_utils.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "HIGH",
+      "issue_text": "subprocess call with shell=True identified, security issue.",
+      "line_number": 16,
+      "line_range": [
+        16
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/plugins/b602_subprocess_popen_with_shell_equals_true.html",
+      "test_id": "B602",
+      "test_name": "subprocess_popen_with_shell_equals_true"
+    },
+    {
+      "code": "17         elif platform.system() == \"Darwin\":  # macOS\n18             subprocess.run([\"open\", folder_path])\n19         elif platform.system() == \"Linux\":\n",
+      "col_offset": 12,
+      "end_col_offset": 49,
+      "filename": "src/utils/system_utils.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Starting a process with a partial executable path",
+      "line_number": 18,
+      "line_range": [
+        18
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/plugins/b607_start_process_with_partial_path.html",
+      "test_id": "B607",
+      "test_name": "start_process_with_partial_path"
+    },
+    {
+      "code": "17         elif platform.system() == \"Darwin\":  # macOS\n18             subprocess.run([\"open\", folder_path])\n19         elif platform.system() == \"Linux\":\n",
+      "col_offset": 12,
+      "end_col_offset": 49,
+      "filename": "src/utils/system_utils.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "subprocess call - check for execution of untrusted input.",
+      "line_number": 18,
+      "line_range": [
+        18
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/plugins/b603_subprocess_without_shell_equals_true.html",
+      "test_id": "B603",
+      "test_name": "subprocess_without_shell_equals_true"
+    },
+    {
+      "code": "19         elif platform.system() == \"Linux\":\n20             subprocess.run([\"xdg-open\", folder_path])\n21         else:\n",
+      "col_offset": 12,
+      "end_col_offset": 53,
+      "filename": "src/utils/system_utils.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Starting a process with a partial executable path",
+      "line_number": 20,
+      "line_range": [
+        20
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/plugins/b607_start_process_with_partial_path.html",
+      "test_id": "B607",
+      "test_name": "start_process_with_partial_path"
+    },
+    {
+      "code": "19         elif platform.system() == \"Linux\":\n20             subprocess.run([\"xdg-open\", folder_path])\n21         else:\n",
+      "col_offset": 12,
+      "end_col_offset": 53,
+      "filename": "src/utils/system_utils.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 78,
+        "link": "https://cwe.mitre.org/data/definitions/78.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "subprocess call - check for execution of untrusted input.",
+      "line_number": 20,
+      "line_range": [
+        20
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.8.5/plugins/b603_subprocess_without_shell_equals_true.html",
+      "test_id": "B603",
+      "test_name": "subprocess_without_shell_equals_true"
+    }
+  ]
+}
