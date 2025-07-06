@@ -1,6 +1,7 @@
 """
 Test configuration to ensure proper import paths.
 """
+
 import sys
 from pathlib import Path
 

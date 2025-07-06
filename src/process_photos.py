@@ -319,7 +319,9 @@ def main() -> None:
     print(
         "7. Sports Action      → Optimized for sports photography (auto-detect RAW/JPEG)"
     )
-    print("8. Enhanced Mode      → Full enhancement for challenging lighting")
+    print(
+        "8. Enhanced Mode      → Advanced processing for challenging/difficult lighting"
+    )
     print(
         "9. Resize & Watermark → Resize to target resolutions + watermark (no enhancements)"
     )
@@ -366,9 +368,10 @@ def main() -> None:
         print("\n🏃‍♂️ Starting Sports Action Mode...")
         process_images_with_photoshop_preset(DEFAULT_INPUT_PATH, "sports_action")
     elif choice == "8":
-        print("\n✨ Starting Enhanced Mode (full processing)...")
-        apply_processing_mode("enhanced")
-        process_images(DEFAULT_INPUT_PATH, mode="full")
+        print(
+            "\n✨ Starting Enhanced Mode (advanced processing for challenging lighting)..."
+        )
+        process_images_with_photoshop_preset(DEFAULT_INPUT_PATH, "enhanced_mode")
     elif choice == "9":
         print("\n📏 Starting Resize & Watermark Mode...")
         process_images(DEFAULT_INPUT_PATH, mode="resize_watermark")
@@ -734,6 +737,8 @@ def get_mode_prefix(preset_name: str) -> str:
         "studio_portrait": "std",
         "overexposed_recovery": "ovr",
         "natural_wildlife": "wld",
+        "sports_action": "spt",
+        "enhanced_mode": "enh",
         "enhanced": "enh",
         "resize_watermark": "rsz",
         "watermark": "wtm",

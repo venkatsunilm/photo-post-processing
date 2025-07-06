@@ -3,6 +3,7 @@ File system utilities for photo post-processing.
 Handles ZIP extraction, directory operations, and file management.
 """
 
+import datetime
 import os
 import shutil
 import subprocess
@@ -103,19 +104,14 @@ def get_image_files_from_directory(directory: str) -> List[Tuple[str, str]]:
 def create_output_structure(
     input_path: str, base_output_dir: str, is_temp: bool
 ) -> str:
-    """Create organized output directory structure"""
+    """Create organized output directory structure using current date"""
     os.makedirs(base_output_dir, exist_ok=True)
 
-    # Create a folder with source name
-    if is_temp:
-        # For ZIP files, use ZIP name without extension
-        source_name = os.path.splitext(os.path.basename(input_path))[0]
-    else:
-        # For folders, use folder name
-        source_name = os.path.basename(input_path)
+    # Create a folder with current date instead of source name
+    current_date = datetime.datetime.now().strftime("%Y-%m-%d")
 
-    # Create main project folder with source name
-    project_folder = os.path.join(base_output_dir, source_name)
+    # Create main project folder with current date
+    project_folder = os.path.join(base_output_dir, current_date)
     os.makedirs(project_folder, exist_ok=True)
 
     return project_folder
