@@ -136,7 +136,7 @@ def add_watermark(
     if watermark_opacity < 1.0:
         # Create a new image with adjusted opacity but higher visibility
         watermark_data = []
-        for pixel in watermark.getdata():  # type: ignore[attr-defined]
+        for pixel in list(watermark.getdata()):
             if len(pixel) == 4:  # RGBA
                 r, g, b, a = pixel
                 if a > 0:  # Only modify non-transparent pixels
