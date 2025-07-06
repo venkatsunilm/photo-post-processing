@@ -738,8 +738,8 @@ def get_mode_prefix(preset_name: str) -> str:
         "overexposed_recovery": "ovr",
         "natural_wildlife": "wld",
         "sports_action": "spt",
-        "enhanced_mode": "enh",
-        "enhanced": "enh",
+        "enhanced_mode": "ehm",  # Enhanced mode for challenging lighting
+        "enhanced": "enh",  # Legacy enhanced mode
         "resize_watermark": "rsz",
         "watermark": "wtm",
         "resize_only": "res",
