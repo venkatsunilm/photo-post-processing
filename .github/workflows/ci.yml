@@ -17,44 +17,47 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Cache pip dependencies
-      uses: actions/cache@v3
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
       with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        version: "latest"
+
+    - name: Cache uv dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/uv
+        key: ${{ runner.os }}-uv-${{ hashFiles('**/pyproject.toml', '**/uv.lock') }}
         restore-keys: |
-          ${{ runner.os }}-pip-
+          ${{ runner.os }}-uv-
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r requirements-dev.txt
+        uv sync --all-extras
 
     - name: Lint with flake8
       run: |
-        flake8 src tests --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 src tests --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
+        uv run flake8 src tests --count --select=E9,F63,F7,F82 --show-source --statistics
+        uv run flake8 src tests --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
 
     - name: Check code formatting
       run: |
-        black --check src tests
-        isort --check-only src tests
+        uv run black --check src tests
+        uv run isort --check-only src tests
 
     - name: Type checking with mypy
       run: |
-        mypy src
+        uv run mypy src
 
     - name: Test with pytest
       run: |
-        pytest --cov=src --cov-report=xml --cov-report=term-missing
+        uv run pytest --cov=src --cov-report=xml --cov-report=term-missing
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         file: ./coverage.xml
         fail_ci_if_error: true
@@ -65,22 +68,27 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: "3.11"
 
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        version: "latest"
+
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install bandit[toml] safety
+        uv sync --all-extras
+        uv add bandit[toml] safety
 
     - name: Run security checks
       run: |
-        bandit -r src/ -f json -o bandit-report.json
-        safety check --json --output safety-report.json
+        uv run bandit -r src/ -f json -o bandit-report.json
+        uv run safety check --json --output safety-report.json
 
     - name: Upload security reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: security-reports
