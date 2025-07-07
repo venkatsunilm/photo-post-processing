@@ -1,47 +1,128 @@
-# Photo Post Processing
+# Photo Post-Processing Pipeline
 
-A Python application for intelligent photo processing that automatically adjusts lighting, orientation, and resizes images to 2K and 4K resolutions.
+A professional, reproducible Python image processing pipeline with robust RAW support, modern development workflow, and built-in CI/CD, linting, type checking, and security.
+
+---
 
 ## Features
 
-- **Automatic Orientation Correction**: Uses EXIF data to fix image rotation
-- **Intelligent Lighting Adjustment**: Analyzes and corrects brightness, contrast, and gamma
-- **Smart Resizing**: Maintains aspect ratio while targeting specific pixel counts
-- **Batch Processing**: Processes multiple images and creates organized output folders
-- **Compression**: Automatically creates ZIP files of processed images
+- **Image Processing:** RAW, JPEG, and other formats using Pillow, OpenCV, and RawPy
+- **Modern Python Tooling:**
+  - Linting & formatting: [Ruff](https://pypi.org/project/ruff/)
+  - Type checking: [mypy](https://pypi.org/project/mypy/)
+  - Security: [bandit](https://pypi.org/project/bandit/), [safety](https://pypi.org/project/safety/)
+  - Testing: [pytest](https://pypi.org/project/pytest/), [pytest-cov](https://pypi.org/project/pytest-cov/)
+  - Pre-commit hooks: [pre-commit](https://pre-commit.com/)
+- **CI/CD:** Automated with GitHub Actions (multi-version, coverage, security, artifact upload)
+- **Reproducible Environments:** All dependencies pinned in pyproject.toml, managed with [uv](https://github.com/astral-sh/uv)
+- **Clean Project Structure:**
+  - Source: src
+  - Tests: tests
+  - Docs: docs
+  - All config in pyproject.toml
 
-## Supported Formats
+---
 
-- JPEG (.jpg, .jpeg)
-- PNG (.png)
+## Quickstart
 
-## Output Resolutions
+### 1. Clone and Install
 
-- **2K**: 2560×1440 equivalent pixel count
-- **4K**: 3840×2160 equivalent pixel count
-
-## Requirements
-
-- Python 3.7+
-- PIL (Pillow)
-- NumPy
-
-## Usage
-
-1. Update the folder path in `process_photos.py`
-2. Run the script:
-```bash
-python src/process_photos.py
+```sh
+git clone <your-repo-url>
+cd photo-post-processing
+uv sync --all-extras
 ```
 
-The script will create two folders and ZIP files:
-- `processed_photos_2k/` and `processed_photos_2k.zip`
-- `processed_photos_4k/` and `processed_photos_4k.zip`
+### 2. Set Up Pre-commit Hooks
 
-## How it Works
+```sh
+uv run pre-commit install
+```
 
-1. **Orientation Fix**: Reads EXIF data to rotate images to correct orientation
-2. **Lighting Analysis**: Analyzes brightness, contrast, and histogram data
-3. **Intelligent Adjustments**: Applies brightness, contrast, and gamma corrections
-4. **Aspect Ratio Preservation**: Calculates optimal dimensions for target resolutions
-5. **Quality Optimization**: Saves with optimal JPEG quality and compression
+### 3. Run the Pipeline
+
+```sh
+uv run python src/process_photos.py
+```
+
+---
+
+## Development Workflow
+
+- **Lint:**
+  `uv run ruff check src tests`
+- **Format:**
+  `uv run ruff format src tests`
+- **Type Check:**
+  `uv run mypy src`
+- **Test:**
+  `uv run pytest`
+- **Test with Coverage:**
+  `uv run pytest --cov=src --cov-report=term-missing`
+- **Security:**
+  `uv run bandit -r src/ -c .bandit -f json -o bandit-report.json`
+  `uv run safety check --output json > safety-report.json`
+- **Pre-commit (all files):**
+  `uv run pre-commit run --all-files`
+
+Or use the provided Makefile for common tasks:
+
+```sh
+make lint
+make format
+make test
+make run
+make test-cov
+make setup-dev
+make clean
+```
+
+---
+
+## Continuous Integration
+
+- **GitHub Actions** runs on every push and PR:
+  - Lint, format, type check, test (with coverage)
+  - Security checks (bandit, safety)
+  - Uploads coverage and security reports as artifacts
+
+---
+
+## Project Structure
+
+```
+src/                # Main source code
+tests/              # All tests and fixtures
+docs/               # Documentation and guides
+pyproject.toml      # All dependencies and tool config
+.pre-commit-config.yaml
+Makefile
+.github/workflows/  # CI/CD pipeline
+```
+
+---
+
+## Dependencies
+
+All dependencies are pinned for reproducibility.
+See pyproject.toml for exact versions.
+
+- **Core:** pillow, opencv-python, rawpy, numpy, tqdm, colorama, psutil
+- **Dev:** pytest, pytest-cov, ruff, mypy, pre-commit, bandit, safety
+
+---
+
+## Contributing
+
+1. Fork and clone the repo
+2. Install dev dependencies: `uv sync --all-extras`
+3. Set up pre-commit: `uv run pre-commit install`
+4. Use the `uv` commands above for linting, testing, etc.
+   - (Optional) If you have `make` installed, you can use the provided Makefile for common tasks.
+5. Open a PR with your changes
+
+---
+
+## License
+
+MIT
