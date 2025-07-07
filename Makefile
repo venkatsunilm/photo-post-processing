@@ -23,17 +23,15 @@ test:  ## Run tests (uv)
 test-cov:  ## Run tests with coverage (uv)
 	uv run pytest --cov=src --cov-report=html --cov-report=term-missing
 
-lint:  ## Run linting checks (uv) - includes mypy type checking
-	uv run flake8 src tests
+lint:  ## Run linting checks (ruff + mypy)
+	uv run ruff check src tests
 	uv run mypy src
 
-format:  ## Format code (uv)
-	uv run black src tests
-	uv run isort src tests
+format:  ## Format code (ruff)
+	uv run ruff format src tests
 
-format-check:  ## Check if code is formatted correctly (uv)
-	uv run black --check src tests
-	uv run isort --check-only src tests
+format-check:  ## Check if code is formatted correctly (ruff)
+	uv run ruff format --check src tests
 
 clean:  ## Clean up generated files
 	find . -type d -name __pycache__ -delete
