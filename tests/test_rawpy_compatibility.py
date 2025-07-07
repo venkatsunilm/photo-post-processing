@@ -85,9 +85,9 @@ def test_rawpy_parameters():
 
     print(f"\n📊 Supported parameters: {len(supported_params)}")
     # Assert that at least basic parameters are supported
-    assert (
-        len(supported_params) >= 5
-    ), f"Too few rawpy parameters supported: {len(supported_params)}"
+    assert len(supported_params) >= 5, (
+        f"Too few rawpy parameters supported: {len(supported_params)}"
+    )
 
 
 if __name__ == "__main__":

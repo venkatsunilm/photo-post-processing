@@ -6,8 +6,7 @@ Contains resolution settings, file paths, and processing parameters.
 # Resolution configurations
 RESOLUTIONS = {
     # '2k': 2560 * 1440,  # Total pixels for 2K
-    "4k": 3840
-    * 2160  # Total pixels for 4K
+    "4k": 3840 * 2160  # Total pixels for 4K
 }
 
 # File extension configurations

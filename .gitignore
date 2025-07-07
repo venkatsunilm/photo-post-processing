@@ -1,12 +1,16 @@
-# Python
+# Python bytecode and cache
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+*.pyc
+
+# Build, dist, and packaging
 build/
-develop-eggs/
 dist/
+*.egg-info/
+develop-eggs/
 downloads/
 eggs/
 .eggs/
@@ -16,39 +20,45 @@ parts/
 sdist/
 var/
 wheels/
-*.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
+.tox/
 
 # Virtual environments
+.venv/
 venv/
 env/
 ENV/
 
-# IDE
+# IDE/editor files
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS
+# OS specific
 .DS_Store
 Thumbs.db
 
-# Processed photos and temp folders
-processed_photos_*/
-*.zip
-temp/
-
-# Test data
-*photoshoot*/
-*Photoshoot*/
+# Test, coverage, and type checking
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Output folders and processed images
 *_output/
 *_comparison/
 sports_comparison_output/
+processed_photos_*/
+temp/
+*.zip
+
+# Test data
+*photoshoot*/
+*Photoshoot*/
 
 # Large image files (keep sample images in assets/ only)
 *.jpg
@@ -69,26 +79,11 @@ sports_comparison_output/
 scripts/
 docs/git_shared_computer_guide.md
 
-# Development and testing
-.coverage
-htmlcov/
-.pytest_cache/
-.mypy_cache/
-*.pyc
-__pycache__/
-.tox/
+# Security and coverage reports
+bandit-report.json
+safety-report.json
+coverage.xml
 
-# IDE and editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS specific
-.DS_Store
-Thumbs.db
-
-# Distribution / packaging
-build/
-dist/
-*.egg-info/
+# Binaries and local tools
+bin/
+curl
