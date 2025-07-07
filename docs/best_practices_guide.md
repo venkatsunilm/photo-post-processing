@@ -1,3 +1,108 @@
+# Best Practices Guide
+
+This guide summarizes the best practices for developing, maintaining, and contributing to the Photo Post-Processing Pipeline. It is based on modern Python standards, reproducibility, security, and code quality.
+
+---
+
+## 1. Project Structure
+
+- Source code in `src/`
+- Tests in `tests/`
+- Documentation in `docs/`
+- All configuration in `pyproject.toml`
+- `.pre-commit-config.yaml` for code quality automation
+- `Makefile` for common developer tasks (optional)
+
+---
+
+## 2. Dependency Management
+
+- Pin all dependencies in `pyproject.toml` for reproducibility
+- Use [uv](https://github.com/astral-sh/uv) for fast, reliable installs and lockfile management
+- Avoid `requirements.txt` and legacy `setup.cfg`/`setup.py` unless needed for legacy compatibility
+
+---
+
+## 3. Linting, Formatting, and Type Checking
+
+- Use [Ruff](https://pypi.org/project/ruff/) for linting and formatting (`ruff check`, `ruff format`)
+- Use [mypy](https://pypi.org/project/mypy/) for static type checking
+- Enforce code style and type safety in CI and pre-commit hooks
+
+---
+
+## 4. Testing
+
+- Write all tests in the `tests/` directory
+- Use [pytest](https://pypi.org/project/pytest/) for all test discovery and execution
+- Use [pytest-cov](https://pypi.org/project/pytest-cov/) for coverage reporting
+- Ensure all new features and bugfixes include tests
+- Run tests locally with `uv run pytest` and in CI
+
+---
+
+## 5. Security
+
+- Use [bandit](https://pypi.org/project/bandit/) for static security analysis
+- Use [safety](https://pypi.org/project/safety/) to check for vulnerable dependencies
+- Run security checks in CI and before releases
+
+---
+
+## 6. Pre-commit Hooks
+
+- Use [pre-commit](https://pre-commit.com/) to automate code quality checks before every commit
+- Install hooks with `uv run pre-commit install`
+- Run all hooks on demand with `uv run pre-commit run --all-files`
+
+---
+
+## 7. Continuous Integration (CI)
+
+- Use GitHub Actions for automated testing, linting, type checking, and security
+- Ensure all checks pass before merging PRs
+- Upload coverage and security reports as artifacts
+
+---
+
+## 8. Documentation
+
+- Keep `README.md` and all guides in `docs/` up to date
+- Document all public functions and modules with docstrings
+- Use clear, concise language and provide usage examples
+
+---
+
+## 9. Contribution Guidelines
+
+- Fork the repo and create feature branches for changes
+- Use `uv sync --all-extras` to install all dependencies
+- Use the provided `uv` commands or `Makefile` for all dev tasks
+- Ensure all tests, lint, type, and security checks pass before submitting a PR
+- Follow the code style and structure of the project
+
+---
+
+## 10. General Python Best Practices
+
+- Prefer explicit over implicit code
+- Use type annotations everywhere
+- Handle exceptions gracefully and log errors
+- Avoid global state and side effects
+- Write small, testable functions and classes
+
+---
+
+## References
+
+- [PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/)
+- [PEP 621 – Storing project metadata in pyproject.toml](https://peps.python.org/pep-0621/)
+- [Ruff Documentation](https://docs.astral.sh/ruff/)
+- [mypy Documentation](https://mypy.readthedocs.io/en/stable/)
+- [pytest Documentation](https://docs.pytest.org/en/stable/)
+- [pre-commit Documentation](https://pre-commit.com/)
+- [bandit Documentation](https://bandit.readthedocs.io/en/latest/)
+- [safety Documentation](https://pyup.io/safety/)
 # Project Best Practices Implementation Guide
 
 ## 📁 1. ENHANCED PROJECT STRUCTURE
@@ -250,23 +355,23 @@ CMD ["python", "main.py"]
 .PHONY: install test lint format clean
 
 install:
-	pip install -r requirements/dev.txt
+    pip install -r requirements/dev.txt
 
 test:
-	pytest
+    pytest
 
 lint:
-	flake8 src tests
-	mypy src
+    flake8 src tests
+    mypy src
 
 format:
-	black src tests
-	isort src tests
+    black src tests
+    isort src tests
 
 clean:
-	find . -type d -name __pycache__ -delete
-	find . -name "*.pyc" -delete
-	rm -rf .coverage htmlcov/ .pytest_cache/
+    find . -type d -name __pycache__ -delete
+    find . -name "*.pyc" -delete
+    rm -rf .coverage htmlcov/ .pytest_cache/
 ```
 
 ## 🛡️ 10. ERROR HANDLING & LOGGING
