@@ -18,10 +18,10 @@ setup-dev: install-dev  ## Set up development environment (modern uv workflow)
 	@echo "Development environment set up successfully with uv!"
 
 test:  ## Run tests (uv)
-	uv run pytest
+	PYTHONPATH=src uv run pytest --cov-fail-under=20
 
 test-cov:  ## Run tests with coverage (uv)
-	uv run pytest --cov=src --cov-report=html --cov-report=term-missing
+	PYTHONPATH=src uv run pytest --cov=src --cov-report=html --cov-report=term-missing --cov-fail-under=20
 
 lint:  ## Run linting checks (ruff + mypy)
 	uv run ruff check src tests
@@ -40,7 +40,7 @@ clean:  ## Clean up generated files
 	rm -rf build/ dist/ *.egg-info/
 
 run:  ## Run the main application (uv)
-	uv run python src/process_photos.py
+	PYTHONPATH=src uv run python src/pro_photo_processor/process_photos.py
 
 docker-build:  ## Build Docker image
 	docker build -t photo-processor .
