@@ -1,8 +1,19 @@
+"""
+Main CLI and pipeline entry point for photo post-processing.
+"""
+
 import os
+import sys
+import logging
+import argparse
+import types
 from typing import Any, Dict, Tuple
-
+from .pipeline import ImageProcessingPipeline
+from pro_photo_processor.config import config  # Adjust if config is in a submodule
+from pro_photo_processor.io import file_operations
+from pro_photo_processor.core import image_processing
 from PIL import ExifTags, Image, ImageEnhance, ImageStat
-
+from pro_photo_processor.utils import get_mode_prefix  # noqa: F401
 from pro_photo_processor.config.config import DEFAULT_INPUT_PATH
 from pro_photo_processor.io.file_operations import (
     cleanup_temp_directory,
@@ -11,11 +22,23 @@ from pro_photo_processor.io.file_operations import (
     extract_zip_if_needed,
     get_image_files_from_directory,
 )
-from pro_photo_processor.core.image_processing import add_watermark
+from pro_photo_processor.core.image_processing import add_watermark  # noqa: F401
 from pro_photo_processor.raw.raw_processing_enhanced import (
     load_image_basic,
     load_image_smart_enhanced,
+)  # noqa: F401
+
+format_optimizer: types.ModuleType | None
+try:
+    from pro_photo_processor.presets import format_optimizer
+except ImportError:
+    format_optimizer = None
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
 )
+logger = logging.getLogger("pro_photo_processor.process_photos")
 
 
 def fix_image_orientation(img: Image.Image) -> Image.Image:
@@ -179,12 +202,12 @@ def process_images(input_path: str, mode: str = "full") -> None:
         WATERMARK_SCALE,
     )
 
-    print(f"🎨 Starting processing in {mode} mode...")
+    logger.info(f"🎨 Starting processing in {mode} mode...")
 
     # Handle ZIP extraction if needed
     working_folder, is_temp = extract_zip_if_needed(input_path)
     if working_folder is None:
-        print("❌ Failed to process input. Please check the file/folder path.")
+        logger.error("❌ Failed to process input. Please check the file/folder path.")
         return
 
     try:
@@ -197,10 +220,10 @@ def process_images(input_path: str, mode: str = "full") -> None:
         image_files = get_image_files_from_directory(working_folder)
 
         if not image_files:
-            print("❌ No image files found in the input!")
+            logger.error("❌ No image files found in the input!")
             return
 
-        print(f"📁 Found {len(image_files)} image files to process")
+        logger.info(f"📁 Found {len(image_files)} image files to process")
 
         for label, total_pixels in RESOLUTIONS.items():
             # Add mode suffix to directory name for proper separation
@@ -210,7 +233,7 @@ def process_images(input_path: str, mode: str = "full") -> None:
             )
             os.makedirs(output_folder, exist_ok=True)
 
-            print(f"\nProcessing {label.upper()} images...")
+            logger.info(f"\nProcessing {label.upper()} images...")
 
             for idx, (full_path, rel_path) in enumerate(image_files, 1):
                 try:
@@ -277,13 +300,15 @@ def process_images(input_path: str, mode: str = "full") -> None:
                             watermark_opacity=WATERMARK_OPACITY,
                             scale_factor=WATERMARK_SCALE,
                         )
-                        print(f"   💧 Added watermark to {os.path.basename(full_path)}")
+                        logger.info(
+                            f"   💧 Added watermark to {os.path.basename(full_path)}"
+                        )
                     elif mode == "resize_only":
-                        print(
+                        logger.info(
                             f"   📐 Resize only (no watermark) for {os.path.basename(full_path)}"
                         )
                     else:
-                        print(
+                        logger.warning(
                             f"   ⚠️ Watermark disabled in config for {os.path.basename(full_path)}"
                         )
 
@@ -294,105 +319,20 @@ def process_images(input_path: str, mode: str = "full") -> None:
                     output_path = os.path.join(output_folder, new_filename)
                     final_img.save(output_path, "JPEG", quality=90, optimize=True)
                 except Exception as e:
-                    print(f"❌ Failed to process {os.path.basename(full_path)}: {e}")
+                    logger.error(
+                        f"❌ Failed to process {os.path.basename(full_path)}: {e}"
+                    )
 
             # Create ZIP archive with mode suffix
             zip_path = create_zip_archive(
                 output_folder, project_output_dir, f"{label}_{mode_suffix}"
             )
-            print(f"✅ Finished {label.upper()} folder zipped at:\n{zip_path}")
+            logger.info(f"✅ Finished {label.upper()} folder zipped at:\n{zip_path}")
 
     finally:
         # Clean up temporary directory if needed
         if is_temp:
             cleanup_temp_directory(working_folder)
-
-
-def main() -> None:
-    """Main function with menu system"""
-    print("🎨 Photo Post-Processing Pipeline")
-    print("=" * 70)
-    print("📸 Processing Modes:")
-    print("1. Portrait Subtle    → Very gentle enhancement (closest to original)")
-    print("2. Portrait Natural   → Natural portrait enhancement (recommended)")
-    print("3. Portrait Dramatic  → Enhanced contrast (toned down for natural look)")
-    print("4. Studio Portrait    → Clean, professional studio look")
-    print("5. Bright Photo Balance → Gentle fix for bright/washed out photos")
-    print("6. Natural Wildlife   → Perfect for animal/nature photos")
-    print(
-        "7. Sports Action      → Optimized for sports photography (auto-detect RAW/JPEG)"
-    )
-    print(
-        "8. Enhanced Mode      → Advanced processing for challenging/difficult lighting"
-    )
-    print(
-        "9. Resize & Watermark → Resize to target resolutions + watermark (no enhancements)"
-    )
-    print("10. Watermark Only    → Add watermark to existing photos (original size)")
-    print("11. Custom Adjustments → Manual Photoshop-style controls")
-    print(
-        "12. Resize Only       → Resize to target resolutions (no watermark, no enhancements)"
-    )
-    print("13. Exit")
-    print("=" * 70)
-    print("💡 Smart Tips:")
-    print("   🤖 Options 1-7: Auto-detect RAW vs JPEG for optimal results")
-    print("   📸 RAW files get enhanced processing automatically")
-    print("   🏃‍♂️ Sports Action intelligently chooses best preset per file")
-    print(
-        "   📏 Option 9: Perfect for preparing images for web/print (no color changes)"
-    )
-    print(
-        "   📐 Option 12: Clean resize for format conversion (NEF→JPG, PNG→JPG, etc.)"
-    )
-    print("=" * 70)
-
-    choice = input("Choose an option (1-13): ").strip()
-
-    if choice == "1":
-        print("\n🎭 Starting Portrait Subtle Mode...")
-        process_images_with_photoshop_preset(DEFAULT_INPUT_PATH, "portrait_subtle")
-    elif choice == "2":
-        print("\n🎭 Starting Portrait Natural Mode...")
-        process_images_with_photoshop_preset(DEFAULT_INPUT_PATH, "portrait_natural")
-    elif choice == "3":
-        print("\n🎭 Starting Portrait Dramatic Mode...")
-        process_images_with_photoshop_preset(DEFAULT_INPUT_PATH, "portrait_dramatic")
-    elif choice == "4":
-        print("\n📸 Starting Studio Portrait Mode...")
-        process_images_with_photoshop_preset(DEFAULT_INPUT_PATH, "studio_portrait")
-    elif choice == "5":
-        print("\n🌞 Starting Bright Photo Balance Mode...")
-        process_images_with_photoshop_preset(DEFAULT_INPUT_PATH, "overexposed_recovery")
-    elif choice == "6":
-        print("\n🦌 Starting Natural Wildlife Mode...")
-        process_images_with_photoshop_preset(DEFAULT_INPUT_PATH, "natural_wildlife")
-    elif choice == "7":
-        print("\n🏃‍♂️ Starting Sports Action Mode...")
-        process_images_with_photoshop_preset(DEFAULT_INPUT_PATH, "sports_action")
-    elif choice == "8":
-        print(
-            "\n✨ Starting Enhanced Mode (advanced processing for challenging lighting)..."
-        )
-        process_images_with_photoshop_preset(DEFAULT_INPUT_PATH, "enhanced_mode")
-    elif choice == "9":
-        print("\n📏 Starting Resize & Watermark Mode...")
-        process_images(DEFAULT_INPUT_PATH, mode="resize_watermark")
-    elif choice == "10":
-        print("\n💧 Adding watermarks only...")
-        process_images(DEFAULT_INPUT_PATH, mode="watermark")
-    elif choice == "11":
-        print("\n🛠️ Custom Adjustments Mode...")
-        custom_adjustments_mode()
-    elif choice == "12":
-        print("\n📐 Starting Resize Only Mode...")
-        process_images(DEFAULT_INPUT_PATH, mode="resize_only")
-    elif choice == "13":
-        print("👋 Goodbye!")
-        return
-    else:
-        print("❌ Invalid choice. Please try again.")
-        main()
 
 
 def process_images_with_photoshop_preset(input_path: str, preset_name: str) -> None:
@@ -407,7 +347,7 @@ def process_images_with_photoshop_preset(input_path: str, preset_name: str) -> N
     from pro_photo_processor.presets.format_optimizer import FormatOptimizer
     from pro_photo_processor.presets.photoshop_tools import apply_photoshop_preset
 
-    print(f"🎨 Starting processing with {preset_name} preset...")
+    logger.info(f"🎨 Starting processing with {preset_name} preset...")
 
     # Initialize format optimizer
     optimizer = FormatOptimizer()
@@ -415,7 +355,7 @@ def process_images_with_photoshop_preset(input_path: str, preset_name: str) -> N
     # Handle ZIP extraction if needed
     working_folder, is_temp = extract_zip_if_needed(input_path)
     if working_folder is None:
-        print("❌ Failed to process input. Please check the file/folder path.")
+        logger.error("❌ Failed to process input. Please check the file/folder path.")
         return
 
     try:
@@ -428,10 +368,10 @@ def process_images_with_photoshop_preset(input_path: str, preset_name: str) -> N
         image_files = get_image_files_from_directory(working_folder)
 
         if not image_files:
-            print("❌ No image files found in the input!")
+            logger.error("❌ No image files found in the input!")
             return
 
-        print(f"📁 Found {len(image_files)} image files to process")
+        logger.info(f"📁 Found {len(image_files)} image files to process")
 
         # Analyze formats in the batch
         file_paths = [full_path for full_path, _ in image_files]
@@ -441,15 +381,17 @@ def process_images_with_photoshop_preset(input_path: str, preset_name: str) -> N
             format_counts[format_type] += 1
 
         if format_counts["raw"] > 0 or format_counts["jpeg"] > 0:
-            print(
+            logger.info(
                 f"📊 Format analysis: {format_counts['raw']} RAW, {format_counts['jpeg']} JPEG, {format_counts['unknown']} other"
             )
             if format_counts["raw"] > 0 and format_counts["jpeg"] > 0:
-                print("🔄 Mixed formats detected - automatic optimization will choose:")
-                print(
+                logger.info(
+                    "🔄 Mixed formats detected - automatic optimization will choose:"
+                )
+                logger.info(
                     f"   📷 RAW files -> {optimizer.get_optimal_preset('dummy.nef', preset_name)}"
                 )
-                print(
+                logger.info(
                     f"   🖼️  JPEG files -> {optimizer.get_optimal_preset('dummy.jpg', preset_name)}"
                 )
 
@@ -459,7 +401,9 @@ def process_images_with_photoshop_preset(input_path: str, preset_name: str) -> N
             )
             os.makedirs(output_folder, exist_ok=True)
 
-            print(f"\nProcessing {label.upper()} images with {preset_name} preset...")
+            logger.info(
+                f"\nProcessing {label.upper()} images with {preset_name} preset..."
+            )
 
             for idx, (full_path, rel_path) in enumerate(image_files, 1):
                 try:
@@ -476,7 +420,7 @@ def process_images_with_photoshop_preset(input_path: str, preset_name: str) -> N
 
                     # Show format optimization info if different preset was chosen
                     if optimal_preset != preset_name:
-                        print(
+                        logger.info(
                             f"   🔄 {format_info['filename']} ({format_info['format'].upper()}) -> using {optimal_preset}"
                         )
 
@@ -484,7 +428,7 @@ def process_images_with_photoshop_preset(input_path: str, preset_name: str) -> N
                     enhanced_img, history = apply_photoshop_preset(img, optimal_preset)
 
                     # Show last 3 adjustments
-                    print(
+                    logger.info(
                         f"   📝 {os.path.basename(full_path)}: {', '.join(history[-3:])}"
                     )
 
@@ -515,13 +459,15 @@ def process_images_with_photoshop_preset(input_path: str, preset_name: str) -> N
                     final_img.save(output_path, "JPEG", quality=90, optimize=True)
 
                 except Exception as e:
-                    print(f"❌ Failed to process {os.path.basename(full_path)}: {e}")
+                    logger.error(
+                        f"❌ Failed to process {os.path.basename(full_path)}: {e}"
+                    )
 
             # Create ZIP archive
             zip_path = create_zip_archive(
                 output_folder, project_output_dir, f"{label}_{preset_name}"
             )
-            print(f"✅ Finished {label.upper()} folder zipped at:\n{zip_path}")
+            logger.info(f"✅ Finished {label.upper()} folder zipped at:\n{zip_path}")
 
     finally:
         # Clean up temporary directory if needed
@@ -531,24 +477,24 @@ def process_images_with_photoshop_preset(input_path: str, preset_name: str) -> N
 
 def custom_adjustments_mode() -> None:
     """Interactive mode for custom Photoshop-style adjustments"""
-    print("\n🛠️ CUSTOM PHOTOSHOP-STYLE ADJUSTMENTS")
-    print("=" * 50)
-    print("Available adjustments:")
-    print("• Exposure (-2.0 to +2.0) - Professional camera-style")
-    print("• Brightness (-100 to +100) - Simple percentage adjustment")
-    print("• Highlights (-100 to 0)")
-    print("• Shadows (0 to +100)")
-    print("• Vibrance (-100 to +100)")
-    print("• Saturation (-100 to +100)")
-    print("• Clarity (-100 to +100)")
-    print("• Structure (-100 to +100)")
-    print("• Temperature (-100 to +100)")
-    print("• Skin Smoothing (0 to 100)")
-    print("=" * 50)
-    print("💡 Note: Use either Exposure OR Brightness, not both")
-    print("   • Exposure: Professional (0.5 = one camera stop brighter)")
-    print("   • Brightness: User-friendly (50 = 50% brighter)")
-    print("=" * 50)
+    logger.info("\n🛠️ CUSTOM PHOTOSHOP-STYLE ADJUSTMENTS")
+    logger.info("=" * 50)
+    logger.info("Available adjustments:")
+    logger.info("• Exposure (-2.0 to +2.0) - Professional camera-style")
+    logger.info("• Brightness (-100 to +100) - Simple percentage adjustment")
+    logger.info("• Highlights (-100 to 0)")
+    logger.info("• Shadows (0 to +100)")
+    logger.info("• Vibrance (-100 to +100)")
+    logger.info("• Saturation (-100 to +100)")
+    logger.info("• Clarity (-100 to +100)")
+    logger.info("• Structure (-100 to +100)")
+    logger.info("• Temperature (-100 to +100)")
+    logger.info("• Skin Smoothing (0 to 100)")
+    logger.info("=" * 50)
+    logger.info("💡 Note: Use either Exposure OR Brightness, not both")
+    logger.info("   • Exposure: Professional (0.5 = one camera stop brighter)")
+    logger.info("   • Brightness: User-friendly (50 = 50% brighter)")
+    logger.info("=" * 50)
 
     try:
         exposure = float(input("Exposure (-2.0 to +2.0, 0=no change): ") or "0")
@@ -576,11 +522,11 @@ def custom_adjustments_mode() -> None:
             "skin_smoothing": skin_smoothing,
         }
 
-        print("\n🎨 Applying custom adjustments...")
+        logger.info("\n🎨 Applying custom adjustments...")
         process_images_with_custom_preset(DEFAULT_INPUT_PATH, custom_preset)
 
     except ValueError:
-        print("❌ Invalid input. Please enter numbers only.")
+        logger.error("❌ Invalid input. Please enter numbers only.")
         custom_adjustments_mode()
 
 
@@ -597,12 +543,12 @@ def process_images_with_custom_preset(
     )
     from pro_photo_processor.presets.photoshop_tools import PhotoshopStyleEnhancer
 
-    print("🎨 Starting processing with custom settings...")
+    logger.info("🎨 Starting processing with custom settings...")
 
     # Handle ZIP extraction if needed
     working_folder, is_temp = extract_zip_if_needed(input_path)
     if working_folder is None:
-        print("❌ Failed to process input. Please check the file/folder path.")
+        logger.error("❌ Failed to process input. Please check the file/folder path.")
         return
 
     try:
@@ -615,10 +561,10 @@ def process_images_with_custom_preset(
         image_files = get_image_files_from_directory(working_folder)
 
         if not image_files:
-            print("❌ No image files found in the input!")
+            logger.error("❌ No image files found in the input!")
             return
 
-        print(f"📁 Found {len(image_files)} image files to process")
+        logger.info(f"📁 Found {len(image_files)} image files to process")
 
         for label, total_pixels in RESOLUTIONS.items():
             output_folder = os.path.join(
@@ -626,7 +572,7 @@ def process_images_with_custom_preset(
             )
             os.makedirs(output_folder, exist_ok=True)
 
-            print(f"\nProcessing {label.upper()} images with custom settings...")
+            logger.info(f"\nProcessing {label.upper()} images with custom settings...")
 
             for idx, (full_path, rel_path) in enumerate(image_files, 1):
                 try:
@@ -690,13 +636,17 @@ def process_images_with_custom_preset(
                     final_img.save(output_path, "JPEG", quality=90, optimize=True)
 
                 except Exception as e:
-                    print(f"❌ Failed to process {os.path.basename(full_path)}: {e}")
+                    logger.error(
+                        f"❌ Failed to process {os.path.basename(full_path)}: {e}"
+                    )
 
             # Create ZIP archive
             zip_path = create_zip_archive(
                 output_folder, project_output_dir, f"{label}_custom"
             )
-            print(f"✅ Finished {label.upper()} custom folder zipped at:\n{zip_path}")
+            logger.info(
+                f"✅ Finished {label.upper()} custom folder zipped at:\n{zip_path}"
+            )
 
     finally:
         # Clean up temporary directory if needed
@@ -726,35 +676,143 @@ def apply_processing_mode(mode_name: str) -> None:
         config.ENABLE_GAMMA_CORRECTION = cast(bool, mode_settings["gamma_correction"])
         config.PORTRAIT_MODE = mode_name == "portrait"
 
-        print(f"📋 Mode: {mode_settings['description']}")
+        logger.info(f"📋 Mode: {mode_settings['description']}")
     else:
-        print(f"⚠️ Unknown mode: {mode_name}")
+        logger.warning(f"⚠️ Unknown mode: {mode_name}")
 
 
-def get_mode_prefix(preset_name: str) -> str:
-    """Generate 3-letter prefix from preset name"""
-    mode_prefixes = {
-        "portrait_subtle": "sub",
-        "portrait_natural": "nat",
-        "portrait_dramatic": "drm",
-        "studio_portrait": "std",
-        "overexposed_recovery": "ovr",
-        "natural_wildlife": "wld",
-        "sports_action": "spt",
-        "enhanced_mode": "ehm",  # Enhanced mode for challenging lighting
-        "enhanced": "enh",  # Legacy enhanced mode
-        "resize_watermark": "rsz",
-        "watermark": "wtm",
-        "resize_only": "res",
-        "custom": "cst",
-    }
-    # Default to 'prc' for process
-    return mode_prefixes.get(preset_name, "prc")
+def cli_main() -> None:
+    parser = argparse.ArgumentParser(description="Photo Post-Processing Pipeline CLI")
+    parser.add_argument(
+        "--list-presets",
+        action="store_true",
+        help="List all available enhancement presets and exit.",
+    )
+    parser.add_argument(
+        "--list-modes",
+        action="store_true",
+        help="List all available utility processing modes and exit.",
+    )
+    parser.add_argument(
+        "--input",
+        dest="input_path",
+        type=str,
+        default=None,
+        help="Path to input image or folder (or ZIP). Default: ./input",
+    )
+    parser.add_argument(
+        "--output",
+        dest="output_path",
+        type=str,
+        default=None,
+        help="Path to output directory. Default: ./output",
+    )
+    parser.add_argument(
+        "--type",
+        type=str,
+        required=False,
+        help="Processing type: either a preset name (e.g. portrait_subtle, sports_action) for enhancement, or a utility mode (resize_only, resize_watermark, watermark). Only one is allowed. If not provided, an interactive menu will be shown.",
+    )
+    parser.add_argument(
+        "--custom",
+        type=str,
+        default=None,
+        help="Custom preset as JSON string (optional)",
+    )
+
+    args = parser.parse_args()
+
+    # Preset and mode lists
+    presets = [
+        "portrait_subtle",
+        "portrait_natural",
+        "portrait_dramatic",
+        "studio_portrait",
+        "overexposed_recovery",
+        "natural_wildlife",
+        "sports_action",
+        "enhanced_mode",
+    ]
+    utility_modes = ["resize_only", "resize_watermark", "watermark"]
+
+    # List presets or modes and exit
+    if args.list_presets:
+        logger.info("Available enhancement presets:")
+        for p in presets:
+            logger.info(f"  - {p}")
+        sys.exit(0)
+    if args.list_modes:
+        logger.info("Available utility processing modes:")
+        for m in utility_modes:
+            logger.info(f"  - {m}")
+        sys.exit(0)
+
+    # Use config defaults if not provided
+    input_path = args.input_path or getattr(
+        config,
+        "DEFAULT_INPUT_PATH",
+        os.path.abspath(os.path.join(os.getcwd(), "input")),
+    )
+    output_path = args.output_path or getattr(
+        config,
+        "DEFAULT_OUTPUT_DIR",
+        os.path.abspath(os.path.join(os.getcwd(), "output")),
+    )
+
+    logger.info(f"📥 Input path: {input_path}")
+    logger.info(f"📤 Output path: {output_path}")
+
+    # Dependency injection
+    preset_manager = format_optimizer if format_optimizer is not None else None
+
+    # Patch config to use output_path if provided
+    config.DEFAULT_OUTPUT_DIR = output_path
+
+    pipeline = ImageProcessingPipeline(
+        config=config,
+        file_ops=file_operations,
+        image_processor=image_processing,
+        preset_manager=preset_manager,
+    )
+
+    selected_type = args.type
+    if not selected_type:
+        logger.info("\nSelect a processing type:")
+        options = presets + utility_modes
+        for idx, name in enumerate(options, 1):
+            label = name.replace("_", " ").title()
+            if name in utility_modes:
+                label += " (utility mode)"
+            logger.info(f"  {idx}. {label}")
+        while True:
+            try:
+                choice = int(input("Enter a number: ").strip())
+                if 1 <= choice <= len(options):
+                    selected_type = options[choice - 1]
+                    break
+                else:
+                    logger.warning(
+                        f"Please enter a number between 1 and {len(options)}."
+                    )
+            except ValueError:
+                logger.warning("Invalid input. Please enter a number.")
+
+    if args.custom:
+        import json
+
+        try:
+            custom_preset = json.loads(args.custom)
+            if not isinstance(custom_preset, dict):
+                raise ValueError("Custom preset must be a JSON object.")
+        except Exception as e:
+            logger.error(f"❌ Invalid custom preset JSON: {e}")
+            sys.exit(1)
+        pipeline.process_with_custom_preset(input_path, custom_preset)
+    elif selected_type in utility_modes:
+        pipeline.process_images(input_path, mode=selected_type)
+    else:
+        pipeline.process_with_preset(input_path, selected_type)
 
 
 if __name__ == "__main__":
-    # Uncomment the line below to run with menu
-    main()
-
-    # Direct execution (comment out when using menu)
-    # process_images(DEFAULT_INPUT_PATH)
+    cli_main()

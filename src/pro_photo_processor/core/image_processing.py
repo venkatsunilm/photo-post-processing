@@ -3,8 +3,13 @@ Image processing utilities for photo post-processing.
 Handles image transformations, lighting adjustments, and watermarking.
 """
 
+from pro_photo_processor.raw.raw_processing_enhanced import (
+    load_image_smart_enhanced,  # noqa: F401
+    load_image_basic,  # noqa: F401
+)
+from pro_photo_processor.utils import get_mode_prefix  # noqa: F401
+from pro_photo_processor.presets.photoshop_tools import apply_photoshop_preset  # noqa: F401
 from typing import Tuple
-
 from PIL import ExifTags, Image, ImageEnhance, ImageStat
 
 
@@ -240,4 +245,5 @@ def calculate_target_size(total_pixels: int, original_ratio: float) -> Tuple[int
     """Calculate target dimensions based on total pixels and aspect ratio"""
     target_width = int((total_pixels * original_ratio) ** 0.5)
     target_height = int(total_pixels / target_width)
+
     return (target_width, target_height)

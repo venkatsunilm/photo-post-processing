@@ -40,7 +40,8 @@ clean:  ## Clean up generated files
 	rm -rf build/ dist/ *.egg-info/
 
 run:  ## Run the main application (uv)
-	PYTHONPATH=src uv run python src/pro_photo_processor/process_photos.py
+	## PYTHONPATH=src uv run python src/pro_photo_processor/process_photos.py
+	 PYTHONPATH=src uv run python -m pro_photo_processor.process_photos
 
 docker-build:  ## Build Docker image
 	docker build -t photo-processor .
