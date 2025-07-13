@@ -1,0 +1,40 @@
+2025-07-14 02:26:52 [INFO] process_photos: 📥 Input path: /mnt/c/Users/harit/Documents/temp/Input Photos
+2025-07-14 02:26:52 [INFO] process_photos: 📤 Output path: /mnt/c/Users/harit/Documents/temp/output
+2025-07-14 02:26:52 [INFO] process_photos: 📝 Log file: /mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/photo_processor.log
+2025-07-14 02:26:52 [INFO] process_photos:
+Select a processing type:
+2025-07-14 02:26:52 [INFO] process_photos:
+  No.  Name                  Type     Description
+-----  --------------------  -------  ---------------------------------------
+    1  portrait_subtle       Preset   Subtle portrait enhancement
+    2  portrait_natural      Preset   Natural look for portraits
+    3  portrait_dramatic     Preset   Dramatic lighting for portraits
+    4  studio_portrait       Preset   Studio-style portrait finish
+    5  overexposed_recovery  Preset   Recover details from overexposed images
+    6  natural_wildlife      Preset   Enhance wildlife/nature shots
+    7  sports_action         Preset   Sharpen and brighten action shots
+    8  enhanced_mode         Preset   General enhancement for all photos
+    9  resize_only           Utility  Resize to target resolutions only
+   10  resize_watermark      Utility  Resize and add watermark
+   11  watermark             Utility  Add watermark only
+2025-07-14 02:26:53 [INFO] process_photos: Selected processing type: portrait_natural
+2025-07-14 02:49:12 [INFO] cli: 📥 Input path: /mnt/c/Users/harit/Documents/temp/Input Photos
+2025-07-14 02:49:12 [INFO] cli: 📤 Output path: /mnt/c/Users/harit/Documents/temp/output
+2025-07-14 02:49:12 [INFO] cli: 📝 Log file: /mnt/c/Users/harit/Documents/Visual Studio 2022/Demola/photo_post_processing/photo_processor.log
+2025-07-14 02:49:12 [INFO] cli:
+Select a processing type:
+2025-07-14 02:49:12 [INFO] cli:
+  No.  Name                  Type     Description
+-----  --------------------  -------  ---------------------------------------
+    1  portrait_subtle       Preset   Subtle portrait enhancement
+    2  portrait_natural      Preset   Natural look for portraits
+    3  portrait_dramatic     Preset   Dramatic lighting for portraits
+    4  studio_portrait       Preset   Studio-style portrait finish
+    5  overexposed_recovery  Preset   Recover details from overexposed images
+    6  natural_wildlife      Preset   Enhance wildlife/nature shots
+    7  sports_action         Preset   Sharpen and brighten action shots
+    8  enhanced_mode         Preset   General enhancement for all photos
+    9  resize_only           Utility  Resize to target resolutions only
+   10  resize_watermark      Utility  Resize and add watermark
+   11  watermark             Utility  Add watermark only
+2025-07-14 02:49:17 [INFO] cli: Selected processing type: portrait_natural
