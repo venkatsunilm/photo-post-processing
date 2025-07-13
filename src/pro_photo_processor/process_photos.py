@@ -689,6 +689,13 @@ def cli_main() -> None:
         help="List all available enhancement presets and exit.",
     )
     parser.add_argument(
+        "--list-presets-format",
+        type=str,
+        choices=["plain", "table", "json"],
+        default="plain",
+        help="Format for listing presets: plain, table, or json (default: plain)",
+    )
+    parser.add_argument(
         "--list-modes",
         action="store_true",
         help="List all available utility processing modes and exit.",
@@ -737,9 +744,46 @@ def cli_main() -> None:
 
     # List presets or modes and exit
     if args.list_presets:
-        logger.info("Available enhancement presets:")
-        for p in presets:
-            logger.info(f"  - {p}")
+        preset_descriptions = {
+            "portrait_subtle": "Subtle portrait enhancement",
+            "portrait_natural": "Natural look for portraits",
+            "portrait_dramatic": "Dramatic lighting for portraits",
+            "studio_portrait": "Studio-style portrait finish",
+            "overexposed_recovery": "Recover details from overexposed images",
+            "natural_wildlife": "Enhance wildlife/nature shots",
+            "sports_action": "Sharpen and brighten action shots",
+            "enhanced_mode": "General enhancement for all photos",
+        }
+        if args.list_presets_format == "json":
+            import json
+
+            logger.info(
+                json.dumps(
+                    [
+                        {"name": k, "description": v}
+                        for k, v in preset_descriptions.items()
+                    ],
+                    indent=2,
+                )
+            )
+        elif args.list_presets_format == "table":
+            try:
+                from tabulate import tabulate
+
+                table = [(k, v) for k, v in preset_descriptions.items()]
+                logger.info("\n" + tabulate(table, headers=["Preset", "Description"]))
+            except ImportError:
+                # Fallback to simple table
+                logger.info("\nPreset               | Description")
+                logger.info(
+                    "---------------------|------------------------------------------"
+                )
+                for k, v in preset_descriptions.items():
+                    logger.info(f"{k:<20} | {v}")
+        else:
+            logger.info("Available enhancement presets:")
+            for k, v in preset_descriptions.items():
+                logger.info(f"  - {k}: {v}")
         sys.exit(0)
     if args.list_modes:
         logger.info("Available utility processing modes:")
@@ -779,11 +823,46 @@ def cli_main() -> None:
     if not selected_type:
         logger.info("\nSelect a processing type:")
         options = presets + utility_modes
+        # Prepare descriptions for presets and utility modes
+        preset_descriptions = {
+            "portrait_subtle": "Subtle portrait enhancement",
+            "portrait_natural": "Natural look for portraits",
+            "portrait_dramatic": "Dramatic lighting for portraits",
+            "studio_portrait": "Studio-style portrait finish",
+            "overexposed_recovery": "Recover details from overexposed images",
+            "natural_wildlife": "Enhance wildlife/nature shots",
+            "sports_action": "Sharpen and brighten action shots",
+            "enhanced_mode": "General enhancement for all photos",
+        }
+        utility_descriptions = {
+            "resize_only": "Resize to target resolutions only",
+            "resize_watermark": "Resize and add watermark",
+            "watermark": "Add watermark only",
+        }
+        # Build table rows for the interactive menu
+        menu_table = []
         for idx, name in enumerate(options, 1):
-            label = name.replace("_", " ").title()
-            if name in utility_modes:
-                label += " (utility mode)"
-            logger.info(f"  {idx}. {label}")
+            if name in preset_descriptions:
+                desc = preset_descriptions[name]
+                kind = "Preset"
+            else:
+                desc = utility_descriptions.get(name, "Utility mode")
+                kind = "Utility"
+            menu_table.append((idx, name, kind, desc))
+        # Print table
+        try:
+            from tabulate import tabulate
+
+            logger.info(
+                "\n"
+                + tabulate(menu_table, headers=["No.", "Name", "Type", "Description"])
+            )
+        except ImportError:
+            logger.info(f"{'No.':<4} {'Name':<20} {'Type':<10} Description")
+            logger.info(f"{'-' * 4} {'-' * 20} {'-' * 10} {'-' * 40}")
+            for row in menu_table:
+                logger.info(f"{row[0]:<4} {row[1]:<20} {row[2]:<10} {row[3]}")
+        # Prompt for input
         while True:
             try:
                 choice = int(input("Enter a number: ").strip())
