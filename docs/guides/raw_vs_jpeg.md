@@ -25,7 +25,13 @@ When you said your processed RAW output looked "duller" than the original, you e
 
 ---
 
+
 ## 🚀 **THE SOLUTION: Enhanced RAW Processing**
+
+> **Note:**
+> - All processed RAW and JPEG images are saved to the `output/` folder (auto-created if missing).
+> - All temp files and folders are cleaned up after processing.
+> - The pipeline and tests are robust and side-effect-free, using temp files/dirs and monkeypatching to avoid accidental changes to your real files.
 
 ### What I've Implemented
 

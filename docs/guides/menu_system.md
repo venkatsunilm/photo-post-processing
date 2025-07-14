@@ -6,14 +6,19 @@ Your photo processing pipeline uses **intelligent format detection** for optimal
 
 ---
 
+
 ## **How It Works:**
 When you choose **any processing option** (Portrait, Wildlife, Sports Action, etc.), the system automatically:
+
 
 1. **🔍 Scans your files** and detects formats (NEF, JPG, etc.)
 2. **🧠 Intelligently selects** the best preset for each file:
    - **RAW files (NEF)** → Gets RAW-enhanced preset (e.g., `sports_action_raw`)
    - **JPEG files** → Gets standard preset (e.g., `sports_action`)
 3. **⚡ Processes mixed batches** optimally without user intervention
+4. **📂 Handles output and temp folders automatically:**
+   - All processed images and archives are saved to the `output/` folder (auto-created if missing)
+   - All temp files and folders are cleaned up after processing
 
 ## **Example:**
 ```
@@ -29,6 +34,8 @@ Choose Option 7: "Sports Action"
 - ✅ **Optimal processing** for each file format automatically
 - ✅ **Mixed batches** handled intelligently
 - ✅ **Beginner-friendly** - just pick your photo genre
+- ✅ **No clutter:** All temp/output folders are managed automatically and can be cleaned with `make clean`
+- ✅ **Robust:** All processing and tests are designed to be side-effect-free and portable
 ---
 
 ## 🎯 **Current Menu Structure**
