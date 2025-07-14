@@ -87,3 +87,6 @@ coverage.xml
 # Binaries and local tools
 bin/
 curl
+
+# Application log files
+photo_processor.log
