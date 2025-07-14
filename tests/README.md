@@ -5,7 +5,8 @@ This directory contains all tests for the Photo Post-Processing Pipeline. Tests 
 
 ---
 
-## 📁 Directory Structure
+
+## 📁 Directory Structure & Temporary Files
 
 ```
 tests/
@@ -37,7 +38,10 @@ tests/
 
 ---
 
-## 🚀 Running Tests
+
+> **Note:**
+> - All tests use temporary files and directories, and monkeypatching, to avoid real file system or OS side effects. All temp files/dirs are cleaned up automatically.
+> - Folders like `__pycache__`, `.pytest_cache`, `.mypy_cache`, `.ruff_cache`, `.venv`, and `htmlcov` are auto-generated and can be ignored or cleaned with `make clean`.
 
 ### Run All Tests (Recommended)
 
@@ -59,7 +63,8 @@ uv run pytest tests/image_processing/test_quality_impact.py
 
 ---
 
-## 🧪 Test Types
+
+## 🧪 Test Types & Best Practices
 
 - **Unit tests:** Test individual functions and modules
 - **Integration tests:** Test end-to-end processing and pipeline logic
@@ -69,7 +74,11 @@ uv run pytest tests/image_processing/test_quality_impact.py
 
 ---
 
-## 📝 Usage Notes
+
+## 📝 Usage Notes & Adding New Tests
+
+- All new tests should use pytest fixtures and monkeypatching to ensure they are robust and portable.
+- Keep tests side-effect free and clean up all temp files/dirs.
 
 - All tests use sample images from the configured input directory
 - Tests are read-only and do not modify original files

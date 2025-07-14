@@ -4,6 +4,7 @@ This roadmap outlines the planned and completed milestones for the Photo Post-Pr
 
 ---
 
+
 ## ✅ Completed Milestones
 
 - **Modern Project Structure:**
@@ -19,14 +20,17 @@ This roadmap outlines the planned and completed milestones for the Photo Post-Pr
 - **Testing & Coverage:**
   - [pytest](https://pypi.org/project/pytest/) for all tests
   - [pytest-cov](https://pypi.org/project/pytest-cov/) for coverage
+  - All public functions covered by robust, portable tests using pytest and monkeypatching
 - **Security:**
   - [bandit](https://pypi.org/project/bandit/) and [safety](https://pypi.org/project/safety/) integrated in CI
 - **Continuous Integration:**
   - GitHub Actions for multi-version testing, linting, type checking, security, and coverage artifact upload
 - **Documentation:**
   - Up-to-date `README.md`, best practices, and testing validation docs
+  - Documentation and test coverage kept in sync with code changes
 
 ---
+
 
 ## 🚧 In Progress / Next Steps
 
@@ -36,6 +40,7 @@ This roadmap outlines the planned and completed milestones for the Photo Post-Pr
 - Add more advanced image processing presets and batch options
 - Improve performance monitoring and metrics
 - Add more pre-commit hooks for additional code quality checks
+- Simplify documentation and onboarding for new contributors
 
 ---
 

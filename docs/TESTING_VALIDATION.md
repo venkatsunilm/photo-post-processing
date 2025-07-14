@@ -21,12 +21,17 @@ uv run mypy src
 ```
 **Status:** ✅ All code passes lint, format, and type checks (ruff, mypy)
 
+
 ### Test Suite Execution
 ```sh
 uv run pytest
 uv run pytest --cov=src --cov-report=term-missing
 ```
 **Status:** ✅ All tests pass, coverage meets threshold
+
+> **Note:**
+> - All tests use temporary files and directories, and monkeypatching, to avoid real file system or OS side effects. All temp files/dirs are cleaned up automatically.
+> - If you see temp/cache folders (e.g., `__pycache__`, `.pytest_cache`, etc.), they are auto-generated and can be ignored or cleaned with `make clean`.
 
 ### Security & Pre-commit Hooks
 ```sh
@@ -65,7 +70,8 @@ Makefile
 .github/workflows/  # CI/CD pipeline
 ```
 
-## 📊 Quality Metrics
+
+## 📊 Quality Metrics & Troubleshooting
 
 | Metric         | Status | Details                       |
 |--------------- |--------|-------------------------------|
@@ -76,7 +82,14 @@ Makefile
 | Security       | ✅ PASS | bandit/safety: no critical    |
 | Functionality  | ✅ PASS | All modes tested, output OK   |
 
+
 ## 🚀 Ready for Production
+
+### Troubleshooting
+
+- If a test fails due to missing temp files or directories, try running `make clean` and re-running the tests.
+- For import errors, ensure you are running tests from the project root and that `src/` is on the Python path.
+- For RAW processing issues, check that `rawpy` is installed.
 
 This validation demonstrates that the photo processing pipeline is:
 
