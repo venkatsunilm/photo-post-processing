@@ -1,57 +1,41 @@
 """
-Test the new brightness_adjustment method
+Unit tests for the brightness_adjustment method in PhotoshopStyleEnhancer.
 """
 
-import os
-import sys
-
 from PIL import Image
-
 from pro_photo_processor.presets.photoshop_tools import PhotoshopStyleEnhancer
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
+
+def test_brightness_adjustment_increases_brightness():
+    """Test that brightness_adjustment increases image brightness."""
+    test_img = Image.new("RGB", (10, 10), color=(100, 100, 100))
+    enhancer = PhotoshopStyleEnhancer(test_img)
+    enhancer.brightness_adjustment(50)  # 50% brighter
+    result_img = enhancer.get_result()
+    assert isinstance(result_img, Image.Image)
+    # The result should be brighter than the original
+    orig_pixel = test_img.getpixel((0, 0))[0]
+    new_pixel = result_img.getpixel((0, 0))[0]
+    assert new_pixel > orig_pixel
 
 
-def test_brightness_method():
-    """Test the new brightness adjustment method"""
-    print("🧪 Testing New Brightness Adjustment Method")
-    print("=" * 50)
-
-    try:
-        # Create a test image
-        test_img = Image.new("RGB", (100, 100), color=(128, 128, 128))  # Mid-gray
-        print("✅ Created test image (mid-gray)")
-
-        # Test brightness adjustment
-        enhancer = PhotoshopStyleEnhancer(test_img)
-
-        # Test positive brightness
-        enhancer.brightness_adjustment(50)  # 50% brighter
-        print("✅ Applied +50% brightness adjustment")
-
-        # Test negative brightness
-        enhancer.brightness_adjustment(-25)  # 25% darker
-        print("✅ Applied -25% brightness adjustment")
-
-        # Check history
-        history = enhancer.get_history()
-        print(f"📝 Processing history: {history}")
-
-        # Test exposure for comparison
-        enhancer2 = PhotoshopStyleEnhancer(test_img)
-        enhancer2.exposure_adjustment(0.5)  # +0.5 stops
-        history2 = enhancer2.get_history()
-        print(f"📝 Exposure history: {history2}")
-
-        print("\n✅ Both brightness_adjustment() and exposure_adjustment() work!")
-        print("🎯 brightness_adjustment() is now available for user-friendly controls")
-
-    except Exception as e:
-        print(f"❌ Error testing brightness method: {e}")
-        import traceback
-
-        traceback.print_exc()
+def test_brightness_adjustment_decreases_brightness():
+    """Test that brightness_adjustment decreases image brightness."""
+    test_img = Image.new("RGB", (10, 10), color=(200, 200, 200))
+    enhancer = PhotoshopStyleEnhancer(test_img)
+    enhancer.brightness_adjustment(-50)  # 50% darker
+    result_img = enhancer.get_result()
+    assert isinstance(result_img, Image.Image)
+    orig_pixel = test_img.getpixel((0, 0))[0]
+    new_pixel = result_img.getpixel((0, 0))[0]
+    assert new_pixel < orig_pixel
 
 
-if __name__ == "__main__":
-    test_brightness_method()
+def test_brightness_adjustment_history():
+    """Test that brightness_adjustment records history."""
+    test_img = Image.new("RGB", (10, 10), color=(128, 128, 128))
+    enhancer = PhotoshopStyleEnhancer(test_img)
+    enhancer.brightness_adjustment(10)
+    enhancer.brightness_adjustment(-10)
+    history = enhancer.get_history()
+    assert any("Brightness:" in h for h in history)
