@@ -66,6 +66,12 @@ def setup_logging(
 def cli_main() -> None:
     parser = argparse.ArgumentParser(description="Photo Post-Processing Pipeline CLI")
     parser.add_argument(
+        "--version",
+        action="version",
+        version="pro_photo_processor 1.0.0",
+        help="Show the application version and exit.",
+    )
+    parser.add_argument(
         "--log-level",
         type=str,
         default=None,
@@ -133,6 +139,29 @@ def cli_main() -> None:
         "enhanced_mode",
     ]
     utility_modes = ["resize_only", "resize_watermark", "watermark"]
+
+    # --- Validate input and output paths early ---
+    input_path = args.input_path or getattr(
+        config,
+        "DEFAULT_INPUT_PATH",
+        os.path.abspath(os.path.join(os.getcwd(), "input")),
+    )
+    output_path = args.output_path or getattr(
+        config,
+        "DEFAULT_OUTPUT_DIR",
+        os.path.abspath(os.path.join(os.getcwd(), "output")),
+    )
+    if not os.path.exists(input_path):
+        logger.error(f"❌ Input path does not exist: {input_path}")
+        print(f"Error: Input path does not exist: {input_path}")
+        sys.exit(1)
+    if not os.path.isdir(output_path):
+        try:
+            os.makedirs(output_path, exist_ok=True)
+        except Exception as e:
+            logger.error(f"❌ Could not create output directory: {output_path} ({e})")
+            print(f"Error: Could not create output directory: {output_path}\n{e}")
+            sys.exit(1)
     if args.list_presets:
         preset_descriptions = {
             "portrait_subtle": "Subtle portrait enhancement",
@@ -179,16 +208,6 @@ def cli_main() -> None:
         for m in utility_modes:
             logger.info(f"  - {m}")
         sys.exit(0)
-    input_path = args.input_path or getattr(
-        config,
-        "DEFAULT_INPUT_PATH",
-        os.path.abspath(os.path.join(os.getcwd(), "input")),
-    )
-    output_path = args.output_path or getattr(
-        config,
-        "DEFAULT_OUTPUT_DIR",
-        os.path.abspath(os.path.join(os.getcwd(), "output")),
-    )
     logger.info(f"📥 Input path: {input_path}")
     logger.info(f"📤 Output path: {output_path}")
     logger.info(
@@ -211,6 +230,13 @@ def cli_main() -> None:
         preset_manager=preset_manager,
     )
     selected_type = args.type
+    # --- Validate selected type if provided ---
+    if selected_type and selected_type not in presets + utility_modes:
+        logger.error(f"❌ Invalid processing type: {selected_type}")
+        print(f"Error: Invalid processing type: {selected_type}")
+        print(f"Valid types: {', '.join(presets + utility_modes)}")
+        sys.exit(1)
+
     if not selected_type:
         logger.info("\nSelect a processing type:")
         options = presets + utility_modes
