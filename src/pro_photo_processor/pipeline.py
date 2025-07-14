@@ -10,13 +10,15 @@ class ImageProcessingPipeline:
         file_ops: Any,
         image_processor: Any,
         preset_manager: Optional[Any] = None,
-    ):
+    ) -> None:
         """
-        Initialize the pipeline with dependencies.
-        :param config: Configuration object or module
-        :param file_ops: File operations module or class
-        :param image_processor: Image processing utilities
-        :param preset_manager: Preset/format optimizer (optional)
+        Initialize the image processing pipeline with required dependencies.
+
+        Args:
+            config: Configuration object or module.
+            file_ops: File operations module or class.
+            image_processor: Image processing utilities module or class.
+            preset_manager: Optional preset/format optimizer.
         """
         self.config = config
         self.file_ops = file_ops
@@ -25,9 +27,13 @@ class ImageProcessingPipeline:
 
     def process_images(self, input_path: str, mode: str = "full") -> None:
         """
-        Main entry point for processing images in different modes.
-        :param input_path: Path to input images or folder
-        :param mode: Processing mode (e.g., 'full', 'resize_only', etc.)
+        Process images in the specified mode (e.g., 'full', 'resize_only', etc.).
+
+        Args:
+            input_path: Path to input images or folder.
+            mode: Processing mode (default: 'full').
+        Returns:
+            None
         """
         print(f"🎨 Starting processing in {mode} mode...")
 
@@ -174,8 +180,12 @@ class ImageProcessingPipeline:
     def process_with_preset(self, input_path: str, preset_name: str) -> None:
         """
         Process images using a Photoshop-style preset.
-        :param input_path: Path to input images or folder
-        :param preset_name: Name of the preset to use
+
+        Args:
+            input_path: Path to input images or folder.
+            preset_name: Name of the preset to use.
+        Returns:
+            None
         """
         print(f"🎨 Starting processing with {preset_name} preset...")
 
@@ -328,8 +338,12 @@ class ImageProcessingPipeline:
     ) -> None:
         """
         Process images with custom user-defined adjustments.
-        :param input_path: Path to input images or folder
-        :param custom_preset: Dictionary of custom adjustment values
+
+        Args:
+            input_path: Path to input images or folder.
+            custom_preset: Dictionary of custom adjustment values.
+        Returns:
+            None
         """
         print("🎨 Starting processing with custom settings...")
 
