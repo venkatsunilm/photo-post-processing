@@ -1,5 +1,14 @@
 def get_mode_prefix(preset_name: str) -> str:
-    """Generate 3-letter prefix from preset name"""
+    """
+    Generate a 3-letter prefix string for a given preset or mode name.
+
+    Args:
+        preset_name: The name of the preset or processing mode.
+
+    Returns:
+        A 3-letter string prefix for use in filenames or directory names.
+        Defaults to 'prc' if the name is not recognized.
+    """
     mode_prefixes = {
         "portrait_subtle": "sub",
         "portrait_natural": "nat",
