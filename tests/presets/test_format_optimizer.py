@@ -251,3 +251,10 @@ if __name__ == "__main__":
     print("   ✅ 3. Add enhanced RAW presets to photoshop_tools.py")
     print("   ✅ 4. Test with mixed JPEG/NEF batches")
     print("   ✅ 5. Monitor processing time differences")
+
+
+def test_format_optimizer_import():
+    # NOTE: Minimal test for coverage. Full tests will be added later.
+    from pro_photo_processor.presets import format_optimizer
+
+    assert hasattr(format_optimizer, "FormatOptimizer")
